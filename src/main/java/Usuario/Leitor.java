@@ -1,7 +1,7 @@
 package Usuario;
 
 import java.util.List;
-import Ações.Emprestimo;
+import Acoes.Emprestimo;
 
 public class Leitor extends Usuario{
 
