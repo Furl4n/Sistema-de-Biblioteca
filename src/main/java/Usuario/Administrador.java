@@ -19,14 +19,14 @@ public class Administrador extends Usuario{
 
         System.out.println("\n--Cadastro de novo livro--\n");
 
-        biblioteca.cadastrarLivro(biblioteca);
+        biblioteca.cadastrarLivro();
     }
 
     //Chama o metodo removerLivro da biblioteca, serve para assegurar que apenas administradores consigam
     public void removerLivro(Biblioteca biblioteca){
         System.out.println("\n--Apagar livro do acervo--\n");
 
-        biblioteca.removerLivro(biblioteca);
+        biblioteca.removerLivro();
     }
 
     public void gerenciarUsuario(){}

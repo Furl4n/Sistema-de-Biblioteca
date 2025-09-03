@@ -21,7 +21,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             leitores.add(leitor);
         }
 
-    public void cadastrarLivro(Biblioteca biblioteca){ //efetua a ação de criar o livro solicitada pelo adm
+    public void cadastrarLivro(){ //efetua a ação de criar o livro solicitada pelo adm
         String idUnico, titulo, autor, genero;
         int anoPublicacao;
         StatusLivro status;
@@ -45,7 +45,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         acervo.add(novo); //adiciona o livro no acervo
     }
 
-    public void removerLivro(Biblioteca biblioteca){ //remove o livro do acervo
+    public void removerLivro(){ //remove o livro do acervo
         Scanner dados = new Scanner(System.in);
 
         System.out.print("Qual o Id do livro que deseja apagar? ");
