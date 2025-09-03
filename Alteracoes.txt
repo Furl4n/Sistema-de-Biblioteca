@@ -1,0 +1,26 @@
+    --------Lugar para falar oq alterou em cada commit--------
+
+    ---Commit 3---
+
+    -Primeiro commit com codigo real
+
+    -Criei a classe biblioteca, onde fica salvo os livros e os usuarios
+
+    -Comecei a montar o metodo cadastrar leitor e adm
+
+    -Criei os metodos para cadastrar um livro novo, só podem ser chamados por administradores, o código passa pelas classes
+    Administrador e biblioteca onde vai criar e salvar o leitor
+
+    -Comecei o metodo mostrar acervo
+
+    -Criei o metodo de pegar livro emprestado, que é chamado pela biblioteca, onde pede os dados e confirma o leitor e livro,
+     e passa para dentro do Livro onde cria o emprestimo com datas atuais, depois emprestimo adiciona isso ao historico do leitor
+
+    Obs: emprestimo coloquei para quando a pessoa já pega, ent quando alguem pegar o livro reservado aí sim ele vira um emprestimo
+
+    Todo:
+        Fazer classe de reserva, metodo de mostrar acervo, criar cadastro de adm e leitor interativo, calcular multa,
+        criar metodo devolver em livro (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio
+        de Administrador.
+
+    Boa sorte pra entender tudo, vai demorar KKKKKKKKK

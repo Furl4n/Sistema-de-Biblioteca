@@ -1,6 +1,12 @@
 package Livros;
 
+import Acoes.Emprestimo;
+import Biblioteca.Biblioteca;
 import Usuario.Leitor;
+
+import java.util.Scanner;
+
+//todo criar metodo devolver
 
 public class Livro implements Emprestavel{
 
@@ -20,12 +26,31 @@ public class Livro implements Emprestavel{
         this.status = status;
     }
 
+    public String getIdUnico() {
+        return idUnico;
+    }
+
+    public StatusLivro getStatus() {
+        return status;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
     public Livro() {
     }
 
     @Override
-    public void emprestar(Leitor leitor) {
-
+    public boolean emprestar( Leitor leitor, int prazoDevolucao){ //metodo que cria o emprestimo
+        if(this.status ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'
+            this.status = StatusLivro.Emprestado; //altera para 'Emprestado'
+            Emprestimo emprestimo = new Emprestimo(this, prazoDevolucao); //Cria o emprestimo
+            leitor.adicionarEmprestimo(emprestimo); //adiciona o emprestimo no historico do leitor
+            return true; //indica que deu certo
+        } else{ //caso o livro esteja 'emprestado' ou 'Reservado'
+            return false; //indica o erro
+        }
     }
 
     @Override

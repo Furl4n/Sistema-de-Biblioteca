@@ -1,23 +1,28 @@
 package Acoes;
 
 import Livros.Livro;
-import Livros.StatusLivro;
 
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
-public class Emprestimo extends Livro {
+//todo adicionar calcularMulta
+public class Emprestimo{
+    private static int contador=0;
+    private Livro livroEmprestado;
     private int id;
-    private Date dataRetirada;
-    private Date prazoDevolucao;
-    private Date dataEntregaEfetiva;
+    private LocalDate dataEmprestimo;
+    private int prazoDevolucao;
+    private LocalDate dataDevolução;
 
-    public Emprestimo(String idUnico, String titulo, String autor, int anoPublicacao, String genero, StatusLivro status, int id, Date dataRetirada, Date prazoDevolucao, Date dataEntregaEfetiva) {
+    public Emprestimo(Livro livroEmprestado, int prazoDevolucao) { //inicia os dados do emprestimo com as datas atuais
 
-        super(idUnico, titulo, autor, anoPublicacao, genero, status);
-        this.id = id;
-        this.dataRetirada = dataRetirada;
+        contador++;
+        id=contador;
+        dataEmprestimo = LocalDate.now();
+        this.livroEmprestado = livroEmprestado;
         this.prazoDevolucao = prazoDevolucao;
-        this.dataEntregaEfetiva = dataEntregaEfetiva;
+        dataDevolução = dataEmprestimo.plusDays(prazoDevolucao);
     }
 
     public Emprestimo() {

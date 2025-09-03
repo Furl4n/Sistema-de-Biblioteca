@@ -1,10 +1,11 @@
 package Livros;
 
+import Biblioteca.Biblioteca;
 import Usuario.Leitor;
 
 public interface Emprestavel {
 
-    public void emprestar(Leitor leitor);
+    public boolean emprestar(Leitor leitor, int prazoDevolucao);
     public void devolver();
 
 }
