@@ -57,4 +57,13 @@ public class Livro implements Emprestavel{
     public void devolver(){
 
     }
+
+    public void mostrarLivro(){
+        System.out.println("\nNome: " + titulo);
+        System.out.println("Id: " + idUnico);
+        System.out.println("Autor: " + autor);
+        System.out.println("Gênero: " + genero);
+        System.out.println("Ano de publicação: " + anoPublicacao);
+        System.out.println("Status: " + status);
+    }
 }

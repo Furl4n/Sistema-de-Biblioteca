@@ -9,10 +9,14 @@ public class Main {
         biblioteca.cadastrarLeitor();
 
         adm.cadastrarLivro(biblioteca);
+        adm.cadastrarLivro(biblioteca);
 
         biblioteca.mostrarAcervo();
+        biblioteca.realizarEmprestimo();
 
+        biblioteca.mostrarAcervo();
         biblioteca.realizarEmprestimo();
-        biblioteca.realizarEmprestimo();
+
+        biblioteca.mostrarAcervo();
     }
 }

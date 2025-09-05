@@ -70,9 +70,11 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         if (acervo.isEmpty()) {
             System.out.println("O acervo está vazio.");
         } else{
+            System.out.println("\n--Livros no acervo--");
             for(Livro livro : acervo){
-                System.out.println("Livro: ");
+                livro.mostrarLivro();
             }
+            System.out.println("\n--Fim do acervo--");
         }
     }
 

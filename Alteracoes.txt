@@ -23,8 +23,6 @@
         criar metodo devolver em livro (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio
         de Administrador.
 
-    Boa sorte pra entender tudo, vai demorar KKKKKKKKK
-
 --Commit 4--
 
     -Remoção de parâmetros da função de cadastrar e remover livro, que passava a propria biblioteca como parâmetro
@@ -33,3 +31,11 @@
         Fazer classe de reserva, metodo de mostrar acervo, criar cadastro de adm e leitor interativo, calcular multa,
         criar metodo devolver em livro (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio
         de Administrador.
+
+--Commit 5--
+
+    -Adição da função de mostrar o acervo
+
+    Todo:
+            Fazer classe de reserva, criar cadastro de adm e leitor interativo, calcular multa, criar metodo devolver em livro
+            (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio de Administrador.
