@@ -16,19 +16,57 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     List<Leitor> leitores = new ArrayList<>();
     List<Administrador> administradores = new ArrayList<>();
 
-        public void cadastrarLeitor() { //cadastra o leitor no sistema todo tornar cadastro interativo
-            Leitor leitor = new Leitor("15b", "pedro", "pedrogfurlan1@gmail.com");
+        public void cadastrarLeitor() {
+            //cadastra o leitor no sistema
+            String nome, email;
+            Scanner dados = new Scanner(System.in);
+            System.out.println("Digite seu nome: ");
+            nome = dados.nextLine();
+            System.out.println("Digite seu email: ");
+            email = dados.nextLine();
+
+            System.out.println("\nLeitor cadastrado com sucesso!");
+
+            Leitor leitor = new Leitor(nome, email);
+
+            leitor.mostrarUsuario();
             leitores.add(leitor);
         }
 
+        public void cadastrarAdministrador() {
+            //cadastra o leitor no sistema
+            String nome, email,senha, conf_senha;
+            Scanner dados = new Scanner(System.in);
+            System.out.println("Digite seu nome: ");
+            nome = dados.nextLine();
+            System.out.println("Digite seu email: ");
+            email = dados.nextLine();
+            do{//confirmação da senha
+                System.out.print("Digite a senha: ");
+                senha = dados.nextLine();
+
+                System.out.print("Confirme a senha: ");
+                conf_senha = dados.nextLine();
+
+                if (!senha.equals(conf_senha)) {
+                    System.out.println("\n*** Confirmação inválida: as senhas não correspondem. ***\n");
+                }
+            }while(!senha.equals(conf_senha));
+
+            System.out.println("\nAdministrador cadastrado com sucesso!");
+
+            Administrador adm = new Administrador(nome, email,senha);
+
+            adm.mostrarUsuario();
+            administradores.add(adm);
+        }
+
     public void cadastrarLivro(){ //efetua a ação de criar o livro solicitada pelo adm
-        String idUnico, titulo, autor, genero;
+        String  titulo, autor, genero;
         int anoPublicacao;
         StatusLivro status;
         Scanner dados = new Scanner(System.in);
 
-        System.out.print("Código: ");
-        idUnico = dados.nextLine();
         System.out.print("Titulo: ");
         titulo = dados.nextLine();
         System.out.print("Autor: ");
@@ -40,7 +78,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         dados.nextLine();
         status = StatusLivro.Disponivel;
 
-        Livro novo = new Livro(idUnico,titulo, autor, anoPublicacao, genero, status); //cria o livro
+        Livro novo = new Livro(titulo, autor, anoPublicacao, genero, status); //cria o livro
 
         acervo.add(novo); //adiciona o livro no acervo
     }
@@ -66,7 +104,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-    public void mostrarAcervo(){  //estrutura base para mostrar o acervo todo terminar código
+    public void mostrarAcervo(){  //estrutura base para mostrar o acervo
         if (acervo.isEmpty()) {
             System.out.println("O acervo está vazio.");
         } else{
@@ -78,15 +116,16 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-    public void realizarEmprestimo(){ //metodo que vai iniciar o empreatimo
+    public void realizarEmprestimo(){ //metodo que vai iniciar o emprestimo
         Scanner dados = new Scanner(System.in);
         Leitor leitor;
         System.out.println("\n--Realizar emprestimo de livro--\n");
-        System.out.print("Quem deseja pegar o livro emprestado?(id) ");
-        String idLeitor = dados.nextLine(); //identifica o id do leitor que deseja fazer o emprestimo
+        System.out.print("Quem deseja pegar o livro emprestado?(id) " );
+        int idLeitor = dados.nextInt(); //identifica o id do leitor que deseja fazer o emprestimo
+        dados.nextLine();//consome o "/n" que fica no buffer do scanner acima
 
-        //procura o livro
-        Optional<Leitor> idLeitorPegar = leitores.stream().filter(Leitor -> Leitor.getId().equals(idLeitor)).findFirst();
+        //procura o leitor
+        Optional<Leitor> idLeitorPegar = leitores.stream().filter(Leitor -> Leitor.getId() == idLeitor).findFirst();
 
         if(idLeitorPegar.isPresent()){
             leitor = idLeitorPegar.get(); //salva o leitor se existir

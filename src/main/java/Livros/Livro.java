@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class Livro implements Emprestavel{
 
+    private static int contadorLivro = 0;
     private String idUnico;
     private String titulo;
     private String autor;
@@ -17,8 +18,8 @@ public class Livro implements Emprestavel{
     private String genero;
     private StatusLivro status;
 
-    public Livro(String idUnico, String titulo, String autor, int anoPublicacao, String genero, StatusLivro status) {
-        this.idUnico = idUnico;
+    public Livro(String titulo, String autor, int anoPublicacao, String genero, StatusLivro status) {
+        this.idUnico = "LIV-"+contadorLivro++; // Ex ->  ID: LIV-1
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;
@@ -41,6 +42,7 @@ public class Livro implements Emprestavel{
     public Livro() {
     }
 
+    //todo aadicioar mecanismos de try catch e throw nesse metodo
     @Override
     public boolean emprestar( Leitor leitor, int prazoDevolucao){ //metodo que cria o emprestimo
         if(this.status ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'

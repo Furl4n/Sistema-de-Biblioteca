@@ -39,3 +39,25 @@
     Todo:
             Fazer classe de reserva, criar cadastro de adm e leitor interativo, calcular multa, criar metodo devolver em livro
             (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio de Administrador.
+
+--Commit 6--
+
+    -Alteração do tipo de ID da classe Usuario, por consequencia alterei o modo de comparação dentro dos metodos removerLivro
+    e realizarEmprestimo
+
+    -Alteração do atributo idUnico(Livro) e id(Usuario) nos construtores, removi eles dos parametros e agora os valores de
+    id são gerados automaticamente pela variavel contadorId. No caso do idUnico(Livro) por ser uma String, adicionei uma
+    concatenação de Strings no proprio construtor
+
+    -Adicionei o atributo senha a classe/construtor Administarador
+
+    -Criei os metodos de cadastro de adm e leitor interativo(Confirmação de senha para Adm) -> podemos utilizar throw
+
+    -Criei metodo abstrato mostrarUsuario (temporario) -> para ficar mais visivel;
+
+    Obs: Precismos pensar sobre o Login dos usuarios na biblioteca e montar o switch case tip o "TAD";
+    Todo:
+                Fazer classe de reserva, calcular multa, criar metodo devolver em livro
+                (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio de Administrador,
+                analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
+                de try catch throw.

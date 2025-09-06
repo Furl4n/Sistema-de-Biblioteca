@@ -10,8 +10,18 @@ public class Leitor extends Usuario{
     public Leitor() {
     }
 
-    public Leitor(String id, String nome, String email) {
-        super(id, nome, email);
+    public Leitor( String nome, String email) {
+        super(nome, email);
+    }
+
+    @Override
+
+    public void mostrarUsuario() {
+        System.out.println("\n---------------------------");
+        System.out.println("Nome: " + this.getNome());
+        System.out.println("Email: " + this.getEmail());
+        System.out.println("---------------------------\n");
+
     }
 
     public void adicionarEmprestimo(Emprestimo emprestimo){ //salva o emprestimo no historico do Leitor

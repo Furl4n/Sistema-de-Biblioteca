@@ -6,17 +6,15 @@ public class Main {
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
         Administrador adm = new Administrador();
+
         biblioteca.cadastrarLeitor();
+        biblioteca.cadastrarAdministrador();
 
         adm.cadastrarLivro(biblioteca);
-        adm.cadastrarLivro(biblioteca);
+
 
         biblioteca.mostrarAcervo();
         biblioteca.realizarEmprestimo();
 
-        biblioteca.mostrarAcervo();
-        biblioteca.realizarEmprestimo();
-
-        biblioteca.mostrarAcervo();
     }
 }
