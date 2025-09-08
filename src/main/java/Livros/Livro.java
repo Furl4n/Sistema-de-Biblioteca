@@ -35,6 +35,10 @@ public class Livro implements Emprestavel{
         return status;
     }
 
+    public void setStatus(StatusLivro status){
+        this.status = status;
+    }
+
     public String getTitulo() {
         return titulo;
     }

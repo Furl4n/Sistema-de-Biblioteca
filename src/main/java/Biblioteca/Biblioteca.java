@@ -16,7 +16,8 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     List<Leitor> leitores = new ArrayList<>();
     List<Administrador> administradores = new ArrayList<>();
 
-        public void cadastrarLeitor() {
+
+    public void cadastrarLeitor() {
             //cadastra o leitor no sistema
             String nome, email;
             Scanner dados = new Scanner(System.in);
@@ -33,7 +34,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             leitores.add(leitor);
         }
 
-        public void cadastrarAdministrador() {
+    public void cadastrarAdministrador() {
             //cadastra o leitor no sistema
             String nome, email,senha, conf_senha;
             Scanner dados = new Scanner(System.in);
@@ -103,6 +104,30 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             System.out.println("Nenhum livro com esse Id foi encontrado.");
         }
     }
+
+    public Livro buscarLivro(String idLivro) throws RuntimeException {
+
+        //faz uma busca no acervo procurando um livro com esse Id, o Optional é para caso não encontre ele retorn vazio
+        Optional<Livro> livroParaBuscar = acervo.stream().filter(Livro -> Livro.getIdUnico().equals(idLivro)).findFirst();
+
+        if(livroParaBuscar.isPresent()){ //Ve se achou um livro no acervo
+            return livroParaBuscar.get();
+        } else{ // Se ele retornar vazio para o Optional
+                throw new RuntimeException("Livro não cadastrado");
+        }
+    }
+
+    public Leitor buscarLeitor(int idLeitor) throws RuntimeException {
+
+            //faz uma busca no acervo procurando o leitor com esse Id, o Optional é para caso não encontre ele retorn vazio
+            Optional<Leitor> leitorParaBuscar = leitores.stream().filter(Leitor -> Leitor.getId() == idLeitor).findFirst();
+
+            if(leitorParaBuscar.isPresent()){ //Ve se achou o leitor na lista
+                return leitorParaBuscar.get();
+            } else{ // Se ele retornar vazio para o Optional
+                throw new RuntimeException("Leitor não cadastrado");
+            }
+        }
 
     public void mostrarAcervo(){  //estrutura base para mostrar o acervo
         if (acervo.isEmpty()) {

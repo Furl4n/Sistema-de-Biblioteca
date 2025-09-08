@@ -61,3 +61,8 @@
                 (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio de Administrador,
                 analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
                 de try catch throw.
+
+
+
+
+comentario: criar função de buscar livro e usuario, para trocar o metodo emprestimo para dentro de leitor
