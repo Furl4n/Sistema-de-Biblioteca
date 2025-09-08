@@ -34,7 +34,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             leitores.add(leitor);
         }
 
-    public void cadastrarAdministrador() {
+    public void cadastrarAdministrador(){
             //cadastra o leitor no sistema
             String nome, email,senha, conf_senha;
             Scanner dados = new Scanner(System.in);
@@ -141,45 +141,6 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-    public void realizarEmprestimo(){ //metodo que vai iniciar o emprestimo
-        Scanner dados = new Scanner(System.in);
-        Leitor leitor;
-        System.out.println("\n--Realizar emprestimo de livro--\n");
-        System.out.print("Quem deseja pegar o livro emprestado?(id) " );
-        int idLeitor = dados.nextInt(); //identifica o id do leitor que deseja fazer o emprestimo
-        dados.nextLine();//consome o "/n" que fica no buffer do scanner acima
-
-        //procura o leitor
-        Optional<Leitor> idLeitorPegar = leitores.stream().filter(Leitor -> Leitor.getId() == idLeitor).findFirst();
-
-        if(idLeitorPegar.isPresent()){
-            leitor = idLeitorPegar.get(); //salva o leitor se existir
-        } else{
-            System.out.println("Usuário inválido!"); //retorna erro se não existir
-            return;
-        }
-
-        System.out.print("Qual livro deseja pegar emprestado(Id)? ");
-        String IdLivro = dados.nextLine();
-
-        //procura o livro
-        Optional<Livro> livroParaEmprestar = acervo.stream().filter(Livro -> Livro.getIdUnico().equals(IdLivro)).findFirst();
-
-        if(livroParaEmprestar.isPresent()){
-            Livro livro = livroParaEmprestar.get(); //salva qual o livro se existir
-
-            System.out.print("Por quantos dias deseja pegar emprestado? ");
-            int prazoDevolucao = dados.nextInt();
-            dados.nextLine();
-            if(livro.emprestar(leitor, prazoDevolucao)){ //chama o metodo de Livro que vai criar o emprestimo
-                System.out.println("emprestimo realizado com sucesso!");
-                //informa que deu certo quando retorna 'true'
-            } else{
-                System.out.println("O livro " + livro.getTitulo() + " já está " + livro.getStatus());
-                //informa que deu errado quando retorna 'false'
-            }
-        }
-    }
 }
 
 

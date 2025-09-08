@@ -46,18 +46,6 @@ public class Livro implements Emprestavel{
     public Livro() {
     }
 
-    //todo aadicioar mecanismos de try catch e throw nesse metodo
-    @Override
-    public boolean emprestar( Leitor leitor, int prazoDevolucao){ //metodo que cria o emprestimo
-        if(this.status ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'
-            this.status = StatusLivro.Emprestado; //altera para 'Emprestado'
-            Emprestimo emprestimo = new Emprestimo(this, prazoDevolucao); //Cria o emprestimo
-            leitor.adicionarEmprestimo(emprestimo); //adiciona o emprestimo no historico do leitor
-            return true; //indica que deu certo
-        } else{ //caso o livro esteja 'emprestado' ou 'Reservado'
-            return false; //indica o erro
-        }
-    }
 
     @Override
     public void devolver(){

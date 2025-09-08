@@ -12,9 +12,9 @@ public class Main {
 
         adm.cadastrarLivro(biblioteca);
 
+        Leitor leitor = new Leitor();
 
         biblioteca.mostrarAcervo();
-        biblioteca.realizarEmprestimo();
-
+        leitor.realizarEmprestimo(biblioteca);
     }
 }
