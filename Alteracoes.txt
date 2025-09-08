@@ -63,6 +63,17 @@
                 de try catch throw.
 
 
+--Commit 7.1--
 
+    -Adicionei a base da reserva na classe leitor, falta terminar
 
-comentario: criar função de buscar livro e usuario, para trocar o metodo emprestimo para dentro de leitor
+    -Mudei o metodo fazerEmprestimo para Leitor, e tirei da biblioteca e Livro
+
+    -adicionei as funções de buscar leitor e livro na biblioteca
+
+    Todo:
+                    Terminar classe de reserva, calcular multa, criar metodo devolver em livro
+                    (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario e gerarRelatorio de Administrador,
+                    analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
+                    de try catch throw.
+
