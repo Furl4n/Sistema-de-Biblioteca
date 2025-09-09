@@ -64,6 +64,7 @@ public class Leitor extends Usuario {
 
     public void fazerReserva(Biblioteca biblioteca) {
         Scanner dados = new Scanner(System.in);
+        Livro livro;
 
         System.out.println("--Realizar reserva de livro--");
 
@@ -71,22 +72,39 @@ public class Leitor extends Usuario {
         String idLivro = dados.nextLine();
 
         try{
-            biblioteca.buscarLivro(idLivro);
+            livro = biblioteca.buscarLivro(idLivro);
         } catch (RuntimeException e) {
             System.out.println("Erro: " + e.getMessage());
+            return;
         }
+        //verefica nos livros reservados por meio do Titulo, se esse livro ja foi reservado pelo leitor;
+        //confere o status se o status de reserva está ativa;
+        Optional<Reserva> livroReserva = livrosReservados.stream().filter(reserva -> reserva.getLivroReservado().getTitulo().equals(livro.getTitulo()) && reserva.getStatusReserva() == statusReserva.Ativa).findFirst();
 
-        //livro.setStatus(StatusLivro.Reservado);
+        if(livroReserva.isPresent()){ //caso encontre o livro no FindFirst
+            System.out.println("Voce ja reservou esse livro!");
+            return;
+        }
+        if(livro.getStatus() ==  StatusLivro.Disponivel){//Caso o livro não esteja com status Emprestado
+            System.out.println("Livro disponível para emprestimo!");
+            //leitor.realizarEmprestimo();
+            return;
+        }
 
         System.out.print("Por quanto tempo deseja reservar? ");
         int tempoParaBuscar = dados.nextInt();
         dados.nextLine();
 
-        //Reserva reservado = new Reserva(livro, tempoParaBuscar);
-        //livrosReservados.add(reservado);
+        Reserva reservado = new Reserva(livro, tempoParaBuscar);
 
+        reservado.setStatusReserva(statusReserva.Ativa); //Alterar status da reserva para ativo
+
+        livrosReservados.add(reservado);
+
+        System.out.println("Reserva realizada com sucesso!");
         //todo mostrar reserva;
     }
+
 
     public void pegarReserva(){
         int idReserva =0;

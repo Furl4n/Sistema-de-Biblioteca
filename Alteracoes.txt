@@ -77,3 +77,16 @@
                     analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
                     de try catch throw.
 
+--Commit 8--
+
+    -Finalizei o metodo fazer reserva da clase Leitor
+
+    -Comecei o metodo de gerar Relatorio do Adm
+
+    Obs: Precisamos entrar em consenso do "TAD" da main, depois testa o metodo da reserva!
+
+    Todo:
+                    Terminar metodo gerarRelatorio Administrador, calcular multa, criar metodo devolver em livro
+                    (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario,
+                    analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
+                    de try catch throw.

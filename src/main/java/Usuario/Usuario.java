@@ -29,4 +29,8 @@ public abstract class Usuario {
     public int getId(){
         return id;
     }
+
+    public static int getContadorId() {
+        return contadorId;
+    }
 }

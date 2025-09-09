@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Administrador extends Usuario{
 
     private String senha;
+
     public Administrador(String nome, String email, String senha) {
         super( nome, email);
         this.senha = senha;
@@ -44,5 +45,15 @@ public class Administrador extends Usuario{
     }
 
     public void gerenciarUsuario(){}
-    public void gerarRelatorio(){}
+    public void gerarRelatorio(Biblioteca  biblioteca){
+        System.out.println("\n--Relatorio da Biblioteca--\n");
+        System.out.println("Usuarios: " + getContadorId());
+        System.out.println("  * Leitores: " );
+        System.out.println("  * Administradores: " );
+        System.out.println("Livros: " );
+        System.out.println("  * Livros Disponiveis: " );
+        System.out.println("  * Livros Emprestados: " );
+        System.out.println("  * Livros Resesrvados: " );
+        System.out.println("\n-------Fim Relatorio-------\n");
+    }
 }

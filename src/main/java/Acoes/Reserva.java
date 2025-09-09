@@ -11,6 +11,7 @@ public class Reserva{
     private int idReserva;
     private LocalDate dataReserva;
     private int tempoParaBuscar;
+    private statusReserva statusReserva;
 
     public Reserva(Livro livroReservado, int tempoParaBuscar){
         contador++;
@@ -22,5 +23,20 @@ public class Reserva{
 
     public int getIdReserva() {
         return idReserva;
+    }
+    public void setStatusReserva(statusReserva statusReserva) {
+        this.statusReserva = statusReserva;
+    }
+
+    public statusReserva getStatusReserva() {
+        return statusReserva;
+    }
+
+    public Livro getLivroReservado() {
+        return livroReservado;
+    }
+
+    public static int getContador() {
+        return contador;
     }
 }

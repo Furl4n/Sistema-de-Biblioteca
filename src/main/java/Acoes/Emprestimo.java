@@ -14,6 +14,7 @@ public class Emprestimo{
     private LocalDate dataEmprestimo;
     private int prazoDevolucao;
     private LocalDate dataDevolução;
+    private statusReserva statusReserva;
 
     public Emprestimo(Livro livroEmprestado, int prazoDevolucao) { //inicia os dados do emprestimo com as datas atuais
 
@@ -33,4 +34,7 @@ public class Emprestimo{
         return 0;
     }
 
+    public void setStatusReserva(statusReserva statusReserva) {
+        this.statusReserva = statusReserva;
+    }
 }
