@@ -116,4 +116,11 @@ public class Leitor extends Usuario {
         }
     }
 
+    public List<Emprestimo> getHistoricoEmprestimo() {
+        return historicoEmprestimo;
+    }
+
+    public List<Reserva> getLivrosReservados() {
+        return livrosReservados;
+    }
 }

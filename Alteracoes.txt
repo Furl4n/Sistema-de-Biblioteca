@@ -90,3 +90,13 @@
                     (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario,
                     analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
                     de try catch throw.
+
+--Commit 9--
+
+    -Finalizei metodo gerarRelatorio Administrador
+
+        Todo:
+                        Terminar metodo gerarRelatorio Administrador, calcular multa, criar metodo devolver em livro
+                        (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario,
+                        analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
+                        de try catch throw.

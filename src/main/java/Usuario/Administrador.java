@@ -46,14 +46,38 @@ public class Administrador extends Usuario{
 
     public void gerenciarUsuario(){}
     public void gerarRelatorio(Biblioteca  biblioteca){
-        System.out.println("\n--Relatorio da Biblioteca--\n");
-        System.out.println("Usuarios: " + getContadorId());
-        System.out.println("  * Leitores: " );
-        System.out.println("  * Administradores: " );
-        System.out.println("Livros: " );
-        System.out.println("  * Livros Disponiveis: " );
-        System.out.println("  * Livros Emprestados: " );
-        System.out.println("  * Livros Resesrvados: " );
-        System.out.println("\n-------Fim Relatorio-------\n");
+
+        int disponivel = 0;
+        int reservado = 0;
+        int emprestado = 0;
+
+        //percore o  acervo e checa o status dos livros;
+        for(Livro livro : biblioteca.getAcervo()){
+            switch (livro.getStatus()){
+                case Disponivel -> disponivel++;
+                case Reservado -> reservado++;
+                case Emprestado -> emprestado++;
+            }
+        }
+
+        System.out.println("\n==== RELATORIO DA BIBLIOTECA ====\n");
+
+        System.out.println("\n-- Acervo de Livros --\n");
+        System.out.println("Livros Disponiveis: " + disponivel);
+        System.out.println("Livros Emprestados: " + emprestado);
+        System.out.println("Livros Resesrvados: " +  reservado);
+
+        System.out.println("\n-- Leitores --\n");
+        //Percorre todos os leitores consultando seus atributos
+        for(Leitor leitor : biblioteca.getLeitores()){
+            System.out.println("Nome: " + leitor.getNome() + " | Emprestimos: " + leitor.getHistoricoEmprestimo()
+            + " | Reservas ativas: " + leitor.getLivrosReservados());
+        }
+        //Percorre todos os administradores consultando seus atributos
+        for(Administrador administrador : biblioteca.getAdministradores()){
+            System.out.println("Nome: " + administrador.getNome() + " | Email: " + administrador.getEmail());
+        }
+
+        System.out.println("\n==== FIM RELATORIO ====\n");
     }
 }

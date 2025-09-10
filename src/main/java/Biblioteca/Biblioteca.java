@@ -12,9 +12,9 @@ import java.util.Scanner;
 
     //todo terminar método mostrarAcervo
 public class Biblioteca {  //Inicia as listas da biblioteca
-    List<Livro> acervo = new ArrayList<>();
-    List<Leitor> leitores = new ArrayList<>();
-    List<Administrador> administradores = new ArrayList<>();
+    private List<Livro> acervo = new ArrayList<>();
+    private List<Leitor> leitores = new ArrayList<>();
+    private List<Administrador> administradores = new ArrayList<>();
 
 
     public void cadastrarLeitor() {
@@ -141,6 +141,17 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-}
+        public List<Livro> getAcervo() {
+            return acervo;
+        }
+
+        public List<Leitor> getLeitores() {
+            return leitores;
+        }
+
+        public List<Administrador> getAdministradores() {
+            return administradores;
+        }
+    }
 
 

@@ -5,16 +5,14 @@ import Usuario.Leitor;
 public class Main {
     public static void main(String[] args) {
         Biblioteca biblioteca = new Biblioteca();
-        Administrador adm = new Administrador();
+        Administrador administrador = new Administrador();
 
-        biblioteca.cadastrarLeitor();
         biblioteca.cadastrarAdministrador();
+        biblioteca.cadastrarLeitor();
+        biblioteca.cadastrarLivro();
+        biblioteca.cadastrarLivro();
+        administrador.gerarRelatorio(biblioteca);
 
-        adm.cadastrarLivro(biblioteca);
 
-        Leitor leitor = new Leitor();
-
-        biblioteca.mostrarAcervo();
-        leitor.realizarEmprestimo(biblioteca);
     }
 }
