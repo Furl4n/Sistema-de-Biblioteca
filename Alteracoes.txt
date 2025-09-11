@@ -96,7 +96,19 @@
     -Finalizei metodo gerarRelatorio Administrador
 
         Todo:
-                        Terminar metodo gerarRelatorio Administrador, calcular multa, criar metodo devolver em livro
-                        (chamada por leitor ou biblioteca //ver depois), gerenciarUsuario,
-                        analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos e adidioncar mecanismos.
-                        de try catch throw.
+                        calcular multa, criar metodo devolver em livro (chamada por leitor ou biblioteca //ver depois),
+                        gerenciarUsuario, analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos
+                        e adidioncar mecanismos de try catch throw.
+
+--Commit 10--
+
+    -Terminei o metodo de pegarReserva
+
+    -fiz algumas alterações leves
+
+    -Agora o estado é alterado dentro do construtor
+
+    Todo:
+                            calcular multa, criar metodo devolver em livro (chamada por leitor), gerenciarUsuario,
+                            analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos
+                            e adidioncar mecanismos de try catch throw.

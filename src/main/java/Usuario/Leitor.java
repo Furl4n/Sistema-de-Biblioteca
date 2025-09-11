@@ -47,26 +47,29 @@ public class Leitor extends Usuario {
             return;
         }
 
-        System.out.print("Por quantos dias deseja pegar emprestado? ");
+        System.out.print("Por quantos dias deseja pegar o livro? ");
         int prazoDevolucao = dados.nextInt();
         dados.nextLine();
-        if(livro.getStatus() ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'
-            livro.setStatus(StatusLivro.Emprestado); //altera para 'Emprestado'
 
+        if(livro.getStatus() ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'
             Emprestimo emprestimo = new Emprestimo(livro, prazoDevolucao); //Cria o emprestimo
             historicoEmprestimo.add(emprestimo); //adiciona o emprestimo no historico do leitor
 
-            System.out.println("Emprestimo reaçizado com sucesso!");
+            System.out.println("Emprestimo realizado com sucesso!");
         } else{ //caso o livro esteja 'emprestado' ou 'Reservado'
             System.out.println("O livro " + livro.getTitulo() + " já está " + livro.getStatus());
         }
+    }
+
+    public void devolverEmprestimo(Biblioteca biblioteca){
+
     }
 
     public void fazerReserva(Biblioteca biblioteca) {
         Scanner dados = new Scanner(System.in);
         Livro livro;
 
-        System.out.println("--Realizar reserva de livro--");
+        System.out.println("\n--Realizar reserva de livro--\n");
 
         System.out.print("Qual livro deseja reservar? ");
         String idLivro = dados.nextLine();
@@ -85,34 +88,48 @@ public class Leitor extends Usuario {
             System.out.println("Voce ja reservou esse livro!");
             return;
         }
-        if(livro.getStatus() ==  StatusLivro.Disponivel){//Caso o livro não esteja com status Emprestado
-            System.out.println("Livro disponível para emprestimo!");
-            //leitor.realizarEmprestimo();
-            return;
+
+        if(livro.getStatus() !=  StatusLivro.Disponivel){
+            System.out.println("O livro não está disponível para reserva");
+        }else {
+
+            System.out.print("Por quanto tempo deseja reservar? ");
+            int tempoParaBuscar = dados.nextInt();
+            dados.nextLine();
+
+            Reserva reservado = new Reserva(livro, tempoParaBuscar);
+
+            livrosReservados.add(reservado);
+
+            System.out.println("Reserva realizada com sucesso!");
+            //todo mostrar reserva;
         }
-
-        System.out.print("Por quanto tempo deseja reservar? ");
-        int tempoParaBuscar = dados.nextInt();
-        dados.nextLine();
-
-        Reserva reservado = new Reserva(livro, tempoParaBuscar);
-
-        reservado.setStatusReserva(statusReserva.Ativa); //Alterar status da reserva para ativo
-
-        livrosReservados.add(reservado);
-
-        System.out.println("Reserva realizada com sucesso!");
-        //todo mostrar reserva;
     }
 
+    public void pegarReserva(Biblioteca biblioteca){
+        Scanner dados = new Scanner(System.in);
 
-    public void pegarReserva(){
-        int idReserva =0;
+        System.out.println("\n--Pegar livro reservado--\n");
+        System.out.print("Digite o código da reserva: ");
+        int idReserva= dados.nextInt();
+        dados.nextLine();
+
         Optional<Reserva> buscaReserva = livrosReservados.stream().filter(Reserva -> Reserva.getIdReserva() == idReserva).findFirst();
 
         if(buscaReserva.isPresent()){
             Reserva reserva = buscaReserva.get();
-            //Leitor.solicitarEmprestimo();
+            reserva.setStatusReserva(statusReserva.Confirmada);
+
+            System.out.print("Por quantos dias deseja pegar o livro? ");
+            int prazoDevolucao = dados.nextInt();
+            dados.nextLine();
+
+            Emprestimo emprestimo = new Emprestimo(reserva.getLivroReservado(), prazoDevolucao); //Cria o emprestimo
+            historicoEmprestimo.add(emprestimo);
+
+            System.out.println("Reserva concluida com sucesso!");
+        } else{
+            System.out.println("Reserva inexistente!");
         }
     }
 

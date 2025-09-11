@@ -1,10 +1,8 @@
 package Acoes;
 
-import Livros.Livro;
+import Livros.*;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 //todo adicionar calcularMulta
 public class Emprestimo{
@@ -24,9 +22,7 @@ public class Emprestimo{
         this.livroEmprestado = livroEmprestado;
         this.prazoDevolucao = prazoDevolucao;
         dataDevolução = dataEmprestimo.plusDays(prazoDevolucao);
-    }
-
-    public Emprestimo() {
+        livroEmprestado.setStatus(StatusLivro.Emprestado);
     }
 
     public float calcularMulta(){

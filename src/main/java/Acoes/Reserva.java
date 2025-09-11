@@ -19,11 +19,14 @@ public class Reserva{
         this.livroReservado = livroReservado;
         dataReserva = LocalDate.now();
         this.tempoParaBuscar = tempoParaBuscar;
+        statusReserva = Acoes.statusReserva.Ativa;
+        livroReservado.setStatus(StatusLivro.Reservado);
     }
 
     public int getIdReserva() {
         return idReserva;
     }
+
     public void setStatusReserva(statusReserva statusReserva) {
         this.statusReserva = statusReserva;
     }

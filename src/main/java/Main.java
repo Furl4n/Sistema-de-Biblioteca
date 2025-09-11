@@ -8,11 +8,11 @@ public class Main {
         Administrador administrador = new Administrador();
 
         biblioteca.cadastrarAdministrador();
-        biblioteca.cadastrarLeitor();
+        Leitor leitor = biblioteca.cadastrarLeitor();
         biblioteca.cadastrarLivro();
-        biblioteca.cadastrarLivro();
-        administrador.gerarRelatorio(biblioteca);
 
-
+        leitor.fazerReserva(biblioteca);
+        biblioteca.mostrarAcervo();
+        leitor.pegarReserva(biblioteca);
     }
 }

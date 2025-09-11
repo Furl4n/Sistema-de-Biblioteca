@@ -31,16 +31,11 @@ public class Administrador extends Usuario{
 
     //Chama o metodo cadastrarLivro da biblioteca, serve para assegurar que apenas administradores consigam
     public void cadastrarLivro(Biblioteca biblioteca){
-
-        System.out.println("\n--Cadastro de novo livro--\n");
-
         biblioteca.cadastrarLivro();
     }
 
     //Chama o metodo removerLivro da biblioteca, serve para assegurar que apenas administradores consigam
     public void removerLivro(Biblioteca biblioteca){
-        System.out.println("\n--Apagar livro do acervo--\n");
-
         biblioteca.removerLivro();
     }
 

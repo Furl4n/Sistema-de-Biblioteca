@@ -10,20 +10,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-    //todo terminar método mostrarAcervo
 public class Biblioteca {  //Inicia as listas da biblioteca
     private List<Livro> acervo = new ArrayList<>();
     private List<Leitor> leitores = new ArrayList<>();
     private List<Administrador> administradores = new ArrayList<>();
 
 
-    public void cadastrarLeitor() {
+    public Leitor cadastrarLeitor() {
             //cadastra o leitor no sistema
             String nome, email;
             Scanner dados = new Scanner(System.in);
-            System.out.println("Digite seu nome: ");
+        System.out.println("\n--Cadastro de Usuário--\n");
+            System.out.print("Digite seu nome: ");
             nome = dados.nextLine();
-            System.out.println("Digite seu email: ");
+            System.out.print("Digite seu email: ");
             email = dados.nextLine();
 
             System.out.println("\nLeitor cadastrado com sucesso!");
@@ -32,15 +32,17 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
             leitor.mostrarUsuario();
             leitores.add(leitor);
+            return leitor;
         }
 
     public void cadastrarAdministrador(){
             //cadastra o leitor no sistema
             String nome, email,senha, conf_senha;
             Scanner dados = new Scanner(System.in);
-            System.out.println("Digite seu nome: ");
+        System.out.println("\n--Cadastro de Administrator--\n");
+            System.out.print("Digite seu nome: ");
             nome = dados.nextLine();
-            System.out.println("Digite seu email: ");
+            System.out.print("Digite seu email: ");
             email = dados.nextLine();
             do{//confirmação da senha
                 System.out.print("Digite a senha: ");
@@ -68,6 +70,8 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         StatusLivro status;
         Scanner dados = new Scanner(System.in);
 
+        System.out.println("\n--Cadastro de Livro--\n");
+
         System.out.print("Titulo: ");
         titulo = dados.nextLine();
         System.out.print("Autor: ");
@@ -77,15 +81,17 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         System.out.print("Ano de Publicação: ");
         anoPublicacao = dados.nextInt();
         dados.nextLine();
-        status = StatusLivro.Disponivel;
 
-        Livro novo = new Livro(titulo, autor, anoPublicacao, genero, status); //cria o livro
-
+        Livro novo = new Livro(titulo, autor, anoPublicacao, genero, StatusLivro.Disponivel); //cria o livro
         acervo.add(novo); //adiciona o livro no acervo
+
+        System.out.println("\nLivro criado com sucesso!");
     }
 
     public void removerLivro(){ //remove o livro do acervo
         Scanner dados = new Scanner(System.in);
+
+        System.out.println("\n--Apagar Livro--\n");
 
         System.out.print("Qual o Id do livro que deseja apagar? ");
         String IdparaApagar = dados.nextLine();
@@ -141,17 +147,17 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-        public List<Livro> getAcervo() {
+    public List<Livro> getAcervo() {
             return acervo;
         }
 
-        public List<Leitor> getLeitores() {
-            return leitores;
-        }
+    public List<Leitor> getLeitores() {
+        return leitores;
+    }
 
-        public List<Administrador> getAdministradores() {
-            return administradores;
-        }
+    public List<Administrador> getAdministradores() {
+        return administradores;
+    }
     }
 
 
