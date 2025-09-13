@@ -16,7 +16,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     private List<Administrador> administradores = new ArrayList<>();
 
 
-    public Leitor cadastrarLeitor() {
+    public void cadastrarLeitor() {
             //cadastra o leitor no sistema
             String nome, email;
             Scanner dados = new Scanner(System.in);
@@ -32,7 +32,6 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
             leitor.mostrarUsuario();
             leitores.add(leitor);
-            return leitor;
         }
 
     public void cadastrarAdministrador(){
