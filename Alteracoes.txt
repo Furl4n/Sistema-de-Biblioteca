@@ -112,3 +112,16 @@
                             calcular multa, criar metodo devolver em livro (chamada por leitor), gerenciarUsuario,
                             analisar o incremento de arquivos txt para deixar usuarios/senhas/livros salvos
                             e adidioncar mecanismos de try catch throw.
+
+--Commit 11--
+
+    -Terminei devolverEmprestimo;
+
+    -Fiz calcular multa;
+
+    -Alterei o realizarEmprestimo para se adaptar o statusReserva;
+
+    Todo:
+                            gerenciarUsuario, criar cancelarEmprestimo(chamada por leitor), criar login,
+                            criar a main, testar tudo;
+

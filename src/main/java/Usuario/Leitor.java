@@ -1,5 +1,6 @@
 package Usuario;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -31,37 +32,104 @@ public class Leitor extends Usuario {
 
     }
 
-    public void realizarEmprestimo(Biblioteca biblioteca){ //metodo que vai iniciar o emprestimo
+    public void realizarEmprestimo(Biblioteca biblioteca) {
         Scanner dados = new Scanner(System.in);
         Livro livro;
+
         System.out.println("\n--Realizar emprestimo de livro--\n");
-
-
         System.out.print("Qual livro deseja pegar emprestado(Id)? ");
         String idLivro = dados.nextLine();
 
-        try{
+        try {
             livro = biblioteca.buscarLivro(idLivro);
         } catch (RuntimeException e) {
             System.out.println("Erro: " + e.getMessage());
             return;
         }
 
-        System.out.print("Por quantos dias deseja pegar o livro? ");
-        int prazoDevolucao = dados.nextInt();
-        dados.nextLine();
+        // se o livro estiver disponível -> empresta direto
+        if (livro.getStatus() == StatusLivro.Disponivel) {
+            System.out.print("Por quantos dias deseja pegar o livro? ");
+            int prazoDevolucao = dados.nextInt();
+            dados.nextLine();
 
-        if(livro.getStatus() ==  StatusLivro.Disponivel){ //caso o livro esteja 'Disponivel'
-            Emprestimo emprestimo = new Emprestimo(livro, prazoDevolucao); //Cria o emprestimo
-            historicoEmprestimo.add(emprestimo); //adiciona o emprestimo no historico do leitor
+            Emprestimo emprestimo = new Emprestimo(livro, prazoDevolucao);
+            historicoEmprestimo.add(emprestimo);
+            livro.setStatus(StatusLivro.Emprestado);
 
             System.out.println("Emprestimo realizado com sucesso!");
-        } else{ //caso o livro esteja 'emprestado' ou 'Reservado'
-            System.out.println("O livro " + livro.getTitulo() + " já está " + livro.getStatus());
+            return;
+        }
+
+        // se o livro está reservado, conferir se a reserva pertence a este leitor
+        Optional<Reserva> minhaReserva = livrosReservados.stream()
+                .filter(reserva -> reserva.getLivroReservado().getIdUnico().equals(livro.getIdUnico())
+                        && reserva.getStatusReserva() == statusReserva.Ativa)
+                .findFirst();
+
+        if (minhaReserva.isPresent()) {
+            System.out.print("Por quantos dias deseja pegar o livro? ");
+            int prazoDevolucao = dados.nextInt();
+            dados.nextLine();
+
+            Emprestimo emprestimo = new Emprestimo(livro, prazoDevolucao);
+            historicoEmprestimo.add(emprestimo);
+            livro.setStatus(StatusLivro.Emprestado);
+
+            // atualiza a reserva como confirmada
+            minhaReserva.get().setStatusReserva(statusReserva.Confirmada);
+
+            System.out.println("Você tinha uma reserva, agora ela virou empréstimo!");
+        } else {
+            System.out.println("O livro não está disponível para você no momento.");
         }
     }
 
     public void devolverEmprestimo(Biblioteca biblioteca){
+        Scanner dados = new Scanner(System.in);
+        LocalDate dataDevol = LocalDate.now(); //data de entrega;
+        Livro livro;
+
+        System.out.println("\n--Devolver emprestimo de livro--\n");
+
+        System.out.println("Qual livro deseja devolver?(Id) ");
+        String idLivro = dados.nextLine();
+        //procura no historico do leitor o Id do livro;
+        Optional<Emprestimo> emprestimoLeitor = historicoEmprestimo.stream().filter(Emprestimo -> Emprestimo.getLivroEmprestado().getIdUnico().equals(idLivro)).findFirst();
+        //caso nao encontre;
+        if(emprestimoLeitor.isEmpty()){
+            System.out.println("Livro não encontrado!");
+            return;
+        }
+        Emprestimo emprestimo = emprestimoLeitor.get();
+
+        livro = emprestimoLeitor.get().getLivroEmprestado();
+        //chama a função de multa
+        if(emprestimo.getDataDevolucao().isAfter(dataDevol)){
+            System.out.println( "Você tem um taxa aplicada sobre atraso.");
+            float valor = emprestimoLeitor.get().calcularMulta(dataDevol);
+            System.out.println("\nValor: \n" + valor);
+
+        }
+
+        // verifica se existe uma reserva ativa para este livro
+        Optional<Reserva> reservaAtiva = livrosReservados.stream()
+                .filter(reserva -> reserva.getLivroReservado().getIdUnico().equals(livro.getIdUnico())
+                && reserva.getStatusReserva() == statusReserva.Ativa).findFirst();
+
+        if (reservaAtiva.isPresent()) {
+            // Se houver reserva ativa, o livro não fica disponível, vai direto para reservado
+            Reserva reserva = reservaAtiva.get();
+            livro.setStatus(StatusLivro.Reservado);
+            reserva.setStatusReserva(statusReserva.Confirmada);
+
+            System.out.println("O livro foi devolvido e já está reservado para outro leitor!");
+            return;
+        }
+
+        System.out.println("Livro devolvido com sucesso!");
+
+        livro.setStatus(StatusLivro.Disponivel);
 
     }
 
@@ -105,6 +173,8 @@ public class Leitor extends Usuario {
             //todo mostrar reserva;
         }
     }
+
+    //todo cancelarResevc();
 
     public void pegarReserva(Biblioteca biblioteca){
         Scanner dados = new Scanner(System.in);

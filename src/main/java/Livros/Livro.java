@@ -47,11 +47,6 @@ public class Livro implements Emprestavel{
     }
 
 
-    @Override
-    public void devolver(){
-
-    }
-
     public void mostrarLivro(){
         System.out.println("\nNome: " + titulo);
         System.out.println("Id: " + idUnico);

@@ -1,9 +1,7 @@
 package Biblioteca;
 
-import Livros.Livro;
-import Livros.StatusLivro;
-import Usuario.Administrador;
-import Usuario.Leitor;
+import Livros.*;
+import Usuario.*;
 
 import java.util.ArrayList;
 import java.util.List;
