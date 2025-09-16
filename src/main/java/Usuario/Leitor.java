@@ -155,7 +155,7 @@ public class Leitor extends Usuario {
         }
         //verefica nos livros reservados por meio do Titulo, se esse livro ja foi reservado pelo leitor;
         //confere o status se o status de reserva está ativa;
-        Optional<Reserva> livroReserva = livrosReservados.stream().filter(reserva -> reserva.getLivroReservado().getTitulo().equals(livro.getTitulo()) && reserva.getStatusReserva() == statusReserva.Ativa).findFirst();
+        Optional<Reserva> livroReserva = livrosReservados.stream().filter(reserva -> reserva.getLivroReservado().getIdUnico().equals(livro.getIdUnico()) && reserva.getStatusReserva() == statusReserva.Ativa).findFirst();
 
         if(livroReserva.isPresent()){ //caso encontre o livro no FindFirst
             System.out.println("Voce ja reservou esse livro!");
@@ -179,7 +179,60 @@ public class Leitor extends Usuario {
         }
     }
 
-    //todo cancelarReseva();
+        public void cancelarReserva(Biblioteca biblioteca) {
+            Scanner dados = new Scanner(System.in);
+
+            System.out.println("\n--Cancelar reserva--\n");
+            System.out.println("Digite o código da reserva:");
+            int idReserva = dados.nextInt();
+
+            //confere se o livro está reservado
+            Optional<Reserva> buscaReserva = livrosReservados.stream()
+                    .filter(reserva -> reserva.getIdReserva() == idReserva)
+                    .findFirst();
+
+            if (buscaReserva.isEmpty()) {
+                System.out.println("Reserva não encontrada!");
+                return;
+            }
+
+            Reserva reserva = buscaReserva.get();
+
+            if (reserva.getStatusReserva() == statusReserva.Cancelada) {
+                System.out.println("Essa reserva já foi cancelada anteriormente!");
+                return;
+            }
+
+            if (reserva.getStatusReserva() == statusReserva.Confirmada) {
+                System.out.println("Essa reserva já foi confirmada, não pode ser cancelada!");
+                return;
+            }
+
+            // Cancela a reserva
+            reserva.setStatusReserva(statusReserva.Cancelada);
+
+            //todo vereficar se não é redundante
+
+            // Verifica se há outras reservas ativas para o mesmo livro
+            Livro livro = reserva.getLivroReservado();
+            Optional<Reserva> outraReservaAtiva = livrosReservados.stream()
+                    .filter(r -> r.getLivroReservado().equals(livro)
+                            && r.getStatusReserva() == statusReserva.Ativa)
+                    .findFirst();
+
+            if (outraReservaAtiva.isPresent()) {
+                // passa a próxima reserva da fila para confirmada
+                outraReservaAtiva.get().setStatusReserva(statusReserva.Confirmada);
+                livro.setStatus(StatusLivro.Reservado);
+                System.out.println("Reserva cancelada! O livro foi transferido para a próxima reserva.");
+            } else {
+                // se não houver mais reservas, o livro fica disponível
+                livro.setStatus(StatusLivro.Disponivel);
+                System.out.println("Reserva cancelada! O livro agora está disponível.");
+            }
+
+    }
+
 
     public void pegarReserva(Biblioteca biblioteca){
         Scanner dados = new Scanner(System.in);
@@ -202,7 +255,7 @@ public class Leitor extends Usuario {
             Emprestimo emprestimo = new Emprestimo(reserva.getLivroReservado(), prazoDevolucao); //Cria o emprestimo
             historicoEmprestimo.add(emprestimo);
 
-            System.out.println("Reserva concluida com sucesso!");
+            System.out.println("Reserva concluida com sucesso! Agora você tem um emprestimo!");
         } else{
             System.out.println("Reserva inexistente!");
         }

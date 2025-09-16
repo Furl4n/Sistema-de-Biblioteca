@@ -152,3 +152,20 @@
 Todo:
                             gerenciarUsuario, criar cancelarEmprestimo(chamada por leitor), criar login,
                             terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;
+
+--Commit 13--
+
+-Terminei o cancelarReserva
+
+-Alterei os id de Livro;
+
+-Testei os metodos de leitor na main
+
+-Vou fazer no proximo commit:
+    gerenciarUsuario;
+    conferir o metodo cancelarReserva;
+
+
+Todo:
+                            gerenciarUsuario, criar login, deixar pelos menos 1 leitor, 1 usuario, 1 livro ja salvos em
+                            memoria, terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;

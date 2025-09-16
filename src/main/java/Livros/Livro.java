@@ -19,7 +19,7 @@ public class Livro implements Emprestavel{
     private StatusLivro status;
 
     public Livro(String titulo, String autor, int anoPublicacao, String genero, StatusLivro status) {
-        this.idUnico = "LIV-"+contadorLivro++; // Ex ->  ID: LIV-1
+        this.idUnico = "liv-"+contadorLivro++; // Ex ->  ID: LIV-1
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicacao = anoPublicacao;

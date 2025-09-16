@@ -9,6 +9,7 @@ public class Main {
         Scanner dados = new Scanner(System.in);
         Biblioteca biblioteca = new Biblioteca();
         System.out.println("---INICIO DA BIBLIOTECA---");
+
         System.out.println("Seja bem vindo ao sistema de gerenciamento de biblioteca!");
 
         int opcao = -1;
