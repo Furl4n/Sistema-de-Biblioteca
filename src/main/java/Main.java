@@ -13,7 +13,7 @@ public class Main {
 
         int opcao = -1;
 
-        System.out.println("---Antes de acessar o menu adicione um Administrador---\n");
+        System.out.println("---Antes de acessar o menu adicione um Administrador---");
         biblioteca.cadastrarAdministrador();
 
         while(opcao!=0){
@@ -36,42 +36,98 @@ public class Main {
                     biblioteca.cadastrarAdministrador();
                     break;
                 case 2:
-                    //fazer login adm
+                    System.out.println("--Login do Administrador--");
+                    System.out.print("Digite o Id do usuário: ");
+                    String idAdm = dados.nextLine();
+
+                    Administrador administrador = biblioteca.loginAdministrador(idAdm);
+                    int opcaoAdm = -1;
+
+                    while(opcaoAdm !=0) {
+                        System.out.println("\n--Menu do Administrador--");
+                        System.out.println("0-Encerrar sessão");
+                        System.out.println("1-Mostrar dados do usuário");
+                        System.out.println("2-Fazer cadastro de livro");
+                        System.out.println("3-Remover livro");
+                        System.out.println("4-Gerenciar usuário");
+                        System.out.println("5-Gerar relatório");
+                        System.out.print("Escolha uma das opções: ");
+                        opcaoAdm = dados.nextInt();
+                        dados.nextLine();
+
+                        switch (opcaoAdm) {
+                            case 0:
+                                System.out.println("\n--Desconectando usuário--");
+                                break;
+                            case 1:
+                                administrador.mostrarUsuario();
+                                break;
+                            case 2:
+                                administrador.cadastrarLivro(biblioteca);
+                                break;
+                            case 3:
+                                administrador.removerLivro(biblioteca);
+                                break;
+                            case 4:
+                                administrador.gerenciarUsuario();
+                                break;
+                            case 5:
+                                administrador.gerarRelatorio(biblioteca);
+                                break;
+                            default:
+                                System.out.println("\n---OPÇÃO INVALIDA---\n");
+                                break;
+                        }
+                    }
                     break;
                 case 3:
                     biblioteca.cadastrarLeitor();
                     break;
                 case 4:
                     System.out.println("--Login do leitor--");
-                    int idLogin = dados.nextInt();
-                    dados.nextLine();
+                    System.out.print("Digite o Id do usuário: ");
+                    String idLeitor = dados.nextLine();
 
                     //todo adicionar try/catch
-                    Leitor leitor = biblioteca.buscarLeitor(idLogin);
-                    int opcaoUsuario = -1;
+                    Leitor leitor = biblioteca.loginLeitor(idLeitor);
+                    int opcaoLeitor = -1;
 
-                    while(opcaoUsuario!=0){
+                    while(opcaoLeitor!=0){
                         System.out.println("\n--Menu do Leitor--");
                         System.out.println("0-Encerrar sessão");
-                        System.out.println("1-Mostrar dados do usuario");
+                        System.out.println("1-Mostrar dados do usuário");
                         System.out.println("2-Fazer reserva de livro");
                         System.out.println("3-Pegar reserva feita");
-                        System.out.println("4-Fazer emprestimo de livro");
-                        System.out.println("5-Devolver emprestimo");
+                        System.out.println("4-Fazer empréstimo de livro");
+                        System.out.println("5-Devolver empréstimo");
                         System.out.print("Escolha uma das opções: ");
-                        opcaoUsuario = dados.nextInt();
+                        opcaoLeitor = dados.nextInt();
                         dados.nextLine();
 
-                        switch(opcaoUsuario){
+                        switch(opcaoLeitor){
                             case 0:
-                                System.out.println("--Desconectando usuario--");
+                                System.out.println("--Desconectando usuário--");
                                 break;
                             case 1:
-
+                                leitor.mostrarUsuario();
+                                break;
+                            case 2:
+                                leitor.fazerReserva(biblioteca);
+                                break;
+                            case 3:
+                                leitor.pegarReserva(biblioteca);
+                                break;
+                            case 4:
+                                leitor.realizarEmprestimo(biblioteca);
+                                break;
+                            case 5:
+                                leitor.devolverEmprestimo(biblioteca);
+                                break;
+                            default:
+                                System.out.println("\n---OPÇÃO INVALIDA---\n");
                                 break;
                         }
                     }
-
                     break;
                 case 5:
                     biblioteca.mostrarAcervo();

@@ -15,17 +15,22 @@ public class Leitor extends Usuario {
 
     private List<Emprestimo> historicoEmprestimo = new ArrayList<>();
     private List<Reserva> livrosReservados = new ArrayList<>();
+    private static int contador=0;
+    private String idLeitor;
 
     public Leitor() {
     }
 
     public Leitor(String nome, String email) {
         super(nome, email);
+        contador++;
+        idLeitor = "user-" + contador;
     }
 
     @Override
     public void mostrarUsuario(){
         System.out.println("\n---------------------------");
+        System.out.println("Id: " + idLeitor);
         System.out.println("Nome: " + this.getNome());
         System.out.println("Email: " + this.getEmail());
         System.out.println("---------------------------");
@@ -174,7 +179,7 @@ public class Leitor extends Usuario {
         }
     }
 
-    //todo cancelarResevc();
+    //todo cancelarReseva();
 
     public void pegarReserva(Biblioteca biblioteca){
         Scanner dados = new Scanner(System.in);
@@ -210,4 +215,9 @@ public class Leitor extends Usuario {
     public List<Reserva> getLivrosReservados() {
         return livrosReservados;
     }
+
+    public String getId(){
+        return this.idLeitor;
+    }
 }
+

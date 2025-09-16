@@ -120,17 +120,42 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         }
     }
 
-    public Leitor buscarLeitor(int idLeitor) throws RuntimeException {
+    public Leitor loginLeitor(String idLeitor) throws RuntimeException {
 
-            //faz uma busca no acervo procurando o leitor com esse Id, o Optional é para caso não encontre ele retorn vazio
-            Optional<Leitor> leitorParaBuscar = leitores.stream().filter(Leitor -> Leitor.getId() == idLeitor).findFirst();
+        //faz uma busca no acervo procurando o leitor com esse Id, o Optional é para caso não encontre ele retorn vazio
+        Optional<Leitor> leitorParaBuscar = leitores.stream().filter(Leitor -> Leitor.getId().equals(idLeitor)).findFirst();
 
-            if(leitorParaBuscar.isPresent()){ //Ve se achou o leitor na lista
-                return leitorParaBuscar.get();
-            } else{ // Se ele retornar vazio para o Optional
-                throw new RuntimeException("Leitor não cadastrado");
-            }
+        if(leitorParaBuscar.isPresent()){ //Ve se achou o leitor na lista
+            return leitorParaBuscar.get();
+        } else{ // Se ele retornar vazio para o Optional
+            throw new RuntimeException("Leitor não cadastrado");
         }
+    }
+
+    public Administrador loginAdministrador(String idAdministrador) throws RuntimeException {
+
+        //faz uma busca no acervo procurando o leitor com esse Id, o Optional é para caso não encontre ele retorn vazio
+        Optional<Administrador> AdministradorParaLogin = administradores.stream().filter(Administrador -> Administrador.getId().equals(idAdministrador)).findFirst();
+
+        if(AdministradorParaLogin.isPresent()){ //Ve se achou o leitor na lista
+            Administrador administrador = AdministradorParaLogin.get();
+
+            Scanner dados = new Scanner(System.in);
+
+            System.out.print("Digite a Senha: ");
+            String senha = dados.nextLine();
+
+            if(administrador.conferirSenha(senha)){
+                System.out.println("\n-Login feito com sucesso!-");
+                return administrador;
+            } else{
+                System.out.println("--SENHA INCORRETA! Tente novamente--");
+            }
+            return administrador;
+        } else{ // Se ele retornar vazio para o Optional
+            throw new RuntimeException("Administrador não cadastrado");
+        }
+    }
 
     public void mostrarAcervo(){  //estrutura base para mostrar o acervo
         if (acervo.isEmpty()) {

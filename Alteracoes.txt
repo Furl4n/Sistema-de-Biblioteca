@@ -125,3 +125,30 @@
                             gerenciarUsuario, criar cancelarEmprestimo(chamada por leitor), criar login,
                             criar a main, testar tudo;
 
+--Commit 12.1--
+
+-Comecei a main, to terminando a parte de login do usuário
+
+-Falta a parte do adm
+
+ Todo:
+                            gerenciarUsuario, criar cancelarEmprestimo(chamada por leitor), criar login,
+                            terminar a main, testar tudo;
+
+
+--Commit 12.2--
+
+-Adicionei o login usuario e o metodo de comparar senha
+
+-Alterei os codigos de adm e leitor, sao diferentes
+
+-Praticamnete terminei a Main, falta adicionar o try e catch
+
+-Vou fazer no proximo commit:
+    atualizar codigo dos livros
+    mostrar acervo na reserva e emprestimo
+    mostrar dados reservas do usuario
+
+Todo:
+                            gerenciarUsuario, criar cancelarEmprestimo(chamada por leitor), criar login,
+                            terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;

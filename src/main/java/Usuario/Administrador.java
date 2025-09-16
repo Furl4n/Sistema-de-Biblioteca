@@ -7,27 +7,33 @@ import java.util.Scanner;
 
 public class Administrador extends Usuario{
 
-    private String senha;
+    private String senha, codigo;
+    private static int contador=0;
 
     public Administrador(String nome, String email, String senha) {
         super( nome, email);
         this.senha = senha;
+        contador++;
+        codigo = "adm-" + contador;
     }
 
     public Administrador() {
     }
 
-    @Override
+    public String getId(){
+        return codigo;
+    }
 
+    @Override
     public void mostrarUsuario() {
         System.out.println("\n---------------------------");
+        System.out.println("codigo: " + this.codigo);
         System.out.println("Nome: " + this.getNome());
         System.out.println("Email: " + this.getEmail());
         System.out.println("Senha: " + this.senha);
         System.out.println("---------------------------\n");
 
     }
-
 
     //Chama o metodo cadastrarLivro da biblioteca, serve para assegurar que apenas administradores consigam
     public void cadastrarLivro(Biblioteca biblioteca){
@@ -39,7 +45,12 @@ public class Administrador extends Usuario{
         biblioteca.removerLivro();
     }
 
+    public boolean conferirSenha(String senha){
+        return this.senha.equals(senha);
+    }
+
     public void gerenciarUsuario(){}
+
     public void gerarRelatorio(Biblioteca  biblioteca){
 
         int disponivel = 0;
