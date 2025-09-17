@@ -90,6 +90,13 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
         System.out.println("\n--Apagar Livro--\n");
 
+        this.mostrarAcervo();
+
+        if (acervo.isEmpty()){
+            System.out.println("\n--O acervo está vazio no momento--");
+            return;
+        }
+
         System.out.print("Qual o Id do livro que deseja apagar? ");
         String IdparaApagar = dados.nextLine();
         //faz uma busca no acervo procurando um livro com esse Id, o Optional é para caso não encontre ele retorn vazio
@@ -128,7 +135,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         if(leitorParaBuscar.isPresent()){ //Ve se achou o leitor na lista
             return leitorParaBuscar.get();
         } else{ // Se ele retornar vazio para o Optional
-            throw new RuntimeException("Leitor não cadastrado");
+            throw new RuntimeException("\n-!Leitor não cadastrado!-");
         }
     }
 

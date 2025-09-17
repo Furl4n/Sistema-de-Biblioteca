@@ -3,7 +3,7 @@ import Livros.*;
 import Biblioteca.*;
 import java.util.Scanner;
 
-//todo criar metodos gerenciarUsuario, gerarRelatorio e adcionar atributo
+//todo criar metodos gerenciarUsuario
 
 public class Administrador extends Usuario{
 
@@ -30,8 +30,7 @@ public class Administrador extends Usuario{
         System.out.println("codigo: " + this.codigo);
         System.out.println("Nome: " + this.getNome());
         System.out.println("Email: " + this.getEmail());
-        System.out.println("Senha: " + this.senha);
-        System.out.println("---------------------------\n");
+        System.out.println("---------------------------");
 
     }
 

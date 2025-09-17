@@ -168,4 +168,24 @@ Todo:
 
 Todo:
                             gerenciarUsuario, criar login, deixar pelos menos 1 leitor, 1 usuario, 1 livro ja salvos em
-                            memoria, terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;
+                            memória, terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;
+
+está cobrando multa sempre
+mostrar reservas
+devolver pelo codigo do emprestimo e não pelo livro
+
+--Commit 14--
+
+-adicionei try/catch nos logins
+
+-alterei os ids da reserva e emprestimo
+
+-na devolução mostra os emprestimos e reservas
+
+-corrigi erros aleatórios que estavam acontecendo
+
+-confere se existe alguma reserva ou emprestimo antes de cancelar/devolver
+
+Todo:
+                            gerenciarUsuario, memória, testar tudo, conferir relatorios (dados com erro quando NULL)
+                            e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)

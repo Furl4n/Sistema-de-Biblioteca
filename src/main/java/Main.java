@@ -31,13 +31,13 @@ public class Main {
 
             switch (opcao){
                 case 0:
-                    System.out.println("---O programa está sendo encerrado---");
+                    System.out.println("\n---O programa está sendo encerrado---");
                     break;
                 case 1:
                     biblioteca.cadastrarAdministrador();
                     break;
                 case 2:
-                    System.out.println("--Login do Administrador--");
+                    System.out.println("\n--Login do Administrador--");
                     System.out.print("Digite o Id do usuário: ");
                     String idAdm = dados.nextLine();
 
@@ -85,12 +85,17 @@ public class Main {
                     biblioteca.cadastrarLeitor();
                     break;
                 case 4:
-                    System.out.println("--Login do leitor--");
+                    System.out.println("\n--Login do leitor--");
                     System.out.print("Digite o Id do usuário: ");
                     String idLeitor = dados.nextLine();
 
-                    //todo adicionar try/catch
-                    Leitor leitor = biblioteca.loginLeitor(idLeitor);
+                    Leitor leitor;
+                try{
+                    leitor = biblioteca.loginLeitor(idLeitor);
+                } catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                    break;
+                }
                     int opcaoLeitor = -1;
 
                     while(opcaoLeitor!=0){
@@ -98,9 +103,12 @@ public class Main {
                         System.out.println("0-Encerrar sessão");
                         System.out.println("1-Mostrar dados do usuário");
                         System.out.println("2-Fazer reserva de livro");
-                        System.out.println("3-Pegar reserva feita");
-                        System.out.println("4-Fazer empréstimo de livro");
-                        System.out.println("5-Devolver empréstimo");
+                        System.out.println("3-Cancelar reserva");
+                        System.out.println("4-Pegar reserva feita");
+                        System.out.println("5-Fazer empréstimo de livro");
+                        System.out.println("6-Devolver empréstimo");
+                        System.out.println("7-Mostrar reservas");
+                        System.out.println("7-Mostrar empréstimos");
                         System.out.print("Escolha uma das opções: ");
                         opcaoLeitor = dados.nextInt();
                         dados.nextLine();
@@ -116,14 +124,22 @@ public class Main {
                                 leitor.fazerReserva(biblioteca);
                                 break;
                             case 3:
-                                leitor.pegarReserva(biblioteca);
+                                leitor.cancelarReserva(biblioteca);
                                 break;
                             case 4:
-                                leitor.realizarEmprestimo(biblioteca);
+                                leitor.pegarReserva(biblioteca);
                                 break;
                             case 5:
+                                leitor.realizarEmprestimo(biblioteca);
+                                break;
+                            case 6:
                                 leitor.devolverEmprestimo(biblioteca);
                                 break;
+                            case 7:
+                                leitor.mostrarReservas();
+                                break;
+                            case 8:
+                                leitor.mostrarEmprestimos();
                             default:
                                 System.out.println("\n---OPÇÃO INVALIDA---\n");
                                 break;
