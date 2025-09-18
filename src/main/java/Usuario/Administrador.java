@@ -1,4 +1,5 @@
 package Usuario;
+import Acoes.statusReserva;
 import Livros.*;
 import Biblioteca.*;
 import java.util.Scanner;
@@ -63,26 +64,26 @@ public class Administrador extends Usuario{
             System.out.print("Escolha uma opção: ");
             opcao = dados.nextInt();
             dados.nextLine();
-        }
 
-        switch(opcao) {
-            case 0:
-                System.out.println("Voltando ao menu do administrador...");
-                break;
-            case 1:
-                biblioteca.listarLeitor();
-                break;
-            case 2:
-                biblioteca.removerLeitor();
-                break;
-            case 3:
-                biblioteca.removerAdm();
-                break;
-            case 4:
-                biblioteca.historicoLeitor();
-                break;
-            default:
-                System.out.println("Opção inválida!");
+            switch(opcao) {
+                case 0:
+                    System.out.println("Voltando ao menu do administrador...");
+                    break;
+                case 1:
+                    biblioteca.listarLeitor();
+                    break;
+                case 2:
+                    biblioteca.removerLeitor();
+                    break;
+                case 3:
+                    biblioteca.removerAdm();
+                    break;
+                case 4:
+                    biblioteca.historicoLeitor();
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
         }
     }
 
@@ -111,18 +112,18 @@ public class Administrador extends Usuario{
         System.out.println("\n-- Leitores --\n");
         //todo testar na main
         if(biblioteca.getLeitores().isEmpty()){
-            System.out.println("Não há leitores cadastrados!");
+            System.out.println("Não há leitores cadastrados!\n");
         }
         else {
             //Percorre todos os leitores consultando seus atributos
             for (Leitor leitor : biblioteca.getLeitores()) {
-                System.out.println("Nome: " + leitor.getNome() + " | Emprestimos: " + leitor.getHistoricoEmprestimo()
-                        + " | Reservas ativas: " + leitor.getLivrosReservados());
+                System.out.println("Nome: " + leitor.getNome() + " | Emprestimos: " + leitor.getHistoricoEmprestimo().size()
+                        + " | Reservas ativas: " + leitor.getLivrosReservados().stream().filter(res -> res.getStatusReserva() != statusReserva.Cancelada).count());
             }
         }
         System.out.println("\n-- Administradores --\n");
         if(biblioteca.getAdministradores().isEmpty()){
-            System.out.println("Não há administradores cadastrados!");
+            System.out.println("Não há administradores cadastrados!\n");
         }
         else {
             //Percorre todos os administradores consultando seus atributos

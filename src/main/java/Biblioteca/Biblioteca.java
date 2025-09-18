@@ -63,7 +63,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     }
 
     public void listarLeitor(){
-        System.out.println("\n--Lista de Leitores--\n");
+        System.out.println("\n--Lista de Leitores--");
 
         for (Leitor leitor : leitores) {
             leitor.mostrarUsuario();

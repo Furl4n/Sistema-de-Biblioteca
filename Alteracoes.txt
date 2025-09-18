@@ -202,3 +202,18 @@ Todo:
 Todo:
                             memória, testar tudo
                             e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)
+
+--Commit 15.2--
+
+-adicionei o gerenciarUsuario na main
+
+-alterei um erro do relatorio ao mostrar quantidade de emprestimos e relatorios
+
+Obs: As reservas do relatorio sao somente as ativas, por isso apliquei o stream.filter != Cancelada)
+O historico de Reserva puxa até as reservas canceladas, não sei se vale a pena remover a reserva
+do historico quando ela for cancelada!
+
+
+Todo:
+                            memória, testar tudo
+                            e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)
