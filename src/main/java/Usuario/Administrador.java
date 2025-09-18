@@ -116,14 +116,13 @@ public class Administrador extends Usuario{
         System.out.println("Livros Reservados: " +  reservado);
 
         System.out.println("\n-- Leitores --\n");
-        //todo testar na main
         if(biblioteca.getLeitores().isEmpty()){
             System.out.println("Não há leitores cadastrados!");
         }
         else {
             //Percorre todos os leitores consultando seus atributos
             for (Leitor leitor : biblioteca.getLeitores()) {
-                System.out.println("Nome: " + leitor.getNome() + " | Empréstimos: " + leitor.getHistoricoEmprestimo().size()
+                System.out.println("Nome: " + leitor.getNome() + " | Empréstimos: " + leitor.getHistoricoEmprestimo().stream().filter(emp -> emp.getLivroEmprestado().getStatus() == StatusLivro.Emprestado).count()
                         + " | Reservas ativas: " + leitor.getLivrosReservados().stream().filter(res -> res.getStatusReserva() == statusReserva.Ativa).count());
             }
         }

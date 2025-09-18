@@ -4,6 +4,7 @@ import Livros.*;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 //todo adicionar calcularMulta
 public class Emprestimo{
@@ -30,8 +31,7 @@ public class Emprestimo{
 
     public float calcularMulta(LocalDate dataEntrega){
 
-        Period periodo = Period.between(dataDevolucao, dataEntrega);
-        int diasAtraso = periodo.getDays();
+        long diasAtraso = ChronoUnit.DAYS.between(dataDevolucao, dataEntrega);
 
 
         if (diasAtraso <= 0) {

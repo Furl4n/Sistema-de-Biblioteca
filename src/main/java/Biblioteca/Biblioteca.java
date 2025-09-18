@@ -14,7 +14,20 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     private List<Leitor> leitores = new ArrayList<>();
     private List<Administrador> administradores = new ArrayList<>();
 
+    public Biblioteca(){
+        inicializarDados();
+    }
 
+    private void inicializarDados() {
+        // Adiciona livros
+        acervo.add(new Livro("Dom Casmurro", "Machado de Assis", 1899, "Romance", StatusLivro.Disponivel));
+        acervo.add(new Livro("O Pequeno Príncipe", "Antoine de Saint-Exupéry", 1943, "Infantil", StatusLivro.Disponivel));
+        acervo.add(new Livro("1984", "George Orwell", 1949, "Distopia", StatusLivro.Disponivel));
+
+        // Adiciona leitores
+        leitores.add(new Leitor("João Silva", "joao@email.com"));
+        leitores.add(new Leitor("Maria Souza", "maria@email.com"));
+    }
     public void cadastrarLeitor() {
             //cadastra o leitor no sistema
             String nome, email;
@@ -119,7 +132,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
         System.out.println("\n--Remover Leitor--\n");
 
-        if(administradores.isEmpty()) return;
+        if(leitores.isEmpty()) return;
 
         System.out.print("Digite id do leitor:: ");
         idUsuario = dados.nextLine();

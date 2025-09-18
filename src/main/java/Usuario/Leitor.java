@@ -106,7 +106,7 @@ public class Leitor extends Usuario {
             return;
         }
 
-        System.out.print("\nQual emprestimo deseja devolver? ");
+        System.out.print("\nQual emprestimo deseja devolver?(Id) ");
         String idEmprestimo = dados.nextLine();
         //procura no historico do leitor o Id do livro;
         Optional<Emprestimo> emprestimoLeitor = historicoEmprestimo.stream().filter(Emprestimo -> Emprestimo.getId().equals(idEmprestimo)).findFirst();
@@ -126,7 +126,7 @@ public class Leitor extends Usuario {
         livro = emprestimoLeitor.get().getLivroEmprestado();
         //chama a função de multa
         //adicionei a data que devolveu no emprestimo
-        if(emprestimo.getDataDevolucao().isAfter(dataDevol)){
+        if(dataDevol.isAfter(emprestimo.getDataDevolucao())){
             System.out.println( "Você tem um taxa aplicada sobre atraso.");
             float valor = emprestimoLeitor.get().calcularMulta(dataDevol);
             System.out.println("Valor: " + valor);
@@ -147,7 +147,7 @@ public class Leitor extends Usuario {
         biblioteca.mostrarAcervo();
         if(biblioteca.getAcervo().isEmpty()) return;
 
-        System.out.print("\nQual livro deseja reservar? ");
+        System.out.print("\nQual livro deseja reservar?(Id) ");
         String idLivro = dados.nextLine();
 
         try{
@@ -178,7 +178,7 @@ public class Leitor extends Usuario {
             livrosReservados.add(reservado);
 
             System.out.println("Reserva realizada com sucesso!");
-            //todo mostrar reserva;
+
         }
     }
 
@@ -195,7 +195,7 @@ public class Leitor extends Usuario {
 
         mostrarReservas();
 
-        System.out.print("Digite o código da reserva: ");
+        System.out.print("Digite o código da reserva:(Id) ");
         String idReserva = dados.nextLine();
 
         //confere se o livro está reservado
@@ -268,10 +268,10 @@ public class Leitor extends Usuario {
     }
 
     public void mostrarEmprestimos(){
+        System.out.println("\n-Histórico de Empréstimos-\n");
         if (historicoEmprestimo.isEmpty()) {
-            System.out.println("\n-O usuário não tem empréstimos feitos-");
+            System.out.println("\n-O usuário não tem empréstimos feitos-\n");
         } else{
-            System.out.println("-Histórico de Empréstimos-");
             for(Emprestimo emprestimo : historicoEmprestimo){
                 emprestimo.mostrarEmprestimo();
             }

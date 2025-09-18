@@ -231,3 +231,17 @@ Todo:
 
 Todo:
                             testar e corrigir calcular multa (cobra td vez), testar TUDO
+
+--Commit 18--
+
+-Consertei calcularMulta (Coloquei o ChronoUnity de volta por que o
+                          getDays so pega a diferença de dias dentro do mesmo mês)
+
+-Alterei removerLeitor
+
+-Criei uma função para inicializar alguns dados na biblioteca
+
+-Adicionei alguns detalhes de escrita
+
+Todo:
+                            TESTAR TUDO E ENVIAR
