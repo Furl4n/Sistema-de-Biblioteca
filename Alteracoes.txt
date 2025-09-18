@@ -224,3 +224,10 @@ Todo:
 
 Todo:
                             testar e corrigir calcular multa (cobra td vez), testar TUDO
+
+--Commit 17--
+
+-alterei a interface Emprestavel para classe
+
+Todo:
+                            testar e corrigir calcular multa (cobra td vez), testar TUDO

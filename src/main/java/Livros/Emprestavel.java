@@ -1,11 +1,18 @@
 package Livros;
 
-import Biblioteca.Biblioteca;
-import Usuario.Leitor;
+public abstract class Emprestavel {
+    protected String titulo;
+    protected String autor;
+    protected int anoPublicacao;
+    protected String genero;
 
-public interface Emprestavel {
+    public Emprestavel(){
+    };
 
-    //public boolean emprestar(Leitor leitor, int prazoDevolucao);
-    //public void devolver();
-
+    public Emprestavel(String titulo, String autor, int anoPublicacao, String genero){
+        this.titulo = titulo;
+        this.autor = autor;
+        this.anoPublicacao = anoPublicacao;
+        this.genero = genero;
+    }
 }

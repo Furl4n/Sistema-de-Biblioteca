@@ -8,23 +8,17 @@ import java.util.Scanner;
 
 //todo criar metodo devolver
 
-public class Livro implements Emprestavel{
+public class Livro extends Emprestavel{
 
     private static int contadorLivro = 0;
     private String idUnico;
-    private String titulo;
-    private String autor;
-    private int anoPublicacao;
-    private String genero;
     private StatusLivro status;
 
     public Livro(String titulo, String autor, int anoPublicacao, String genero, StatusLivro status) {
+        super(titulo, autor, anoPublicacao, genero);
         contadorLivro++;
         this.idUnico = "liv-" + contadorLivro;
-        this.titulo = titulo;
-        this.autor = autor;
-        this.anoPublicacao = anoPublicacao;
-        this.genero = genero;
+
         this.status = status;
     }
 
