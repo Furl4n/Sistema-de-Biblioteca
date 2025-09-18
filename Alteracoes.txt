@@ -189,3 +189,16 @@ devolver pelo codigo do emprestimo e não pelo livro
 Todo:
                             gerenciarUsuario, memória, testar tudo, conferir relatorios (dados com erro quando NULL)
                             e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)
+
+--Commit 15--
+
+-finalizei gerenciar usuario;
+
+-criei as funções dentro de biblioteca;
+
+-alterei o relatorio (conferir se o erro de dados NULL sumiu)
+
+
+Todo:
+                            memória, testar tudo
+                            e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)

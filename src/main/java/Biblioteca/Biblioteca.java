@@ -1,5 +1,6 @@
 package Biblioteca;
 
+import Acoes.*;
 import Livros.*;
 import Usuario.*;
 
@@ -32,34 +33,126 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             leitores.add(leitor);
         }
 
-    public void cadastrarAdministrador(){
-            //cadastra o leitor no sistema
-            String nome, email,senha, conf_senha;
-            Scanner dados = new Scanner(System.in);
+    public void cadastrarAdministrador() {
+        //cadastra o leitor no sistema
+        String nome, email, senha, conf_senha;
+        Scanner dados = new Scanner(System.in);
         System.out.println("\n--Cadastro de Administrator--\n");
-            System.out.print("Digite seu nome: ");
-            nome = dados.nextLine();
-            System.out.print("Digite seu email: ");
-            email = dados.nextLine();
-            do{//confirmação da senha
-                System.out.print("Digite a senha: ");
-                senha = dados.nextLine();
+        System.out.print("Digite seu nome: ");
+        nome = dados.nextLine();
+        System.out.print("Digite seu email: ");
+        email = dados.nextLine();
+        do {//confirmação da senha
+            System.out.print("Digite a senha: ");
+            senha = dados.nextLine();
 
-                System.out.print("Confirme a senha: ");
-                conf_senha = dados.nextLine();
+            System.out.print("Confirme a senha: ");
+            conf_senha = dados.nextLine();
 
-                if (!senha.equals(conf_senha)) {
-                    System.out.println("\n*** Confirmação inválida: as senhas não correspondem. ***\n");
-                }
-            }while(!senha.equals(conf_senha));
+            if (!senha.equals(conf_senha)) {
+                System.out.println("\n*** Confirmação inválida: as senhas não correspondem. ***\n");
+            }
+        } while (!senha.equals(conf_senha));
 
-            System.out.println("\nAdministrador cadastrado com sucesso!");
+        System.out.println("\nAdministrador cadastrado com sucesso!");
 
-            Administrador adm = new Administrador(nome, email,senha);
+        Administrador adm = new Administrador(nome, email, senha);
 
-            adm.mostrarUsuario();
-            administradores.add(adm);
+        adm.mostrarUsuario();
+        administradores.add(adm);
+    }
+
+    public void listarLeitor(){
+        System.out.println("\n--Lista de Leitores--\n");
+
+        for (Leitor leitor : leitores) {
+            leitor.mostrarUsuario();
         }
+    }
+
+    public void removerAdm(){
+        Scanner dados = new Scanner(System.in);
+
+        System.out.println("\n--Remover Administrador--\n");
+        System.out.print("Digite o id do administrador: ");
+        String idAdm = dados.nextLine();
+
+        Optional<Administrador> administrador = administradores.stream()
+                .filter(a -> a.getId().equals(idAdm))
+                .findFirst();
+
+        if (administrador.isEmpty()) {
+            System.out.println("Administrador não encontrado!");
+            return;
+        }
+
+        Administrador adm = administrador.get();
+        adm.mostrarUsuario(); // mostra quem vai ser removido
+        administradores.remove(adm);
+
+        System.out.println("Administrador removido com sucesso!");
+    }
+
+    public void removerLeitor(){
+        Leitor leitor;
+        String idUsuario;
+        Scanner dados = new Scanner(System.in);
+
+        System.out.println("\n--Remover Leitor--\n");
+        System.out.print("Digite id do leitor:: ");
+        idUsuario = dados.nextLine();
+
+        Optional<Leitor> leitorList = leitores.stream().filter(l -> l.getId().equals(idUsuario)).findFirst();
+
+        if (leitorList.isPresent()) {
+            leitor = leitorList.get();
+
+            leitor.mostrarUsuario();
+            leitor.mostrarEmprestimos();
+            leitor.mostrarReservas();
+
+            //Liberar os livros reservados pelo leitor
+
+            leitor.getLivrosReservados().stream().filter(reserva -> reserva.getStatusReserva() ==statusReserva.Ativa
+            || reserva.getStatusReserva() ==statusReserva.Confirmada).forEach(reserva -> {
+                reserva.setStatusReserva(statusReserva.Cancelada);
+                reserva.getLivroReservado().setStatus(StatusLivro.Disponivel);
+            });
+
+            //Liberar os livros emprestados para o leitor
+
+            leitor.getHistoricoEmprestimo().stream().filter(emprestimo -> emprestimo.getLivroEmprestado().getStatus() == StatusLivro.Emprestado)
+            .forEach(emprestimo -> {
+            emprestimo.getLivroEmprestado().setStatus(StatusLivro.Disponivel);
+            });
+
+            leitores.remove(leitor);
+
+            System.out.println("\n***Leitor removido e todos os livros foram liberados!***\n");
+        }
+        else{
+            System.out.println("Leitor não encontrado!");
+        }
+    }
+
+    public void historicoLeitor(){
+        Scanner dados = new Scanner(System.in);
+
+        System.out.println("--Histórico do Leitor--\n");
+        System.out.print("Digite o id do leitor: ");
+        String idLeitor = dados.nextLine();
+
+        Optional<Leitor> leitorOptional = leitores.stream().filter(l -> l.getId().equals(idLeitor)).findFirst();
+
+        if (leitorOptional.isPresent()) {
+            Leitor leitor = leitorOptional.get();
+            leitor.mostrarEmprestimos();
+            leitor.mostrarReservas();
+        }
+        else{
+            System.out.println("Leitor não encontrado!");
+        }
+    }
 
     public void cadastrarLivro(){ //efetua a ação de criar o livro solicitada pelo adm
         String  titulo, autor, genero;
@@ -166,7 +259,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
     public void mostrarAcervo(){  //estrutura base para mostrar o acervo
         if (acervo.isEmpty()) {
-            System.out.println("O acervo está vazio.");
+            System.out.println("\nO acervo está vazio.\n");
         } else{
             System.out.println("\n--Livros no acervo--");
             for(Livro livro : acervo){

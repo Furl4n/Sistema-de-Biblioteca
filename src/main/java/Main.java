@@ -70,7 +70,7 @@ public class Main {
                                 administrador.removerLivro(biblioteca);
                                 break;
                             case 4:
-                                administrador.gerenciarUsuario();
+                                administrador.gerenciarUsuario(biblioteca);
                                 break;
                             case 5:
                                 administrador.gerarRelatorio(biblioteca);
