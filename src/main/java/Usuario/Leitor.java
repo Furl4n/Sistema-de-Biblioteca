@@ -44,11 +44,7 @@ public class Leitor extends Usuario {
         System.out.println("\n--Realizar emprestimo de livro--");
 
         biblioteca.mostrarAcervo();
-
-        if(biblioteca.getAcervo().isEmpty()){
-            System.out.println("\n--O acervo está vazio no momento--");
-            return;
-        }
+        if(biblioteca.getAcervo().isEmpty()) return;
 
         System.out.print("Qual livro deseja pegar emprestado(Id)? ");
         String idLivro = dados.nextLine();
@@ -103,11 +99,14 @@ public class Leitor extends Usuario {
         LocalDate dataDevol = LocalDate.now(); //data de entrega;
         Livro livro;
 
-        System.out.println("\n--Devolver emprestimo de livro--\n");
+        System.out.println("\n--Devolver emprestimo de livro--");
 
         mostrarEmprestimos();
+        if(historicoEmprestimo.stream().filter(Emprestimo -> Emprestimo.getStatusReserva()!=statusReserva.Confirmada).findFirst().isEmpty()){
+            return;
+        }
 
-        System.out.print("Qual emprestimo deseja devolver? ");
+        System.out.print("\nQual emprestimo deseja devolver? ");
         String idEmprestimo = dados.nextLine();
         //procura no historico do leitor o Id do livro;
         Optional<Emprestimo> emprestimoLeitor = historicoEmprestimo.stream().filter(Emprestimo -> Emprestimo.getId().equals(idEmprestimo)).findFirst();
@@ -146,11 +145,7 @@ public class Leitor extends Usuario {
         System.out.println("\n--Realizar reserva de livro--");
 
         biblioteca.mostrarAcervo();
-
-        if(biblioteca.getAcervo().isEmpty()){
-            System.out.println("\n--O acervo está vazio no momento--");
-            return;
-        }
+        if(biblioteca.getAcervo().isEmpty()) return;
 
         System.out.print("\nQual livro deseja reservar? ");
         String idLivro = dados.nextLine();
@@ -166,12 +161,12 @@ public class Leitor extends Usuario {
         Optional<Reserva> livroReserva = livrosReservados.stream().filter(reserva -> reserva.getLivroReservado().getIdUnico().equals(livro.getIdUnico()) && reserva.getStatusReserva() == statusReserva.Ativa).findFirst();
 
         if(livroReserva.isPresent()){ //caso encontre o livro no FindFirst
-            System.out.println("Voce ja reservou esse livro!");
+            System.out.println("\nVoce ja reservou esse livro!");
             return;
         }
 
         if(livro.getStatus() !=  StatusLivro.Disponivel){
-            System.out.println("O livro não está disponível para reserva");
+            System.out.println("\nO livro não está disponível para reserva");
         }else {
 
             System.out.print("Por quantos dias deseja reservar? ");
@@ -200,7 +195,7 @@ public class Leitor extends Usuario {
 
         mostrarReservas();
 
-        System.out.println("Digite o código da reserva:");
+        System.out.print("Digite o código da reserva: ");
         String idReserva = dados.nextLine();
 
         //confere se o livro está reservado
@@ -252,6 +247,11 @@ public class Leitor extends Usuario {
 
         if(buscaReserva.isPresent()){
             Reserva reserva = buscaReserva.get();
+
+            if(reserva.getStatusReserva() == statusReserva.Cancelada){
+                System.out.println("\n-!Não é possível pegar uma reserva cancelada!-");
+                return;
+            }
             reserva.setStatusReserva(statusReserva.Confirmada);
 
             System.out.print("Por quantos dias deseja pegar o livro? ");
@@ -269,7 +269,7 @@ public class Leitor extends Usuario {
 
     public void mostrarEmprestimos(){
         if (historicoEmprestimo.isEmpty()) {
-            System.out.println("O usuário não tem empréstimos feitos");
+            System.out.println("\n-O usuário não tem empréstimos feitos-");
         } else{
             System.out.println("-Histórico de Empréstimos-");
             for(Emprestimo emprestimo : historicoEmprestimo){
@@ -281,7 +281,7 @@ public class Leitor extends Usuario {
 
     public void mostrarReservas(){
         if (livrosReservados.isEmpty()) {
-            System.out.println("O usuário não tem reservas feitas");
+            System.out.println("\n-O usuário não tem reservas feitas-");
         } else{
             System.out.println("-Histórico de Reservas-");
             for(Reserva reserva : livrosReservados){

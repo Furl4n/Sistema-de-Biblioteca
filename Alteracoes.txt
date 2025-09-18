@@ -170,9 +170,6 @@ Todo:
                             gerenciarUsuario, criar login, deixar pelos menos 1 leitor, 1 usuario, 1 livro ja salvos em
                             memória, terminar a main, testar tudo, corrigir relatorios (dados com erro) e diferenciar adm e leitor;
 
-está cobrando multa sempre
-mostrar reservas
-devolver pelo codigo do emprestimo e não pelo livro
 
 --Commit 14--
 
@@ -200,8 +197,7 @@ Todo:
 
 
 Todo:
-                            memória, testar tudo
-                            e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)
+                            testar tudo diferenciar adm e leitor no relatorio, corrigir calcular multa (cobra td vez)
 
 --Commit 15.2--
 
@@ -214,6 +210,17 @@ O historico de Reserva puxa até as reservas canceladas, não sei se vale a pena
 do historico quando ela for cancelada!
 
 
+
+
 Todo:
                             memória, testar tudo
                             e diferenciar adm e leitor, corrigir calcular multa (cobra td vez)
+
+--Commit 16--
+
+-corrigi erros das novas funções da main
+
+-precisa testar mais e procurar erros
+
+Todo:
+                            testar e corrigir calcular multa (cobra td vez), testar TUDO

@@ -2,6 +2,7 @@ import Biblioteca.Biblioteca;
 import Usuario.Administrador;
 import Usuario.Leitor;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -26,10 +27,17 @@ public class Main {
             System.out.println("4-Fazer login como usuário");
             System.out.println("5-Mostrar acervo");
             System.out.print("Escolha uma das opções: ");
-            opcao = dados.nextInt();
+            try{
+                opcao = dados.nextInt();
+            } catch (InputMismatchException e) {
+                opcao = -1;
+            }
             dados.nextLine();
 
             switch (opcao){
+                case -1:
+                    System.out.println("\n---!!!DIGITE APENAS NÚMEROS!!!---");
+                    break;
                 case 0:
                     System.out.println("\n---O programa está sendo encerrado---");
                     break;
@@ -53,10 +61,17 @@ public class Main {
                         System.out.println("4-Gerenciar usuário");
                         System.out.println("5-Gerar relatório");
                         System.out.print("Escolha uma das opções: ");
-                        opcaoAdm = dados.nextInt();
+                        try{
+                            opcaoAdm = dados.nextInt();
+                        } catch (InputMismatchException e) {
+                            opcaoAdm = -1;
+                        }
                         dados.nextLine();
 
                         switch (opcaoAdm) {
+                            case -1:
+                                System.out.println("\n---!!!DIGITE APENAS NÚMEROS!!!---");
+                                break;
                             case 0:
                                 System.out.println("\n--Desconectando usuário--");
                                 break;
@@ -108,12 +123,20 @@ public class Main {
                         System.out.println("5-Fazer empréstimo de livro");
                         System.out.println("6-Devolver empréstimo");
                         System.out.println("7-Mostrar reservas");
-                        System.out.println("7-Mostrar empréstimos");
+                        System.out.println("8-Mostrar empréstimos");
                         System.out.print("Escolha uma das opções: ");
-                        opcaoLeitor = dados.nextInt();
+
+                        try{
+                            opcaoLeitor = dados.nextInt();
+                        } catch (InputMismatchException e) {
+                            opcaoLeitor = -1;
+                        }
                         dados.nextLine();
 
                         switch(opcaoLeitor){
+                            case -1:
+                                System.out.println("\n---!!!DIGITE APENAS NÚMEROS!!!---");
+                                break;
                             case 0:
                                 System.out.println("--Desconectando usuário--");
                                 break;
@@ -140,6 +163,7 @@ public class Main {
                                 break;
                             case 8:
                                 leitor.mostrarEmprestimos();
+                                break;
                             default:
                                 System.out.println("\n---OPÇÃO INVALIDA---\n");
                                 break;

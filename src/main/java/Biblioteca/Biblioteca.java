@@ -65,8 +65,24 @@ public class Biblioteca {  //Inicia as listas da biblioteca
     public void listarLeitor(){
         System.out.println("\n--Lista de Leitores--");
 
-        for (Leitor leitor : leitores) {
-            leitor.mostrarUsuario();
+        if(leitores.isEmpty()){
+            System.out.println("\n-!Não a leitores cadastrados!-");
+        } else {
+            for (Leitor leitor : leitores) {
+                leitor.mostrarUsuario();
+            }
+        }
+    }
+
+    public void listarAdministradores(){
+        System.out.println("\n--Lista de Administradores--");
+
+        if(administradores.isEmpty()){
+            System.out.println("\n-!Não a Administradores cadastrados!-");
+        } else {
+            for (Administrador adm : administradores) {
+                adm.mostrarUsuario();
+            }
         }
     }
 
@@ -74,6 +90,9 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         Scanner dados = new Scanner(System.in);
 
         System.out.println("\n--Remover Administrador--\n");
+
+        if(administradores.isEmpty()) return;
+
         System.out.print("Digite o id do administrador: ");
         String idAdm = dados.nextLine();
 
@@ -99,6 +118,9 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         Scanner dados = new Scanner(System.in);
 
         System.out.println("\n--Remover Leitor--\n");
+
+        if(administradores.isEmpty()) return;
+
         System.out.print("Digite id do leitor:: ");
         idUsuario = dados.nextLine();
 
@@ -199,7 +221,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
             Livro livro= livroParaApagar.get();
             if(livro.getStatus() == StatusLivro.Disponivel){
                 acervo.remove(livro); //apaga o livro
-                System.out.println("O livro " +livro.getTitulo() + "foi apagado com sucesso!");
+                System.out.println("O livro " +livro.getTitulo() + " foi apagado com sucesso!");
             } else{
                 System.out.println("Não foi possível apagar o livro, ele está emprestado ou reservado.");
             }
@@ -259,7 +281,7 @@ public class Biblioteca {  //Inicia as listas da biblioteca
 
     public void mostrarAcervo(){  //estrutura base para mostrar o acervo
         if (acervo.isEmpty()) {
-            System.out.println("\nO acervo está vazio.\n");
+            System.out.println("\n--O acervo está vazio no momento--");
         } else{
             System.out.println("\n--Livros no acervo--");
             for(Livro livro : acervo){
@@ -281,5 +303,3 @@ public class Biblioteca {  //Inicia as listas da biblioteca
         return administradores;
     }
     }
-
-

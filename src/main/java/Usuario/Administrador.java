@@ -28,7 +28,7 @@ public class Administrador extends Usuario{
     @Override
     public void mostrarUsuario() {
         System.out.println("\n---------------------------");
-        System.out.println("codigo: " + this.codigo);
+        System.out.println("Código: " + this.codigo);
         System.out.println("Nome: " + this.getNome());
         System.out.println("Email: " + this.getEmail());
         System.out.println("---------------------------");
@@ -56,11 +56,12 @@ public class Administrador extends Usuario{
 
         while(opcao != 0) {
             System.out.println("\n--Gerenciar Usuários--");
-            System.out.println("0 - Voltar");
-            System.out.println("1 - Listar leitores cadastrados");
-            System.out.println("2 - Remover leitor");
-            System.out.println("3 - Remover administrador");
-            System.out.println("4 - Ver histórico de um leitor");
+            System.out.println("0-Voltar");
+            System.out.println("1-Listar leitores cadastrados");
+            System.out.println("2-Listar administradores cadastrados");
+            System.out.println("3-Remover leitor");
+            System.out.println("4-Remover administrador");
+            System.out.println("5-Ver histórico de um leitor");
             System.out.print("Escolha uma opção: ");
             opcao = dados.nextInt();
             dados.nextLine();
@@ -73,12 +74,17 @@ public class Administrador extends Usuario{
                     biblioteca.listarLeitor();
                     break;
                 case 2:
-                    biblioteca.removerLeitor();
+                    biblioteca.listarAdministradores();
                     break;
                 case 3:
-                    biblioteca.removerAdm();
+                    biblioteca.listarLeitor();
+                    biblioteca.removerLeitor();
                     break;
                 case 4:
+                    biblioteca.listarAdministradores();
+                    biblioteca.removerAdm();
+                    break;
+                case 5:
                     biblioteca.historicoLeitor();
                     break;
                 default:
@@ -93,7 +99,7 @@ public class Administrador extends Usuario{
         int reservado = 0;
         int emprestado = 0;
 
-        //percore o  acervo e checa o status dos livros;
+        //percorre o  acervo e checa o status dos livros;
         for(Livro livro : biblioteca.getAcervo()){
             switch (livro.getStatus()){
                 case Disponivel -> disponivel++;
@@ -102,28 +108,28 @@ public class Administrador extends Usuario{
             }
         }
 
-        System.out.println("\n==== RELATORIO DA BIBLIOTECA ====\n");
+        System.out.println("\n==== RELATÓRIO DA BIBLIOTECA ====");
 
         System.out.println("\n-- Acervo de Livros --\n");
-        System.out.println("Livros Disponiveis: " + disponivel);
+        System.out.println("Livros Disponíveis: " + disponivel);
         System.out.println("Livros Emprestados: " + emprestado);
-        System.out.println("Livros Resesrvados: " +  reservado);
+        System.out.println("Livros Reservados: " +  reservado);
 
         System.out.println("\n-- Leitores --\n");
         //todo testar na main
         if(biblioteca.getLeitores().isEmpty()){
-            System.out.println("Não há leitores cadastrados!\n");
+            System.out.println("Não há leitores cadastrados!");
         }
         else {
             //Percorre todos os leitores consultando seus atributos
             for (Leitor leitor : biblioteca.getLeitores()) {
-                System.out.println("Nome: " + leitor.getNome() + " | Emprestimos: " + leitor.getHistoricoEmprestimo().size()
-                        + " | Reservas ativas: " + leitor.getLivrosReservados().stream().filter(res -> res.getStatusReserva() != statusReserva.Cancelada).count());
+                System.out.println("Nome: " + leitor.getNome() + " | Empréstimos: " + leitor.getHistoricoEmprestimo().size()
+                        + " | Reservas ativas: " + leitor.getLivrosReservados().stream().filter(res -> res.getStatusReserva() == statusReserva.Ativa).count());
             }
         }
         System.out.println("\n-- Administradores --\n");
         if(biblioteca.getAdministradores().isEmpty()){
-            System.out.println("Não há administradores cadastrados!\n");
+            System.out.println("Não há administradores cadastrados!");
         }
         else {
             //Percorre todos os administradores consultando seus atributos
@@ -131,6 +137,6 @@ public class Administrador extends Usuario{
                 System.out.println("Nome: " + administrador.getNome() + " | Email: " + administrador.getEmail());
             }
         }
-        System.out.println("\n==== FIM RELATORIO ====\n");
+        System.out.println("\n==== FIM RELATÓRIO ====");
     }
 }
