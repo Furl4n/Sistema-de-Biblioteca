@@ -49,7 +49,15 @@ public class Main {
                     System.out.print("Digite o Id do usuário: ");
                     String idAdm = dados.nextLine();
 
-                    Administrador administrador = biblioteca.loginAdministrador(idAdm);
+                    Administrador administrador;
+
+                    try{
+                        administrador = biblioteca.loginAdministrador(idAdm);
+                    } catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                        break;
+                    }
+
                     int opcaoAdm = -1;
 
                     while(opcaoAdm !=0) {
