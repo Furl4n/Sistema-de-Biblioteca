@@ -122,19 +122,19 @@ public class Leitor extends Usuario {
             return;
         }
         emprestimo.setDataEfetivaDevolucao(dataDevol);
-
         livro = emprestimoLeitor.get().getLivroEmprestado();
+
         //chama a função de multa
-        //adicionei a data que devolveu no emprestimo
+        //adicionei a data que devolveu o emprestimo
         if(dataDevol.isAfter(emprestimo.getDataDevolucao())){
             System.out.println( "Você tem um taxa aplicada sobre atraso.");
             float valor = emprestimoLeitor.get().calcularMulta(dataDevol);
             System.out.println("Valor: " + valor);
-            emprestimo.setStatusReserva(statusReserva.Confirmada);
         }
 
         System.out.println("Livro devolvido com sucesso!");
 
+        emprestimo.setStatusReserva(statusReserva.Confirmada);
         livro.setStatus(StatusLivro.Disponivel);
     }
 
