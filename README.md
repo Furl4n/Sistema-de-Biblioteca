@@ -10,5 +10,6 @@ After this version, the project was refactored to use Spring Boot and connected 
 
 ### Commit Changes
 
-* Created the ***README***; the previous version used ***'Alterações.txt'*** to show changes.
-* Initial project architecture created.
+* Added core methods for Book and User models
+* Established database connection
+* Added DTOs for request and response handling
