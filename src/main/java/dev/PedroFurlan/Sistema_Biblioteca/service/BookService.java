@@ -14,7 +14,7 @@ public class BookService {
     @Autowired
     private BookRepository repository;
 
-    public Book addBock(Book book) {
+    public Book addBook(Book book) {
         book.setStatus(StatusBook.AVAILABLE);
         return repository.save(book);
     }
@@ -23,5 +23,12 @@ public class BookService {
 
     public List<Book> findByName(String title) {
         return repository.findByTitle(title);
+    }
+
+    public boolean deleteById(Long id) {
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
+        } else return false;
     }
 }

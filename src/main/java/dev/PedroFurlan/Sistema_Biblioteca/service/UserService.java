@@ -40,4 +40,11 @@ public class UserService {
             return new LoginResponse(null, null, email, null, StatusLogin.INCORRECT_USER);
         }
     }
+
+    public boolean deleteById(Long id) {
+        if(repository.existsById(id)){
+            repository.deleteById(id);
+            return true;
+        } else return false;
+    }
 }

@@ -6,10 +6,24 @@ Simple system for library management, initially created for a **college project*
 
 The initial version was built using just **Plain Java** and ran in the terminal. You can find it in the commit named ***'Versão final (trabalho)'*** or release ***'V1.0.0'***.
 
-After this version, the project was refactored to use Spring Boot and connected to a database.
+After this version, the project was refactored to use Spring Boot and connected to a PostgreSQL database.
 
 ### Commit Changes
 
-* Added core methods for Book and User models
-* Established database connection
-* Added DTOs for request and response handling
+* Added models and methods:
+    * All
+      * delete by Id
+    * Loan (new):
+      * newLoan
+      * getAll
+      * getLoanById
+      * getLoansByUserId
+    * Reservation (new):
+      * newReservation
+      * getAll
+      * getReservationById
+      * getReservationByUserId
+      * reservationToLoan
+
+
+* Added DTOs for reservation and loan request

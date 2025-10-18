@@ -17,9 +17,9 @@ public class BookController {
     @Autowired
     private BookService service;
 
-    @PostMapping("/add")
-    public ResponseEntity<Book> addBook(@RequestBody Book newBook){
-        Book book = service.addBock(newBook);
+    @PostMapping("/new")
+    public ResponseEntity<Book> newBook(@RequestBody Book newBook){
+        Book book = service.addBook(newBook);
         return new ResponseEntity<>(book,HttpStatus.CREATED);
     }
 
@@ -29,7 +29,7 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/get/title={title}")
+    @GetMapping("/get/title/{title}")
         public ResponseEntity<List<Book>> findBook(@PathVariable String title){
         List<Book> books = service.findByName(title);
         if(books.isEmpty()){
@@ -37,6 +37,12 @@ public class BookController {
         } else{
             return new ResponseEntity<>(books, HttpStatus.FOUND);
         }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable Long id){
+        if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 }

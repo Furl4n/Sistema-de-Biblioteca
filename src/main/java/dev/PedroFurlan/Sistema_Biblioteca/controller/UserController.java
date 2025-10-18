@@ -21,7 +21,7 @@ public class UserController {
     private UserService service;
 
     @PostMapping("/new")
-    public ResponseEntity<User> addUser(@RequestBody User newUser){
+    public ResponseEntity<User> newUser(@RequestBody User newUser){
         User user = service.addUser(newUser);
         return new ResponseEntity<> (user, HttpStatus.CREATED);
     }
@@ -35,9 +35,9 @@ public class UserController {
     @GetMapping("/get/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id){
         //TODO: confirm if the user is logged
-        Optional<User> optUser = service.getUser(id);
-        if(optUser.isPresent()){
-            User user = optUser.get();
+        Optional<User> optionalUser = service.getUser(id);
+        if(optionalUser.isPresent()){
+            User user = optionalUser.get();
             return new ResponseEntity<>(user, HttpStatus.FOUND);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -56,7 +56,12 @@ public class UserController {
         } else if(status.equals(StatusLogin.INCORRECT_USER)){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id){
+        if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
