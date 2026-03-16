@@ -1,6 +1,5 @@
-package dev.PedroFurlan.Sistema_Biblioteca.model;
+package dev.PedroFurlan.Sistema_Biblioteca.model.User;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,4 +22,11 @@ public class User {
     private String password;
     @Column(nullable = false)
     private Role role;
+
+    public User(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 }

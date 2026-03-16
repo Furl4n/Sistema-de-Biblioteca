@@ -1,10 +1,10 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationRequest;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddReservationRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.service.ReservationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,46 +14,41 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/reservation")
+@RequiredArgsConstructor
 public class ReservationController {
 
-    @Autowired
-    private ReservationService service;
+    private final ReservationService service;
 
     @PostMapping("/new")
-    public ResponseEntity<Reservation> newReservation(@RequestBody ReservationRequest newReservation){
-        Optional<Reservation> optionalReservation = service.addReservation(newReservation);
+    public ResponseEntity<ReservationResponseDTO> newReservation(@RequestBody AddReservationRequestDTO newReservation){
+        ReservationResponseDTO response = service.addReservation(newReservation);
 
-        return optionalReservation.map(Reservation -> new ResponseEntity<>(Reservation, HttpStatus.CREATED)).orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<Reservation>> getAll(){
-        List<Reservation> reservations = service.getAllReservations();
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    public ResponseEntity<List<ReservationResponseDTO>> getAll(){
+        List<ReservationResponseDTO> reservations = service.getAllReservations();
+        return ResponseEntity.ok(reservations);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Reservation> getReservationById(@PathVariable Long id){
-        Optional<Reservation> optionalReservation = service.getById(id);
+    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Long id){
+        ReservationResponseDTO response = service.getById(id);
 
-        if(optionalReservation.isPresent()){
-            Reservation reservation = optionalReservation.get();
-            return new ResponseEntity<>(reservation, HttpStatus.FOUND);
-        } else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/user/{userId}")
-    public ResponseEntity<List<Reservation>> getReservationByUserId(@PathVariable Long userId){
-        List<Reservation> reservations = service.getByUserId(userId);
-        return new ResponseEntity<>(reservations, HttpStatus.OK);
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(@PathVariable Long userId){
+        List<ReservationResponseDTO> response = service.getByUserId(userId);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteReservation(@PathVariable Long id){
+    public ResponseEntity<Void> deleteReservation(@PathVariable Long id){
         if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/new/loan/{reservationId}")

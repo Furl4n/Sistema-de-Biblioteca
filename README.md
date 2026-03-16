@@ -8,22 +8,29 @@ The initial version was built using just **Plain Java** and ran in the terminal.
 
 After this version, the project was refactored to use Spring Boot and connected to a PostgreSQL database.
 
+## Padrão de Commits
+
+Formato:
+
+```
+[TYPE] - short description
+```
+
+Tipos utilizados:
+
+* `[ADD]` New functionality
+* `[FIX]` Bug fix
+* `[UPD]` Improvement
+* `[CFG]` Configuration
+* `[DEL]` Delete
+
 ### Commit Changes
 
-* Added models and methods:
-    * All
-      * delete by Id
-    * Loan (new):
-      * newLoan
-      * getAll
-      * getLoanById
-      * getLoansByUserId
-    * Reservation (new):
-      * newReservation
-      * getAll
-      * getReservationById
-      * getReservationByUserId
-      * reservationToLoan
-
-
-* Added DTOs for reservation and loan request
+* DTO:
+  * Standardized the names
+  * Changed from classes to Records
+  * Created DTOs request to add Books, Reservations, Loans and Users
+* Service:
+  * Changed the service's return to DTOs
+* Model:
+  * Created packages to separate the entities

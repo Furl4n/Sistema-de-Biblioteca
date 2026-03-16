@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.DTO;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.Role;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusLogin;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.Role;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.StatusLogin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
+public class LoginResponseDTO {
     private Long id;
     private String name;
     private String Email;

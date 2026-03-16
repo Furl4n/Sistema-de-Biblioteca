@@ -1,7 +1,7 @@
-    package dev.PedroFurlan.Sistema_Biblioteca.model;
+    package dev.PedroFurlan.Sistema_Biblioteca.model.Reservation;
 
-    import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusLoan;
-    import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusReservation;
+    import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+    import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
     import jakarta.persistence.*;
     import lombok.AllArgsConstructor;
     import lombok.Data;
@@ -28,11 +28,11 @@
         private LocalDate expirationDate;
         private StatusReservation status;
 
-        public Reservation(Book book, User user, LocalDate reservationDate, LocalDate expirationDate, StatusReservation status){
+        public Reservation(Book book, User user, LocalDate reservationDate){
             this.book = book;
             this.user = user;
             this.reservationDate = reservationDate;
-            this.expirationDate = expirationDate;
-            this.status = status;
+            this.expirationDate = LocalDate.now();
+            this.status = StatusReservation.RESERVED;
         }
     }

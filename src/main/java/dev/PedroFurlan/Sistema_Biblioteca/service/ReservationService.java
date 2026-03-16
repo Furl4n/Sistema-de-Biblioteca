@@ -1,64 +1,73 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationRequest;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Book;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation;
-import dev.PedroFurlan.Sistema_Biblioteca.model.User;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusBook;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusReservation;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddReservationRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.StatusReservation;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.ReservationRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ReservationService {
 
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    private LoanService loanService;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BookRepository bookRepository;
+    private final ReservationRepository reservationRepository;
+    private final LoanService loanService;
+    private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
-    public Optional<Reservation> addReservation(ReservationRequest reservationRequest) {
-        Optional<User> optionalUser = userRepository.findById(reservationRequest.getUserId());
-        Optional<Book> optionalBook = bookRepository.findById(reservationRequest.getBookId());
+    public ReservationResponseDTO addReservation(AddReservationRequestDTO data) {
+        Optional<User> optionalUser = userRepository.findById(data.getUserId());
+        Optional<Book> optionalBook = bookRepository.findById(data.getBookId());
 
+        //TODO: Change optionals for exceptions
         if(optionalUser.isPresent() && optionalBook.isPresent()){
-            Reservation reservation = new Reservation(optionalBook.get(), optionalUser.get(), reservationRequest.getLoanDate(), reservationRequest.getExpirationDate(), reservationRequest.getStatus());
+            Reservation reservation = new Reservation(optionalBook.get(), optionalUser.get(), data.getExpirationDate());
 
-            if(reservationRequest.getStatus() == null){
-                reservation.setStatus(StatusReservation.RESERVED);
-            }
-            if(reservation.getReservationDate() == null){
-                reservation.setReservationDate(LocalDate.now());
-            }
-            return Optional.of(reservationRepository.save(reservation));
+            if(data.getStatus() != null)
+                reservation.setStatus(data.getStatus());
+
+            if(reservation.getReservationDate() != null)
+                reservation.setReservationDate(data.getReservationDate());
+
+            return ReservationResponseDTO.create(reservation);
         }
-        return Optional.empty();
+        return null; //temporally
     }
 
-    public List<Reservation> getAllReservations() {
-        return reservationRepository.findAll();
+    public List<ReservationResponseDTO> getAllReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+
+        return reservations.stream().map(ReservationResponseDTO::create).toList();
     }
 
-    public Optional<Reservation> getById(Long id) {
-        return reservationRepository.findById(id);
+    public ReservationResponseDTO getById(Long id) {
+        Optional<Reservation> opReservation = reservationRepository.findById(id);
+
+        if(opReservation.isPresent()){
+            Reservation reservation = opReservation.get();
+
+            return ReservationResponseDTO.create(reservation);
+        }
+
+        return null; //temporally
     }
 
-    public List<Reservation> getByUserId(Long userId){
-        return reservationRepository.findByUserId(userId);
+    public List<ReservationResponseDTO> getByUserId(Long userId){
+        List<Reservation> reservations = reservationRepository.findByUserId(userId);
+
+        return reservations.stream().map(ReservationResponseDTO::create).toList();
     }
 
     public boolean deleteById(Long id) {

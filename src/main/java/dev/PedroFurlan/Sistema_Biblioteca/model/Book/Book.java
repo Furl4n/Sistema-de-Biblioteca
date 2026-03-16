@@ -1,6 +1,5 @@
-package dev.PedroFurlan.Sistema_Biblioteca.model;
+package dev.PedroFurlan.Sistema_Biblioteca.model.Book;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusBook;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "books")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +19,9 @@ public class Book {
     private int year;
     private String genre;
     private StatusBook status;
+
+    @PrePersist
+    protected void onCreate(){
+        status = StatusBook.AVAILABLE;
+    }
 }

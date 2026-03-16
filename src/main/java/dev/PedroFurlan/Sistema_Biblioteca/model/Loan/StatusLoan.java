@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.model.enums;
+package dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
 
 public enum StatusLoan {
     ACTIVE,

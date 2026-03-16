@@ -1,6 +1,6 @@
 package dev.PedroFurlan.Sistema_Biblioteca.DTO;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusLoan;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.StatusLoan;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanRequest {
+public class AddLoanRequestDTO {
     private Long userId;
     private Long bookId;
     private LocalDate loanDate;

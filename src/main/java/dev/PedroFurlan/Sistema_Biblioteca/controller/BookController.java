@@ -1,48 +1,43 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.BookResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddBookRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/book")
 public class BookController {
 
-    @Autowired
-    private BookService service;
+    private final BookService service;
 
     @PostMapping("/new")
-    public ResponseEntity<Book> newBook(@RequestBody Book newBook){
-        Book book = service.addBook(newBook);
-        return new ResponseEntity<>(book,HttpStatus.CREATED);
+    public ResponseEntity<BookResponseDTO> newBook(@RequestBody AddBookRequestDTO data){
+        BookResponseDTO response = service.addBook(data);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/all")
-    public ResponseEntity<List<Book>> getAll(){
-        List<Book> books = service.getAll();
-        return new ResponseEntity<>(books, HttpStatus.OK);
+    public ResponseEntity<List<BookResponseDTO>> getAll(){
+        List<BookResponseDTO> response = service.getAll();
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/title/{title}")
-        public ResponseEntity<List<Book>> findBook(@PathVariable String title){
-        List<Book> books = service.findByName(title);
-        if(books.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else{
-            return new ResponseEntity<>(books, HttpStatus.FOUND);
-        }
+        public ResponseEntity<List<BookResponseDTO>> findBook(@PathVariable String title){
+        List<BookResponseDTO> response = service.findByName(title);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteBook(@PathVariable Long id){
-        if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id){
+        if(service.deleteById(id)) return ResponseEntity.noContent().build();
+        else return ResponseEntity.notFound().build();
     }
 
 }

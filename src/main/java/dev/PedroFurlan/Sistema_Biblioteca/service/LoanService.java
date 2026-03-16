@@ -1,15 +1,16 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoanRequest;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Book;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation;
-import dev.PedroFurlan.Sistema_Biblioteca.model.User;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusLoan;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddLoanRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoanResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.StatusLoan;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.LoanRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -18,40 +19,47 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class LoanService {
 
-    @Autowired
-    private LoanRepository loanRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private BookRepository bookRepository;
+    private final LoanRepository loanRepository;
+    private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
-    public Optional<Loan> addLoan(@RequestBody LoanRequest loanRequest) {
-        Optional<User> optionalUser = userRepository.findById(loanRequest.getUserId());
-        Optional<Book> optionalBook = bookRepository.findById(loanRequest.getBookId());
+    public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data) {
+        Optional<User> optionalUser = userRepository.findById(data.getUserId());
+        Optional<Book> optionalBook = bookRepository.findById(data.getBookId());
 
         if(optionalUser.isPresent() && optionalBook.isPresent()){
-            Loan loan = new Loan(optionalBook.get(), optionalUser.get(), loanRequest.getLoanDate(), loanRequest.getDueDate(), loanRequest.getStatus());
+            Loan loan = new Loan(optionalBook.get(), optionalUser.get(), data.getLoanDate(), data.getDueDate(), data.getStatus());
 
-            if(loanRequest.getStatus() == null){
+            if(data.getStatus() != null){
                 loan.setStatus(StatusLoan.ACTIVE);
             }
-            if(loan.getLoanDate() == null){
+            if(data.getLoanDate() == null){
                 loan.setLoanDate(LocalDate.now());
             }
-            return Optional.of(loanRepository.save(loan));
+            return LoanResponseDTO.create(loan);
         }
 
-        return Optional.empty();
+        return null; //temporally
     }
 
-    public List<Loan> getAll() {
-        return loanRepository.findAll();
+    public List<LoanResponseDTO> getAll() {
+        List<Loan> loans = loanRepository.findAll();
+
+        return loans.stream().map(LoanResponseDTO::create).toList();
     }
 
-    public Optional<Loan> GetById(Long id) {
-        return loanRepository.findById(id);
+    public LoanResponseDTO GetById(Long id) {
+        Optional<Loan> opLoan = loanRepository.findById(id);
+
+        if(opLoan.isPresent()){
+            Loan loan = opLoan.get();
+
+            return LoanResponseDTO.create(loan);
+        }
+        return null;
     }
 
     public Loan convertReservationToLoan(Reservation reservation) {
@@ -66,7 +74,9 @@ public class LoanService {
         } else return false;
     }
 
-    public List<Reservation> getByUserId(Long userId) {
-        return loanRepository.findByUserId(userId);
+    public List<LoanResponseDTO> getByUserId(Long userId) {
+         List<Loan> loans = loanRepository.findByUserId(userId);
+
+        return loans.stream().map(LoanResponseDTO::create).toList();
     }
 }

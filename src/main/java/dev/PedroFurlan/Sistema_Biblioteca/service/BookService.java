@@ -1,28 +1,44 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.Book;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusBook;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.BookResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddBookRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BookService {
 
-    @Autowired
-    private BookRepository repository;
+    private final BookRepository repository;
 
-    public Book addBook(Book book) {
-        book.setStatus(StatusBook.AVAILABLE);
-        return repository.save(book);
+    public BookResponseDTO addBook(AddBookRequestDTO data) {
+
+        Book book = new Book();
+
+        book.setTitle(data.title());
+        book.setAuthor(data.author());
+        book.setGenre(data.genre());
+        book.setYear(data.year());
+
+        Book newBook = repository.save(book);
+
+        return BookResponseDTO.create(newBook);
     }
 
-    public List<Book> getAll() {return repository.findAll();}
+    public List<BookResponseDTO> getAll() {
+        List<Book> books = repository.findAll();
 
-    public List<Book> findByName(String title) {
-        return repository.findByTitle(title);
+        return books.stream().map(BookResponseDTO::create).toList();
+    }
+
+    public List<BookResponseDTO> findByName(String title) {
+        List<Book> books = repository.findByTitle(title);
+
+        return books.stream().map(BookResponseDTO::create).toList();
     }
 
     public boolean deleteById(Long id) {

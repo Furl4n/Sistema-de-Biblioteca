@@ -1,7 +1,7 @@
-package dev.PedroFurlan.Sistema_Biblioteca.model;
+package dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
 
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusLoan;
-import dev.PedroFurlan.Sistema_Biblioteca.model.enums.StatusReservation;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
