@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddLoanRequestDTO {
-    private Long userId;
+    private String userId;
     private Long bookId;
     private LocalDate loanDate;
     private LocalDate dueDate;

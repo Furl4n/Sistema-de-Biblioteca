@@ -40,7 +40,7 @@ public class ReservationController {
     }
 
     @GetMapping("/get/user/{userId}")
-    public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(@PathVariable Long userId){
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(@PathVariable String userId){
         List<ReservationResponseDTO> response = service.getByUserId(userId);
         return ResponseEntity.ok(response);
     }

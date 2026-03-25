@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: Sistema-Biblioteca
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/libraryDB
+    username: postgres
+    password: ${DB_PASSWORD:031406}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+api:
+  security:
+      jwt:
+        secret: ${JWT_SECRET}
+        expiration-time: 3600000

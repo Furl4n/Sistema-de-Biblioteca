@@ -64,7 +64,7 @@ public class ReservationService {
         return null; //temporally
     }
 
-    public List<ReservationResponseDTO> getByUserId(Long userId){
+    public List<ReservationResponseDTO> getByUserId(String userId){
         List<Reservation> reservations = reservationRepository.findByUserId(userId);
 
         return reservations.stream().map(ReservationResponseDTO::create).toList();

@@ -74,7 +74,7 @@ public class LoanService {
         } else return false;
     }
 
-    public List<LoanResponseDTO> getByUserId(Long userId) {
+    public List<LoanResponseDTO> getByUserId(String userId) {
          List<Loan> loans = loanRepository.findByUserId(userId);
 
         return loans.stream().map(LoanResponseDTO::create).toList();

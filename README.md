@@ -10,13 +10,13 @@ After this version, the project was refactored to use Spring Boot and connected 
 
 ## Padrão de Commits
 
-Formato:
+Format:
 
 ```
 [TYPE] - short description
 ```
 
-Tipos utilizados:
+Types:
 
 * `[ADD]` New functionality
 * `[FIX]` Bug fix
@@ -27,10 +27,15 @@ Tipos utilizados:
 ### Commit Changes
 
 * DTO:
-  * Standardized the names
-  * Changed from classes to Records
-  * Created DTOs request to add Books, Reservations, Loans and Users
-* Service:
-  * Changed the service's return to DTOs
-* Model:
-  * Created packages to separate the entities
+  * Changed UserId from Long to String.
+  * Changed login response from Users details to JWT token.
+* Spring Boot Security:
+  * Added ApplicationConfig and SecurityConfig to protect the application and control requests. 
+  * Now the User need to be authenticated using JWT token to make requests.
+* JWT:
+  * Added the JwtService e JwtAuthenticationFilter to create and confirm if the token is valid.
+* Auth:
+  * Added AuthController and AuthService for registration and login methods.
+* User:
+  * Changed the Id from int to char(54) and started using UUID for Id.
+  * Removed the registration and login methods from UserService (now in Auth).

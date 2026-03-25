@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddReservationRequestDTO {
-    private Long userId;
+    private String userId;
     private Long bookId;
     private LocalDate reservationDate;
     private LocalDate expirationDate;
