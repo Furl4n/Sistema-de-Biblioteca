@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -18,8 +19,8 @@ public class LoanController {
     private final LoanService service;
 
     @PostMapping("/new")
-    public ResponseEntity<LoanResponseDTO> newLoan(@RequestBody AddLoanRequestDTO data){
-        LoanResponseDTO response = service.addLoan(data);
+    public ResponseEntity<LoanResponseDTO> newLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser){
+        LoanResponseDTO response = service.addLoan(data, connectedUser);
 
         return ResponseEntity.ok(response);
     }
@@ -31,21 +32,22 @@ public class LoanController {
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id){
-        LoanResponseDTO response = service.GetById(id);
+    public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id, Principal connectedUser){
+        LoanResponseDTO response = service.GetById(id, connectedUser);
 
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get/user/{userId}")
-    public ResponseEntity<List<LoanResponseDTO>> getLoansByUserId(@PathVariable String userId){
-        List<LoanResponseDTO> response = service.getByUserId(userId);
+    @GetMapping("/get/user")
+    public ResponseEntity<List<LoanResponseDTO>> getLoansByUserId(Principal connectedUser){
+        List<LoanResponseDTO> response = service.getByUserId(connectedUser);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteLoan(@PathVariable Long id){
-        if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        else return ResponseEntity.notFound().build();
+    public ResponseEntity<Void> deleteLoan(@PathVariable Long id, Principal connectedUser){
+        service.deleteById(id, connectedUser);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -26,6 +26,9 @@ Types:
 
 ### Commit Changes
 
-* DTO:
-  * Added packages to separate DTOs by model
-  * Changed DTOs that were Class to Record
+* User:
+  * Added method to authenticate user using Principal
+* DTOs:
+  * Removed the UserId from requests
+* Services:
+  * Started using the new method to get the user

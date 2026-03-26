@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -14,24 +15,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService service;
+    private final UserService userService;
 
     @GetMapping("/get/all")
     public ResponseEntity<List<UserResponseDTO>> getAll(){
-        List<UserResponseDTO> response = service.getAll();
+        List<UserResponseDTO> response = userService.getAll();
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get/{id}")
-    public ResponseEntity<UserResponseDTO> getUser(@PathVariable String id){
-        UserResponseDTO response = service.getUser(id);
+    @GetMapping("/get")
+    public ResponseEntity<UserResponseDTO> getUserDetails(Principal connectedUser){
+        UserResponseDTO response = userService.getUserDetails(connectedUser);
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable String id){
-        if(service.deleteById(id)) return ResponseEntity.notFound().build();
-        else return ResponseEntity.noContent().build();
+    @DeleteMapping("/delete")
+    public ResponseEntity<HttpStatus> deleteUser(Principal connectedUser){
+        userService.deleteUser(connectedUser);
+
+        return ResponseEntity.noContent().build();
     }
 }

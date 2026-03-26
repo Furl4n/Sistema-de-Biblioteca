@@ -4,8 +4,10 @@ import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.UserResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,25 +18,25 @@ public class UserService {
     private final UserRepository repository;
 
     public List<UserResponseDTO> getAll() {
-         List<User> users = repository.findAll();
+        List<User> users = repository.findAll();
 
         return users.stream().map(user -> new UserResponseDTO(user.getName(), user.getEmail(), user.getRole())).toList();
     }
 
-    public UserResponseDTO getUser(String id) {
-        Optional<User> opUser = repository.findById(id);
+    public UserResponseDTO getUserDetails(Principal connectedUser) {
+        User user = getAuthenticatedUser(connectedUser);
 
-        if(opUser.isPresent()){
-            User user = opUser.get();
-            return new UserResponseDTO(user.getName(), user.getEmail(), user.getRole());
-        }
-        return null; //Temporally
+        return new UserResponseDTO(user.getName(), user.getEmail(), user.getRole());
     }
 
-    public boolean deleteById(String id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-            return true;
-        } else return false;
+    public void deleteUser(Principal connectedUser) {
+        User user = getAuthenticatedUser(connectedUser);
+
+        repository.delete(user);
+    }
+
+    public User getAuthenticatedUser(Principal connectedUser) {
+        return (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
     }
 }
+

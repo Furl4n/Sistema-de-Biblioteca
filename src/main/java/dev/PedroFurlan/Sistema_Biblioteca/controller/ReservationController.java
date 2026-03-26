@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,43 +18,43 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ReservationController {
 
-    private final ReservationService service;
+    private final ReservationService reservationService;
 
     @PostMapping("/new")
-    public ResponseEntity<ReservationResponseDTO> newReservation(@RequestBody AddReservationRequestDTO newReservation){
-        ReservationResponseDTO response = service.addReservation(newReservation);
+    public ResponseEntity<ReservationResponseDTO> newReservation(@RequestBody AddReservationRequestDTO newReservation, Principal connectedUser){
+        ReservationResponseDTO response = reservationService.addReservation(newReservation, connectedUser);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/get/all")
     public ResponseEntity<List<ReservationResponseDTO>> getAll(){
-        List<ReservationResponseDTO> reservations = service.getAllReservations();
+        List<ReservationResponseDTO> reservations = reservationService.getAllReservations();
         return ResponseEntity.ok(reservations);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Long id){
-        ReservationResponseDTO response = service.getById(id);
+    public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Long id, Principal connectedUSer){
+        ReservationResponseDTO response = reservationService.getById(id, connectedUSer);
 
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get/user/{userId}")
-    public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(@PathVariable String userId){
-        List<ReservationResponseDTO> response = service.getByUserId(userId);
+    @GetMapping("/get/user")
+    public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(Principal connectedUSer){
+        List<ReservationResponseDTO> response = reservationService.getByUserId(connectedUSer);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteReservation(@PathVariable Long id){
-        if(service.deleteById(id)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteReservation(@PathVariable Long id, Principal connectedUser){
+        if(reservationService.deleteById(id, connectedUser)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/new/loan/{reservationId}")
-    public ResponseEntity<Loan> reservationToLoan(@PathVariable long reservationId){
-        Optional<Loan> optionalLoan = service.reservationToLoan(reservationId);
+    public ResponseEntity<Loan> reservationToLoan(@PathVariable long reservationId, Principal connectedUSer){
+        Optional<Loan> optionalLoan = reservationService.reservationToLoan(reservationId, connectedUSer);
 
         if(optionalLoan.isPresent()){
             Loan loan = optionalLoan.get();

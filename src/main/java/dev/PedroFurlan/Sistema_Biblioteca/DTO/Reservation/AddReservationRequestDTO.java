@@ -4,5 +4,5 @@ import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.StatusReservation;
 
 import java.time.LocalDate;
 
-public record AddReservationRequestDTO(String userId, Long bookId, LocalDate reservationDate, LocalDate expirationDate, StatusReservation status) {
+public record AddReservationRequestDTO(Long bookId, LocalDate reservationDate, LocalDate expirationDate, StatusReservation status) {
 }
