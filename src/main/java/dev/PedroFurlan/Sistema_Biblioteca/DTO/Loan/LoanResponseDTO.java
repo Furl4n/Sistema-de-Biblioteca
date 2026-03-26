@@ -1,5 +1,6 @@
-package dev.PedroFurlan.Sistema_Biblioteca.DTO;
+package dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan;
 
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.StatusLoan;
 

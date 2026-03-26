@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddReservationRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.service.ReservationService;
 import lombok.RequiredArgsConstructor;

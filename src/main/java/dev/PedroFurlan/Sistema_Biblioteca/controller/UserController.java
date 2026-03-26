@@ -1,6 +1,6 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.UserResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.UserResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

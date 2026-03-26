@@ -1,8 +1,8 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddUserRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoginRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoginResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.AddUserRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.config.JwtService;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.service.AuthService;

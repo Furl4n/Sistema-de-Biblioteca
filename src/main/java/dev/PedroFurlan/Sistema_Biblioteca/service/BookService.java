@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.BookResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddBookRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.AddBookRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import lombok.RequiredArgsConstructor;

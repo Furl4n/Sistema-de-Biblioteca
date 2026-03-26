@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddLoanRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoanResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.LoanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

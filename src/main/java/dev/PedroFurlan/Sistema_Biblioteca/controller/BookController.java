@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.BookResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddBookRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.AddBookRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

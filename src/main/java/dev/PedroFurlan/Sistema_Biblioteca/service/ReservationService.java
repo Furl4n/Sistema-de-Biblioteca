@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddReservationRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
@@ -28,18 +28,18 @@ public class ReservationService {
     private final BookRepository bookRepository;
 
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data) {
-        Optional<User> optionalUser = userRepository.findById(data.getUserId());
-        Optional<Book> optionalBook = bookRepository.findById(data.getBookId());
+        Optional<User> optionalUser = userRepository.findById(data.userId());
+        Optional<Book> optionalBook = bookRepository.findById(data.bookId());
 
         //TODO: Change optionals for exceptions
         if(optionalUser.isPresent() && optionalBook.isPresent()){
-            Reservation reservation = new Reservation(optionalBook.get(), optionalUser.get(), data.getExpirationDate());
+            Reservation reservation = new Reservation(optionalBook.get(), optionalUser.get(), data.expirationDate());
 
-            if(data.getStatus() != null)
-                reservation.setStatus(data.getStatus());
+            if(data.status() != null)
+                reservation.setStatus(data.status());
 
             if(reservation.getReservationDate() != null)
-                reservation.setReservationDate(data.getReservationDate());
+                reservation.setReservationDate(data.reservationDate());
 
             return ReservationResponseDTO.create(reservation);
         }

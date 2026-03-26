@@ -27,15 +27,5 @@ Types:
 ### Commit Changes
 
 * DTO:
-  * Changed UserId from Long to String.
-  * Changed login response from Users details to JWT token.
-* Spring Boot Security:
-  * Added ApplicationConfig and SecurityConfig to protect the application and control requests. 
-  * Now the User need to be authenticated using JWT token to make requests.
-* JWT:
-  * Added the JwtService e JwtAuthenticationFilter to create and confirm if the token is valid.
-* Auth:
-  * Added AuthController and AuthService for registration and login methods.
-* User:
-  * Changed the Id from int to char(54) and started using UUID for Id.
-  * Removed the registration and login methods from UserService (now in Auth).
+  * Added packages to separate DTOs by model
+  * Changed DTOs that were Class to Record

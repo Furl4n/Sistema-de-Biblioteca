@@ -1,6 +1,6 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.UserResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.UserResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

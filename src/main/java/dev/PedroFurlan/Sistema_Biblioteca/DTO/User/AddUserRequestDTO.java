@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.DTO;
+package dev.PedroFurlan.Sistema_Biblioteca.DTO.User;
 
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.Role;
 

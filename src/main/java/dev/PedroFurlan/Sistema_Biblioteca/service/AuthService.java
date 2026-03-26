@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddUserRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoginRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.AddUserRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +40,8 @@ public class AuthService {
 
     public User authenticateUser(LoginRequestDTO request){
 
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
-        return userRepository.findByEmail(request.getEmail()).orElseThrow(RuntimeException::new); //change exception
+        return userRepository.findByEmail(request.email()).orElseThrow(RuntimeException::new); //change exception
     }
 }

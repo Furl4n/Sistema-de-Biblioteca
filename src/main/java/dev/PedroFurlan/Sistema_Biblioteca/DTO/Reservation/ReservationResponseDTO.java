@@ -1,5 +1,6 @@
-package dev.PedroFurlan.Sistema_Biblioteca.DTO;
+package dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation;
 
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.StatusReservation;
 

@@ -1,7 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.service;
 
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.AddLoanRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.DTO.LoanResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
@@ -27,16 +27,16 @@ public class LoanService {
     private final BookRepository bookRepository;
 
     public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data) {
-        Optional<User> optionalUser = userRepository.findById(data.getUserId());
-        Optional<Book> optionalBook = bookRepository.findById(data.getBookId());
+        Optional<User> optionalUser = userRepository.findById(data.userId());
+        Optional<Book> optionalBook = bookRepository.findById(data.bookId());
 
         if(optionalUser.isPresent() && optionalBook.isPresent()){
-            Loan loan = new Loan(optionalBook.get(), optionalUser.get(), data.getLoanDate(), data.getDueDate(), data.getStatus());
+            Loan loan = new Loan(optionalBook.get(), optionalUser.get(), data.loanDate(), data.dueDate(), data.status());
 
-            if(data.getStatus() != null){
+            if(data.status() != null){
                 loan.setStatus(StatusLoan.ACTIVE);
             }
-            if(data.getLoanDate() == null){
+            if(data.loanDate() == null){
                 loan.setLoanDate(LocalDate.now());
             }
             return LoanResponseDTO.create(loan);

@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.DTO;
+package dev.PedroFurlan.Sistema_Biblioteca.DTO.Book;
 
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
