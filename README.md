@@ -26,9 +26,7 @@ Types:
 
 ### Commit Changes
 
-* User:
-  * Added method to authenticate user using Principal
-* DTOs:
-  * Removed the UserId from requests
-* Services:
-  * Started using the new method to get the user
+* AuthController:
+  * Changed the signup endpoint. It was 'singup'
+* SecurityConfig:
+  * Now it allows requests from other computers

@@ -19,7 +19,7 @@ public class AuthController {
     private final AuthService authService;
     private final JwtService JwtService;
 
-    @PostMapping("/singup")
+    @PostMapping("/signup")
     public ResponseEntity<Void> register(@RequestBody AddUserRequestDTO request){
         authService.singUp(request);
 
@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) throws Exception {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
         User user = authService.authenticateUser(request);
 
         String token = JwtService.generateToken(user);
