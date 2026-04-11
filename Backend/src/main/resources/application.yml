@@ -3,9 +3,9 @@ spring:
     name: Sistema-Biblioteca
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/libraryDB
-    username: postgres
-    password: ${DB_PASSWORD:031406}
+    url: url_banco
+    username: username
+    password: ${DB_PASSWORD:senha}
 
   jpa:
     hibernate:
