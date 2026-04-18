@@ -26,7 +26,7 @@ Types:
 
 ### Commit Changes
 
-* AuthController:
-  * Changed the signup endpoint. It was 'singup'
-* SecurityConfig:
-  * Now it allows requests from other computers
+* Add hooks for backend requests
+* API
+  * Create an axios instance for hooks to use
+  * Load the backend base URL from the .env file
