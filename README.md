@@ -26,7 +26,8 @@ Types:
 
 ### Commit Changes
 
-* Add hooks for backend requests
-* API
-  * Create an axios instance for hooks to use
-  * Load the backend base URL from the .env file
+*Create the context to store/delete token and refresh token data
+*Create AuthInterceptor to:
+  *Validate tokens in requests
+  *Refresh token if necessary
+  *Logout if refresh fails
