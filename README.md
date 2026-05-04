@@ -26,8 +26,7 @@ Types:
 
 ### Commit Changes
 
-*Create the context to store/delete token and refresh token data
-*Create AuthInterceptor to:
-  *Validate tokens in requests
-  *Refresh token if necessary
-  *Logout if refresh fails
+*Create Router files to:
+  *Control page changes.
+  *Redirect user to login if not connected.
+  *Protect pages that need login to be accessed.
