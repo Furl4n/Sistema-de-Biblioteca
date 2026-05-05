@@ -4,6 +4,7 @@ import { createContext, useEffect, useState, type ReactNode } from "react";
 import { useUserData } from "../hooks/useUser";
 import { api, BASE_URL } from "../service/api";
 import { setupInterceptors } from "../service/AuthInterceptor";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface AuthContextData {
     user: User | undefined
@@ -25,6 +26,7 @@ export function AuthProvider({ children } : AuthProviderProps) {
     const[authenticated, setAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
     const { data } = useUserData();
+    const queryClient = useQueryClient();
 
     useEffect(()=>{
         if(data){
@@ -88,6 +90,7 @@ export function AuthProvider({ children } : AuthProviderProps) {
 
         localStorage.removeItem("@Auth:token");
         localStorage.removeItem("@Auth:refreshToken");
+        queryClient.clear();
 
         api.defaults.headers.common["Authorization"] = undefined;
     }

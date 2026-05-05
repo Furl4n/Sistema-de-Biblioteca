@@ -26,7 +26,6 @@ Types:
 
 ### Commit Changes
 
-*Create Router files to:
-  *Control page changes.
-  *Redirect user to login if not connected.
-  *Protect pages that need login to be accessed.
+*Create initial pages to test hooks and context
+*Fix userDetails to fetch data only when logged in
+*Clear user cache when logout

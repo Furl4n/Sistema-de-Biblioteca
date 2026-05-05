@@ -9,8 +9,12 @@ const fetchData = async() => {
 }
 
 export function useUserData() {
+
+    const token = localStorage.getItem("@Auth:token");
+
     return useQuery({
         queryFn: () => fetchData(),
+        enabled: !!token,
         queryKey: ['user-data']
     })
 }
