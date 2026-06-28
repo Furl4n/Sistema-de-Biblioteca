@@ -3,12 +3,16 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.StatusReservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.StatusLoan;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.LoanRepository;
+import dev.PedroFurlan.Sistema_Biblioteca.repository.ReservationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +28,7 @@ public class LoanService {
 
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
+    private final ReservationRepository reservationRepository;
     private final UserService userService;
 
     public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser) {
@@ -63,9 +68,27 @@ public class LoanService {
         return null;
     }
 
-    public Loan convertReservationToLoan(Reservation reservation) {
-        Loan loan = new Loan(reservation.getBook(), reservation.getUser(), LocalDate.now(), reservation.getExpirationDate(), StatusLoan.ACTIVE);
-        return loanRepository.save(loan);
+    @Transactional
+    public LoanResponseDTO convertReservationToLoan(Long idReservation, Principal connectedUser) {
+        User user = userService.getAuthenticatedUser(connectedUser);
+        Optional<Reservation> optReservation = reservationRepository.findById(idReservation);
+
+        if(optReservation.isPresent()){
+            Reservation reservation = optReservation.get();
+
+            if(reservation.getUser().equals(user) && reservation.getStatus().equals(StatusReservation.RESERVED)){
+                Loan loan = new Loan(reservation);
+                reservation.setStatus(StatusReservation.COLLECTED);
+                loan.getBook().setStatus(StatusBook.ON_LOAN);
+                reservationRepository.save(reservation);
+                loanRepository.save(loan);
+                bookRepository.save(loan.getBook());
+
+                return LoanResponseDTO.create(loan);
+            }
+        }
+
+        return null; //todo: adicionar throw
     }
 
     public void deleteById(Long id, Principal connectedUser) {

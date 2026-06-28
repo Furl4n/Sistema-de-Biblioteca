@@ -2,7 +2,6 @@ package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,17 +49,5 @@ public class ReservationController {
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id, Principal connectedUser){
         if(reservationService.deleteById(id, connectedUser)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         else return ResponseEntity.notFound().build();
-    }
-
-    @PostMapping("/new/loan/{reservationId}")
-    public ResponseEntity<Loan> reservationToLoan(@PathVariable long reservationId, Principal connectedUSer){
-        Optional<Loan> optionalLoan = reservationService.reservationToLoan(reservationId, connectedUSer);
-
-        if(optionalLoan.isPresent()){
-            Loan loan = optionalLoan.get();
-            return new ResponseEntity<>(loan, HttpStatus.CREATED);
-        } else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 }

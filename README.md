@@ -26,7 +26,8 @@ Types:
 
 ### Commit Changes
 
-*Create Router files to:
-  *Control page changes.
-  *Redirect user to login if not connected.
-  *Protect pages that need login to be accessed.
+* Updated the method to convert reservations into Loans:
+  * The method is now called by LoanController and handled in LoanService
+  * Automatically updates reservation and book status
+* Add dueDate to Reservation entity
+* Add dueDate to addReservationRequestDTO

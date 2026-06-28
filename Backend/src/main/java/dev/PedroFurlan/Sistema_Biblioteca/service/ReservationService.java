@@ -23,7 +23,6 @@ import java.util.Optional;
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final LoanService loanService;
     private final BookRepository bookRepository;
     private final UserService userService;
 
@@ -31,15 +30,19 @@ public class ReservationService {
         User user = userService.getAuthenticatedUser(connectedUser);
         Optional<Book> optionalBook = bookRepository.findById(data.bookId());
 
+        if(data.returnDate().isBefore(data.reservationDate())) return null; //todo: adicionar exception
+
         //TODO: Change optionals for exceptions
         if(optionalBook.isPresent()){
-            Reservation reservation = new Reservation(optionalBook.get(), user, data.expirationDate());
+            Reservation reservation = new Reservation(optionalBook.get(), user, data);
 
             if(data.status() != null)
                 reservation.setStatus(data.status());
 
             if(reservation.getReservationDate() != null)
                 reservation.setReservationDate(data.reservationDate());
+
+            reservationRepository.save(reservation);
 
             return ReservationResponseDTO.create(reservation);
         }
@@ -84,25 +87,5 @@ public class ReservationService {
             return true;
         }
         return false;
-    }
-
-
-    @Transactional
-    public Optional<Loan> reservationToLoan(long reservationId, Principal connectedUSer) {
-        User user = userService.getAuthenticatedUser(connectedUSer);
-        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
-
-        //TODO: change to throw, so the user can know the problem
-        if(optionalReservation.isPresent() && optionalReservation.get().getUser()==user){
-            Reservation reservation = optionalReservation.get();
-
-            if(reservation.getStatus().equals(StatusReservation.RESERVED)){
-                Loan loan = loanService.convertReservationToLoan(reservation);
-                reservation.setStatus(StatusReservation.COLLECTED);
-                loan.getBook().setStatus(StatusBook.ON_LOAN);
-                return Optional.of(loan);
-            }
-        }
-        return Optional.empty();
     }
 }

@@ -1,6 +1,7 @@
 package dev.PedroFurlan.Sistema_Biblioteca.model.Loan;
 
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
+import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,13 @@ public class Loan {
         this.dueDate = dueDate;
         this.status = status;
 
+    }
+
+    public Loan(Reservation reservation){
+        this.book = reservation.getBook();
+        this.user = reservation.getUser();
+        this.loanDate = LocalDate.now();
+        this.dueDate = reservation.getDueDate();
+        this.status = StatusLoan.ACTIVE;
     }
 }

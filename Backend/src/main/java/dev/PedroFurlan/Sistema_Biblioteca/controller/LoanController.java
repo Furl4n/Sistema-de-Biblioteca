@@ -25,6 +25,13 @@ public class LoanController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/convert/reservation/{id}")
+    public ResponseEntity<LoanResponseDTO> convertReservationToLoan(@PathVariable Long id, Principal connectedUser){
+        LoanResponseDTO response = service.convertReservationToLoan(id, connectedUser);
+
+        return ResponseEntity.ok(response);
+    }
+
     @GetMapping("/get/all")
     public ResponseEntity<List<LoanResponseDTO>> getAll(){
         List<LoanResponseDTO> response = service.getAll();
