@@ -50,12 +50,6 @@ public class LoanService {
         return null; //temporally
     }
 
-    public List<LoanResponseDTO> getAll() {
-        List<Loan> loans = loanRepository.findAll();
-
-        return loans.stream().map(LoanResponseDTO::create).toList();
-    }
-
     public LoanResponseDTO GetById(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
         Optional<Loan> opLoan = loanRepository.findById(id);

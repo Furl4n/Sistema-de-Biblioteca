@@ -26,12 +26,6 @@ public class ReservationController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<ReservationResponseDTO>> getAll(){
-        List<ReservationResponseDTO> reservations = reservationService.getAllReservations();
-        return ResponseEntity.ok(reservations);
-    }
-
     @GetMapping("/get/{id}")
     public ResponseEntity<ReservationResponseDTO> getReservationById(@PathVariable Long id, Principal connectedUSer){
         ReservationResponseDTO response = reservationService.getById(id, connectedUSer);

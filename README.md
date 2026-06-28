@@ -26,8 +26,4 @@ Types:
 
 ### Commit Changes
 
-* Updated the method to convert reservations into Loans:
-  * The method is now called by LoanController and handled in LoanService
-  * Automatically updates reservation and book status
-* Add dueDate to Reservation entity
-* Add dueDate to addReservationRequestDTO
+* Delete unused metods in Loan, Reservation and User

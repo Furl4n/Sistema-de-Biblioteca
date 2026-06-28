@@ -32,12 +32,6 @@ public class LoanController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<LoanResponseDTO>> getAll(){
-        List<LoanResponseDTO> response = service.getAll();
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/get/{id}")
     public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id, Principal connectedUser){
         LoanResponseDTO response = service.GetById(id, connectedUser);

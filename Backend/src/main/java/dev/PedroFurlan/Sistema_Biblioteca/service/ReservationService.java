@@ -49,12 +49,6 @@ public class ReservationService {
         return null; //temporally
     }
 
-    public List<ReservationResponseDTO> getAllReservations() {
-        List<Reservation> reservations = reservationRepository.findAll();
-
-        return reservations.stream().map(ReservationResponseDTO::create).toList();
-    }
-
     public ReservationResponseDTO getById(Long id, Principal connectedUSer) {
         User user = userService.getAuthenticatedUser(connectedUSer);
         Optional<Reservation> opReservation = reservationRepository.findById(id);

@@ -17,12 +17,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<UserResponseDTO>> getAll(){
-        List<UserResponseDTO> response = userService.getAll();
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/get")
     public ResponseEntity<UserResponseDTO> getUserDetails(Principal connectedUser){
         UserResponseDTO response = userService.getUserDetails(connectedUser);
