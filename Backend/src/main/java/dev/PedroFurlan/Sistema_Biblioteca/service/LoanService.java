@@ -103,4 +103,27 @@ public class LoanService {
 
         return loans.stream().map(LoanResponseDTO::create).toList();
     }
+
+    @Transactional
+    public LoanResponseDTO returnLoan(Long id, Principal connectedUser) {
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        Optional<Loan> optLoan = loanRepository.findById(id);
+
+        if(optLoan.isPresent()){
+            Loan loan = optLoan.get();
+
+            if(loan.getStatus().equals(StatusLoan.ACTIVE) && loan.getUser().equals(user)){
+                loan.setStatus(StatusLoan.RETURNED);
+                loan.setReturnDate(LocalDate.now());
+                loan.getBook().setStatus(StatusBook.AVAILABLE);
+
+                loanRepository.save(loan);
+                bookRepository.save(loan.getBook());
+
+                return LoanResponseDTO.create(loan);
+            }
+        }
+        return null; //TODO: Change to exceptions
+    }
 }

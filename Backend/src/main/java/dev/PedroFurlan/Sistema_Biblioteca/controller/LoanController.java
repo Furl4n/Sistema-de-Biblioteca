@@ -45,6 +45,13 @@ public class LoanController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/return/{id}")
+    public ResponseEntity<LoanResponseDTO> returnLoan(@PathVariable Long id, Principal connectedUser){
+        LoanResponseDTO response = service.returnLoan(id, connectedUser);
+
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id, Principal connectedUser){
         service.deleteById(id, connectedUser);

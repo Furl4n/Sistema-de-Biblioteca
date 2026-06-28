@@ -26,4 +26,4 @@ Types:
 
 ### Commit Changes
 
-* Delete unused metods in Loan, Reservation and User
+* Create `returnLoan` method to allow users to return books
