@@ -26,4 +26,5 @@ Types:
 
 ### Commit Changes
 
-* Create `returnLoan` method to allow users to return books
+* Created method to calculate days overdue for loans
+* Updated LoanReturnDTO to include the daysOverdue

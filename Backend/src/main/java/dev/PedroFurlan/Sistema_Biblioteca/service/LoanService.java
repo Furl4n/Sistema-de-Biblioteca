@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 @RequiredArgsConstructor
 public class LoanService {
@@ -44,7 +46,7 @@ public class LoanService {
             if(data.loanDate() == null){
                 loan.setLoanDate(LocalDate.now());
             }
-            return LoanResponseDTO.create(loan);
+            return LoanResponseDTO.create(loan, calculateOverdue(loan));
         }
 
         return null; //temporally
@@ -57,7 +59,7 @@ public class LoanService {
         if(opLoan.isPresent() && opLoan.get().getUser()==user){
             Loan loan = opLoan.get();
 
-            return LoanResponseDTO.create(loan);
+            return LoanResponseDTO.create(loan, calculateOverdue(loan));
         }
         return null;
     }
@@ -78,7 +80,7 @@ public class LoanService {
                 loanRepository.save(loan);
                 bookRepository.save(loan.getBook());
 
-                return LoanResponseDTO.create(loan);
+                return LoanResponseDTO.create(loan, calculateOverdue(loan));
             }
         }
 
@@ -101,7 +103,21 @@ public class LoanService {
 
          List<Loan> loans = loanRepository.findByUser(user);
 
-        return loans.stream().map(LoanResponseDTO::create).toList();
+        return loans.stream().map(loan -> LoanResponseDTO.create(loan, calculateOverdue(loan))).toList();
+    }
+
+    public Long calculateOverdue(Loan loan){
+        if(loan.getReturnDate() == null){
+            long daysOverdue = loan.getDueDate().until(LocalDate.now(), DAYS);
+
+            if(daysOverdue <=0) return 0L;
+            return daysOverdue;
+        }
+
+        long days = loan.getDueDate().until(loan.getReturnDate(), DAYS);
+
+        if(days<=0) return 0L;
+        return days;
     }
 
     @Transactional
@@ -121,7 +137,7 @@ public class LoanService {
                 loanRepository.save(loan);
                 bookRepository.save(loan.getBook());
 
-                return LoanResponseDTO.create(loan);
+                return LoanResponseDTO.create(loan, calculateOverdue(loan));
             }
         }
         return null; //TODO: Change to exceptions
