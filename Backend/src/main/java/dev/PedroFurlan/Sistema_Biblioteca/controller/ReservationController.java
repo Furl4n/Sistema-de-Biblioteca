@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/reservation")
@@ -36,6 +35,13 @@ public class ReservationController {
     @GetMapping("/get/user")
     public ResponseEntity<List<ReservationResponseDTO>> getReservationByUserId(Principal connectedUSer){
         List<ReservationResponseDTO> response = reservationService.getByUserId(connectedUSer);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/cancel/{id}")
+    public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable Long id, Principal connectedUser){
+        ReservationResponseDTO response = reservationService.cancelReservation(id, connectedUser);
+
         return ResponseEntity.ok(response);
     }
 

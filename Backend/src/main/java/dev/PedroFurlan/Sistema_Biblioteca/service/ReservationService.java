@@ -3,7 +3,6 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
@@ -68,6 +67,31 @@ public class ReservationService {
         List<Reservation> reservations = reservationRepository.findByUser(user);
 
         return reservations.stream().map(ReservationResponseDTO::create).toList();
+    }
+
+    @Transactional
+    public ReservationResponseDTO cancelReservation(Long id, Principal connectedUser) {
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        Optional<Reservation> optReservation = reservationRepository.findById(id);
+
+        if(optReservation.isEmpty()) {
+            return null; //TODO: Change to exception
+        }
+
+        Reservation reservation = optReservation.get();
+
+        if(reservation.getUser().equals(user) && reservation.getStatus().equals(StatusReservation.RESERVED)){
+            reservation.setStatus(StatusReservation.CANCELED);
+            reservation.getBook().setStatus(StatusBook.AVAILABLE);
+
+            reservationRepository.save(reservation);
+            bookRepository.save(reservation.getBook());
+
+            return ReservationResponseDTO.create(reservation);
+        }
+
+        return null; //TODO: Change to exception
     }
 
     public boolean deleteById(Long id, Principal connectedUser) {

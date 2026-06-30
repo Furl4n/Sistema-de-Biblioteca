@@ -26,5 +26,4 @@ Types:
 
 ### Commit Changes
 
-* Created method to calculate days overdue for loans
-* Updated LoanReturnDTO to include the daysOverdue
+* Created method to allow users to cancel Reservations
