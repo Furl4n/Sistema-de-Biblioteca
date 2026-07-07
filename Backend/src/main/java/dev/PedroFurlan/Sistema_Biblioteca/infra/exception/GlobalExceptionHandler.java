@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.exception;
+package dev.PedroFurlan.Sistema_Biblioteca.infra.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

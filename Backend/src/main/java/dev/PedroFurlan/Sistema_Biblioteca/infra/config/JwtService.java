@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.config;
+package dev.PedroFurlan.Sistema_Biblioteca.infra.config;
 
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import io.jsonwebtoken.Claims;

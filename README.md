@@ -26,8 +26,5 @@ Types:
 
 ### Commit Changes
 
-* Created basic Exceptions and GlobalExceptionHandler:
-    * Created StandardError to serve as a consistent structure for error responses.
-    * Created custom BusinessRuleException and ResourceNotFoundException.
-    * Implemented GlobalExceptionError to intercept and handle application errors.
-* Refactored methods to throw custom exceptions upon validation failures.
+* Created a new infra package.
+* Added config and exceptions into the infra package.

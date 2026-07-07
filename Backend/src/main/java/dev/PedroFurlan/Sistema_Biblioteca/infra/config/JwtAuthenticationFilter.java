@@ -1,4 +1,4 @@
-package dev.PedroFurlan.Sistema_Biblioteca.config;
+package dev.PedroFurlan.Sistema_Biblioteca.infra.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

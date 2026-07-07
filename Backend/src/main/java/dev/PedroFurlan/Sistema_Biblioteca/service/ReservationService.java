@@ -2,8 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.BusinessRuleException;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;

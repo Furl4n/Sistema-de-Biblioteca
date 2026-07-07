@@ -2,8 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.BusinessRuleException;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;

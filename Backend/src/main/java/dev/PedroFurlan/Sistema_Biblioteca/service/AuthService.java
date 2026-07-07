@@ -2,8 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.AddUserRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.BusinessRuleException;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

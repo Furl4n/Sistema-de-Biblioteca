@@ -2,7 +2,7 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.AddBookRequestDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
