@@ -2,6 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
@@ -14,13 +16,13 @@ import dev.PedroFurlan.Sistema_Biblioteca.repository.LoanRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -33,69 +35,67 @@ public class LoanService {
     private final ReservationRepository reservationRepository;
     private final UserService userService;
 
+    //TODO: to correct method
     public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-        Optional<Book> optionalBook = bookRepository.findById(data.bookId());
+        Book book = bookRepository.findById(data.bookId())
+                .orElseThrow( ()-> new ResourceNotFoundException("The requested book does not exist."));
 
-        if(optionalBook.isPresent()){
-            Loan loan = new Loan(optionalBook.get(), user, data.loanDate(), data.dueDate(), data.status());
+        Loan loan = new Loan(book, user, data.loanDate(), data.dueDate(), data.status());
 
-            if(data.status() != null){
-                loan.setStatus(StatusLoan.ACTIVE);
-            }
-            if(data.loanDate() == null){
-                loan.setLoanDate(LocalDate.now());
-            }
-            return LoanResponseDTO.create(loan, calculateOverdue(loan));
+        if(data.status() != null){
+            loan.setStatus(StatusLoan.ACTIVE);
         }
-
-        return null; //temporally
+        if(data.loanDate() == null){
+            loan.setLoanDate(LocalDate.now());
+        }
+        return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 
     public LoanResponseDTO GetById(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-        Optional<Loan> opLoan = loanRepository.findById(id);
+        Loan loan = loanRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
-        if(opLoan.isPresent() && opLoan.get().getUser()==user){
-            Loan loan = opLoan.get();
+        if(!loan.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this loan");
 
-            return LoanResponseDTO.create(loan, calculateOverdue(loan));
-        }
-        return null;
+        return LoanResponseDTO.create(loan, calculateOverdue(loan));
+
     }
 
     @Transactional
     public LoanResponseDTO convertReservationToLoan(Long idReservation, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-        Optional<Reservation> optReservation = reservationRepository.findById(idReservation);
+        Reservation reservation = reservationRepository.findById(idReservation)
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist."));
 
-        if(optReservation.isPresent()){
-            Reservation reservation = optReservation.get();
+        if(!reservation.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this reservation.");
 
-            if(reservation.getUser().equals(user) && reservation.getStatus().equals(StatusReservation.RESERVED)){
-                Loan loan = new Loan(reservation);
-                reservation.setStatus(StatusReservation.COLLECTED);
-                loan.getBook().setStatus(StatusBook.ON_LOAN);
-                reservationRepository.save(reservation);
-                loanRepository.save(loan);
-                bookRepository.save(loan.getBook());
+        if(!reservation.getStatus().equals(StatusReservation.RESERVED))
+            throw new BusinessRuleException("The reservation is: " + reservation.getStatus());
 
-                return LoanResponseDTO.create(loan, calculateOverdue(loan));
-            }
-        }
+        Loan loan = new Loan(reservation);
+        reservation.setStatus(StatusReservation.COLLECTED);
+        loan.getBook().setStatus(StatusBook.ON_LOAN);
+        reservationRepository.save(reservation);
+        loanRepository.save(loan);
+        bookRepository.save(loan.getBook());
 
-        return null; //todo: adicionar throw
+        return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 
     public void deleteById(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
-        //TODO: Change exception
-        Loan loan= loanRepository.findById(id).orElseThrow();
+        Loan loan = loanRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
-        if(loan.getUser()==user)
-            loanRepository.deleteById(id);
+        if(!loan.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this loan.");
 
+        loanRepository.deleteById(id);
     }
 
     public List<LoanResponseDTO> getByUserId(Principal connectedUser) {
@@ -124,22 +124,22 @@ public class LoanService {
     public LoanResponseDTO returnLoan(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
-        Optional<Loan> optLoan = loanRepository.findById(id);
+        Loan loan = loanRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
-        if(optLoan.isPresent()){
-            Loan loan = optLoan.get();
+        if(!loan.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this loan.");
 
-            if(loan.getStatus().equals(StatusLoan.ACTIVE) && loan.getUser().equals(user)){
-                loan.setStatus(StatusLoan.RETURNED);
-                loan.setReturnDate(LocalDate.now());
-                loan.getBook().setStatus(StatusBook.AVAILABLE);
+        if(!loan.getStatus().equals(StatusLoan.ACTIVE))
+            throw new BusinessRuleException("The loan is: " + loan.getStatus());
 
-                loanRepository.save(loan);
-                bookRepository.save(loan.getBook());
+        loan.setStatus(StatusLoan.RETURNED);
+        loan.setReturnDate(LocalDate.now());
+        loan.getBook().setStatus(StatusBook.AVAILABLE);
 
-                return LoanResponseDTO.create(loan, calculateOverdue(loan));
-            }
-        }
-        return null; //TODO: Change to exceptions
+        loanRepository.save(loan);
+        bookRepository.save(loan.getBook());
+
+        return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 }

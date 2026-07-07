@@ -2,6 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
@@ -11,11 +13,11 @@ import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,38 +29,35 @@ public class ReservationService {
 
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-        Optional<Book> optionalBook = bookRepository.findById(data.bookId());
 
-        if(data.returnDate().isBefore(data.reservationDate())) return null; //todo: adicionar exception
+        if(data.returnDate().isBefore(data.reservationDate()))
+            throw new BusinessRuleException("Invalid return date.");
 
-        //TODO: Change optionals for exceptions
-        if(optionalBook.isPresent()){
-            Reservation reservation = new Reservation(optionalBook.get(), user, data);
+        Book book = bookRepository.findById(data.bookId())
+                .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
 
-            if(data.status() != null)
-                reservation.setStatus(data.status());
+        Reservation reservation = new Reservation(book, user, data);
 
-            if(reservation.getReservationDate() != null)
-                reservation.setReservationDate(data.reservationDate());
+        if(data.status() != null)
+            reservation.setStatus(data.status());
 
-            reservationRepository.save(reservation);
+        if(reservation.getReservationDate() != null)
+            reservation.setReservationDate(data.reservationDate());
 
-            return ReservationResponseDTO.create(reservation);
-        }
-        return null; //temporally
+        reservationRepository.save(reservation);
+
+        return ReservationResponseDTO.create(reservation);
     }
 
     public ReservationResponseDTO getById(Long id, Principal connectedUSer) {
         User user = userService.getAuthenticatedUser(connectedUSer);
-        Optional<Reservation> opReservation = reservationRepository.findById(id);
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 
-        if(opReservation.isPresent() && opReservation.get().getUser()==user){
-            Reservation reservation = opReservation.get();
+        if(!reservation.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this reservation.");
 
-            return ReservationResponseDTO.create(reservation);
-        }
-
-        return null; //temporally
+        return ReservationResponseDTO.create(reservation);
     }
 
     public List<ReservationResponseDTO> getByUserId(Principal connectedUser){
@@ -73,37 +72,35 @@ public class ReservationService {
     public ReservationResponseDTO cancelReservation(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
-        Optional<Reservation> optReservation = reservationRepository.findById(id);
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist."));
 
-        if(optReservation.isEmpty()) {
-            return null; //TODO: Change to exception
-        }
+        if(!reservation.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this reservation.");
 
-        Reservation reservation = optReservation.get();
+        if(!reservation.getStatus().equals(StatusReservation.RESERVED))
+            throw new BusinessRuleException("The reservation is: " + reservation.getStatus());
 
-        if(reservation.getUser().equals(user) && reservation.getStatus().equals(StatusReservation.RESERVED)){
-            reservation.setStatus(StatusReservation.CANCELED);
-            reservation.getBook().setStatus(StatusBook.AVAILABLE);
+        reservation.setStatus(StatusReservation.CANCELED);
+        reservation.getBook().setStatus(StatusBook.AVAILABLE);
 
-            reservationRepository.save(reservation);
-            bookRepository.save(reservation.getBook());
+        reservationRepository.save(reservation);
+        bookRepository.save(reservation.getBook());
 
-            return ReservationResponseDTO.create(reservation);
-        }
-
-        return null; //TODO: Change to exception
+        return ReservationResponseDTO.create(reservation);
     }
 
+    //TODO: Change return type
     public boolean deleteById(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
-        //TODO: Change exception
-        Reservation reservation = reservationRepository.findById((id)).orElseThrow();
+        Reservation reservation = reservationRepository.findById((id))
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 
-        if(reservation.getUser()==user){
-            reservationRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        if(reservation.getUser()==user)
+            throw new AccessDeniedException("User can not access this reservation");
+
+        reservationRepository.deleteById(id);
+        return true;
     }
 }

@@ -26,4 +26,8 @@ Types:
 
 ### Commit Changes
 
-* Created method to allow users to cancel Reservations
+* Created basic Exceptions and GlobalExceptionHandler:
+    * Created StandardError to serve as a consistent structure for error responses.
+    * Created custom BusinessRuleException and ResourceNotFoundException.
+    * Implemented GlobalExceptionError to intercept and handle application errors.
+* Refactored methods to throw custom exceptions upon validation failures.
