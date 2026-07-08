@@ -42,12 +42,10 @@ public class BookService {
         return books.stream().map(BookResponseDTO::create).toList();
     }
 
-    //TODO: Change return type
-    public boolean deleteById(Long id) {
+    public void deleteById(Long id) {
         Book book = repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
 
         repository.delete(book);
-        return true;
     }
 }

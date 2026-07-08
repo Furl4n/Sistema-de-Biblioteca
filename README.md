@@ -26,5 +26,8 @@ Types:
 
 ### Commit Changes
 
-* Created a new infra package.
-* Added config and exceptions into the infra package.
+* Changed the return type of delete methods in the service layer to Void.
+* Updated HTTP statuses in controller methods.
+* Added @Transactional to methods where required.
+* Deleted unnecessary classes.
+* Fixed minor bugs.

@@ -22,7 +22,7 @@ public class LoanController {
     public ResponseEntity<LoanResponseDTO> newLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser){
         LoanResponseDTO response = service.addLoan(data, connectedUser);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/convert/reservation/{id}")
@@ -45,7 +45,7 @@ public class LoanController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/return/{id}")
+    @PatchMapping("/return/{id}")
     public ResponseEntity<LoanResponseDTO> returnLoan(@PathVariable Long id, Principal connectedUser){
         LoanResponseDTO response = service.returnLoan(id, connectedUser);
 
@@ -56,6 +56,6 @@ public class LoanController {
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id, Principal connectedUser){
         service.deleteById(id, connectedUser);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

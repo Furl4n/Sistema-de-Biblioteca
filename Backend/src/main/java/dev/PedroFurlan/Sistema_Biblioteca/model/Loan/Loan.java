@@ -30,10 +30,9 @@ public class Loan {
     private LocalDate returnDate;
     private StatusLoan status;
 
-    public Loan(Book book, User user, LocalDate loanDate, LocalDate dueDate, StatusLoan status){
+    public Loan(Book book, User user, LocalDate dueDate, StatusLoan status){
         this.book = book;
         this.user = user;
-        this.loanDate = loanDate;
         this.dueDate = dueDate;
         this.status = status;
 

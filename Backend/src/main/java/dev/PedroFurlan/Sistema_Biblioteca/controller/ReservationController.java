@@ -4,7 +4,6 @@ import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestD
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.ReservationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,7 @@ public class ReservationController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/cancel/{id}")
+    @PatchMapping("/cancel/{id}")
     public ResponseEntity<ReservationResponseDTO> cancelReservation(@PathVariable Long id, Principal connectedUser){
         ReservationResponseDTO response = reservationService.cancelReservation(id, connectedUser);
 
@@ -47,7 +46,7 @@ public class ReservationController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteReservation(@PathVariable Long id, Principal connectedUser){
-        if(reservationService.deleteById(id, connectedUser)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        else return ResponseEntity.notFound().build();
+        reservationService.deleteById(id, connectedUser);
+        return ResponseEntity.noContent().build();
     }
 }

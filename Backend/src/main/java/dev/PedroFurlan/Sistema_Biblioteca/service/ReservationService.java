@@ -27,6 +27,7 @@ public class ReservationService {
     private final BookRepository bookRepository;
     private final UserService userService;
 
+    @Transactional
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
@@ -36,6 +37,9 @@ public class ReservationService {
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
 
+        if(book.getStatus().equals(StatusBook.RESERVED))
+            throw new BusinessRuleException("This book is not available for reservation.");
+
         Reservation reservation = new Reservation(book, user, data);
 
         if(data.status() != null)
@@ -44,7 +48,10 @@ public class ReservationService {
         if(reservation.getReservationDate() != null)
             reservation.setReservationDate(data.reservationDate());
 
+        book.setStatus(StatusBook.RESERVED);
+
         reservationRepository.save(reservation);
+        bookRepository.save(book);
 
         return ReservationResponseDTO.create(reservation);
     }
@@ -90,8 +97,7 @@ public class ReservationService {
         return ReservationResponseDTO.create(reservation);
     }
 
-    //TODO: Change return type
-    public boolean deleteById(Long id, Principal connectedUser) {
+    public void deleteById(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
         Reservation reservation = reservationRepository.findById((id))
@@ -101,6 +107,5 @@ public class ReservationService {
             throw new AccessDeniedException("User can not access this reservation");
 
         reservationRepository.deleteById(id);
-        return true;
     }
 }

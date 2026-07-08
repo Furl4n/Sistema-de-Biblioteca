@@ -35,20 +35,25 @@ public class LoanService {
     private final ReservationRepository reservationRepository;
     private final UserService userService;
 
-    //TODO: to correct method
+    @Transactional
     public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow( ()-> new ResourceNotFoundException("The requested book does not exist."));
 
-        Loan loan = new Loan(book, user, data.loanDate(), data.dueDate(), data.status());
+        if (!book.getStatus().equals(StatusBook.AVAILABLE)) {
+            throw new BusinessRuleException("This book is not available for loan.");
+        }
 
-        if(data.status() != null){
-            loan.setStatus(StatusLoan.ACTIVE);
-        }
-        if(data.loanDate() == null){
-            loan.setLoanDate(LocalDate.now());
-        }
+        Loan loan = new Loan(book, user, data.dueDate(), StatusLoan.ACTIVE);
+
+        loan.setLoanDate(data.loanDate() == null ? LocalDate.now() : data.loanDate());
+
+        book.setStatus(StatusBook.ON_LOAN);
+
+        bookRepository.save(loan.getBook());
+        loanRepository.save(loan);
+
         return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 
