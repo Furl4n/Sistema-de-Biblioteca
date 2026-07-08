@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final JwtService JwtService;
+    private final JwtService jwtService;
 
     @PostMapping("/signup")
     public ResponseEntity<Void> register(@RequestBody AddUserRequestDTO request){
@@ -30,7 +30,7 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
         User user = authService.authenticateUser(request);
 
-        String token = JwtService.generateToken(user);
+        String token = jwtService.generateToken(user);
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }

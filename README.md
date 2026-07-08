@@ -26,8 +26,7 @@ Types:
 
 ### Commit Changes
 
-* Changed the return type of delete methods in the service layer to Void.
-* Updated HTTP statuses in controller methods.
-* Added @Transactional to methods where required.
-* Deleted unnecessary classes.
-* Fixed minor bugs.
+* Updated API endpoints and URL structures.
+* Updated controllers creation methods to follow REST standards:
+    * Now returns URI in the response.
+    * updated methods names.

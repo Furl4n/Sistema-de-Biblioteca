@@ -18,7 +18,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ public class LoanService {
     private final UserService userService;
 
     @Transactional
-    public LoanResponseDTO addLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser) {
+    public LoanResponseDTO addLoan(AddLoanRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow( ()-> new ResourceNotFoundException("The requested book does not exist."));
