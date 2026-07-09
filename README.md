@@ -26,6 +26,7 @@ Types:
 
 ### Commit Changes
 
-*Create initial pages to test hooks and context
-*Fix userDetails to fetch data only when logged in
-*Clear user cache when logout
+* Updated API endpoints and URL structures.
+* Updated controllers creation methods to follow REST standards:
+    * Now returns URI in the response.
+    * updated methods names.

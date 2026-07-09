@@ -2,8 +2,9 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
-import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.Loan;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.Reservation;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.StatusBook;
@@ -12,57 +13,58 @@ import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.ReservationRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
 
     private final ReservationRepository reservationRepository;
-    private final LoanService loanService;
     private final BookRepository bookRepository;
     private final UserService userService;
 
+    @Transactional
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-        Optional<Book> optionalBook = bookRepository.findById(data.bookId());
 
-        //TODO: Change optionals for exceptions
-        if(optionalBook.isPresent()){
-            Reservation reservation = new Reservation(optionalBook.get(), user, data.expirationDate());
+        if(data.returnDate().isBefore(data.reservationDate()))
+            throw new BusinessRuleException("Invalid return date.");
 
-            if(data.status() != null)
-                reservation.setStatus(data.status());
+        Book book = bookRepository.findById(data.bookId())
+                .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
 
-            if(reservation.getReservationDate() != null)
-                reservation.setReservationDate(data.reservationDate());
+        if(book.getStatus().equals(StatusBook.RESERVED))
+            throw new BusinessRuleException("This book is not available for reservation.");
 
-            return ReservationResponseDTO.create(reservation);
-        }
-        return null; //temporally
-    }
+        Reservation reservation = new Reservation(book, user, data);
 
-    public List<ReservationResponseDTO> getAllReservations() {
-        List<Reservation> reservations = reservationRepository.findAll();
+        if(data.status() != null)
+            reservation.setStatus(data.status());
 
-        return reservations.stream().map(ReservationResponseDTO::create).toList();
+        if(reservation.getReservationDate() != null)
+            reservation.setReservationDate(data.reservationDate());
+
+        book.setStatus(StatusBook.RESERVED);
+
+        reservationRepository.save(reservation);
+        bookRepository.save(book);
+
+        return ReservationResponseDTO.create(reservation);
     }
 
     public ReservationResponseDTO getById(Long id, Principal connectedUSer) {
         User user = userService.getAuthenticatedUser(connectedUSer);
-        Optional<Reservation> opReservation = reservationRepository.findById(id);
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 
-        if(opReservation.isPresent() && opReservation.get().getUser()==user){
-            Reservation reservation = opReservation.get();
+        if(!reservation.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this reservation.");
 
-            return ReservationResponseDTO.create(reservation);
-        }
-
-        return null; //temporally
+        return ReservationResponseDTO.create(reservation);
     }
 
     public List<ReservationResponseDTO> getByUserId(Principal connectedUser){
@@ -73,36 +75,37 @@ public class ReservationService {
         return reservations.stream().map(ReservationResponseDTO::create).toList();
     }
 
-    public boolean deleteById(Long id, Principal connectedUser) {
+    @Transactional
+    public ReservationResponseDTO cancelReservation(Long id, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
 
-        //TODO: Change exception
-        Reservation reservation = reservationRepository.findById((id)).orElseThrow();
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist."));
 
-        if(reservation.getUser()==user){
-            reservationRepository.deleteById(id);
-            return true;
-        }
-        return false;
+        if(!reservation.getUser().equals(user))
+            throw new AccessDeniedException("User can not access this reservation.");
+
+        if(!reservation.getStatus().equals(StatusReservation.RESERVED))
+            throw new BusinessRuleException("The reservation is: " + reservation.getStatus());
+
+        reservation.setStatus(StatusReservation.CANCELED);
+        reservation.getBook().setStatus(StatusBook.AVAILABLE);
+
+        reservationRepository.save(reservation);
+        bookRepository.save(reservation.getBook());
+
+        return ReservationResponseDTO.create(reservation);
     }
 
+    public void deleteById(Long id, Principal connectedUser) {
+        User user = userService.getAuthenticatedUser(connectedUser);
 
-    @Transactional
-    public Optional<Loan> reservationToLoan(long reservationId, Principal connectedUSer) {
-        User user = userService.getAuthenticatedUser(connectedUSer);
-        Optional<Reservation> optionalReservation = reservationRepository.findById(reservationId);
+        Reservation reservation = reservationRepository.findById((id))
+                .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 
-        //TODO: change to throw, so the user can know the problem
-        if(optionalReservation.isPresent() && optionalReservation.get().getUser()==user){
-            Reservation reservation = optionalReservation.get();
+        if(reservation.getUser()==user)
+            throw new AccessDeniedException("User can not access this reservation");
 
-            if(reservation.getStatus().equals(StatusReservation.RESERVED)){
-                Loan loan = loanService.convertReservationToLoan(reservation);
-                reservation.setStatus(StatusReservation.COLLECTED);
-                loan.getBook().setStatus(StatusBook.ON_LOAN);
-                return Optional.of(loan);
-            }
-        }
-        return Optional.empty();
+        reservationRepository.deleteById(id);
     }
 }

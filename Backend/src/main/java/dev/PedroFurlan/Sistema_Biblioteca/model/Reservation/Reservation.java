@@ -1,5 +1,6 @@
     package dev.PedroFurlan.Sistema_Biblioteca.model.Reservation;
 
+    import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
     import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
     import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
     import jakarta.persistence.*;
@@ -26,13 +27,15 @@
         private User user;
         private LocalDate reservationDate;
         private LocalDate expirationDate;
+        private LocalDate dueDate;
         private StatusReservation status;
 
-        public Reservation(Book book, User user, LocalDate reservationDate){
+        public Reservation(Book book, User user, AddReservationRequestDTO requestDTO){
             this.book = book;
             this.user = user;
-            this.reservationDate = reservationDate;
-            this.expirationDate = LocalDate.now();
+            this.reservationDate = requestDTO.reservationDate();
+            this.expirationDate = requestDTO.expirationDate();
+            this.dueDate = requestDTO.returnDate();
             this.status = StatusReservation.RESERVED;
         }
     }

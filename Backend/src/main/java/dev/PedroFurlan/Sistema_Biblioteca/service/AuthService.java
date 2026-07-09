@@ -2,6 +2,8 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.AddUserRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.BusinessRuleException;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -34,14 +36,13 @@ public class AuthService {
 
             userRepository.save(user);
         }
-        //return error
+        throw new BusinessRuleException("A user with this email already exists.");
     }
-
 
     public User authenticateUser(LoginRequestDTO request){
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
 
-        return userRepository.findByEmail(request.email()).orElseThrow(RuntimeException::new); //change exception
+        return userRepository.findByEmail(request.email()).orElseThrow(() -> new ResourceNotFoundException("User not found."));
     }
 }

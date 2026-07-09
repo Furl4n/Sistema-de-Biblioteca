@@ -8,29 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/get/all")
-    public ResponseEntity<List<UserResponseDTO>> getAll(){
-        List<UserResponseDTO> response = userService.getAll();
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/get")
+    @GetMapping
     public ResponseEntity<UserResponseDTO> getUserDetails(Principal connectedUser){
         UserResponseDTO response = userService.getUserDetails(connectedUser);
 
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteUser(Principal connectedUser){
         userService.deleteUser(connectedUser);
 

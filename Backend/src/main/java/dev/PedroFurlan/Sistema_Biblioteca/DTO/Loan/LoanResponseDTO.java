@@ -6,15 +6,16 @@ import dev.PedroFurlan.Sistema_Biblioteca.model.Loan.StatusLoan;
 
 import java.time.LocalDate;
 
-public record LoanResponseDTO(Long id, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate, StatusLoan status, BookResponseDTO book) {
+public record LoanResponseDTO(Long id, LocalDate loanDate, LocalDate dueDate, LocalDate returnDate, StatusLoan status, BookResponseDTO book , Long daysOverdue) {
 
-    public static LoanResponseDTO create(Loan loan){
+    public static LoanResponseDTO create(Loan loan, Long daysOverdue){
         return new LoanResponseDTO(loan.getId(),
                 loan.getLoanDate(),
                 loan.getDueDate(),
                 loan.getReturnDate(),
                 loan.getStatus(),
-                BookResponseDTO.create(loan.getBook())
+                BookResponseDTO.create(loan.getBook()),
+                daysOverdue
         );
     }
 }

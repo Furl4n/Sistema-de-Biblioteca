@@ -3,7 +3,7 @@ package dev.PedroFurlan.Sistema_Biblioteca.controller;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.AddUserRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginResponseDTO;
-import dev.PedroFurlan.Sistema_Biblioteca.config.JwtService;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.config.JwtService;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
-    private final JwtService JwtService;
+    private final JwtService jwtService;
 
     @PostMapping("/signup")
     public ResponseEntity<Void> register(@RequestBody AddUserRequestDTO request){
@@ -30,7 +30,7 @@ public class AuthController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
         User user = authService.authenticateUser(request);
 
-        String token = JwtService.generateToken(user);
+        String token = jwtService.generateToken(user);
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
     }

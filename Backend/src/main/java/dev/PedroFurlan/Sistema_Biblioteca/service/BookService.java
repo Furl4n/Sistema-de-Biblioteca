@@ -2,6 +2,7 @@ package dev.PedroFurlan.Sistema_Biblioteca.service;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.BookResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Book.AddBookRequestDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.infra.exception.ResourceNotFoundException;
 import dev.PedroFurlan.Sistema_Biblioteca.model.Book.Book;
 import dev.PedroFurlan.Sistema_Biblioteca.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +42,10 @@ public class BookService {
         return books.stream().map(BookResponseDTO::create).toList();
     }
 
-    public boolean deleteById(Long id) {
-        if(repository.existsById(id)){
-            repository.deleteById(id);
-            return true;
-        } else return false;
+    public void deleteById(Long id) {
+        Book book = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
+
+        repository.delete(book);
     }
 }

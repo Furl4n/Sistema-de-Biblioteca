@@ -17,12 +17,6 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public List<UserResponseDTO> getAll() {
-        List<User> users = repository.findAll();
-
-        return users.stream().map(user -> new UserResponseDTO(user.getName(), user.getEmail(), user.getRole())).toList();
-    }
-
     public UserResponseDTO getUserDetails(Principal connectedUser) {
         User user = getAuthenticatedUser(connectedUser);
 
