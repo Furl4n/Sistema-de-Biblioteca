@@ -15,15 +15,11 @@ public class UserService {
 
     private final UserRepository repository;
 
-    public UserResponseDTO getUserDetails(Principal connectedUser) {
-        User user = getAuthenticatedUser(connectedUser);
-
+    public UserResponseDTO getUserDetails(User user) {
         return new UserResponseDTO(user.getName(), user.getEmail(), user.getRole());
     }
 
-    public void deleteUser(Principal connectedUser) {
-        User user = getAuthenticatedUser(connectedUser);
-
+    public void deleteUser(User user) {
         repository.delete(user);
     }
 

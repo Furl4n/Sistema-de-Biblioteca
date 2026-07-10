@@ -24,7 +24,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
 
-    public void singUp(AddUserRequestDTO request) {
+    public void signUp(AddUserRequestDTO request) {
         Optional<User> opUser = userRepository.findByEmail(request.email());
 
         if(opUser.isEmpty()){

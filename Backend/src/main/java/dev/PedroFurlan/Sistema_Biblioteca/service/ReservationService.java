@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -25,12 +24,9 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final BookRepository bookRepository;
-    private final UserService userService;
 
     @Transactional
-    public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public ReservationResponseDTO addReservation(AddReservationRequestDTO data, User user) {
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
 
@@ -47,8 +43,7 @@ public class ReservationService {
         return ReservationResponseDTO.create(reservation);
     }
 
-    public ReservationResponseDTO getById(Long id, Principal connectedUSer) {
-        User user = userService.getAuthenticatedUser(connectedUSer);
+    public ReservationResponseDTO getById(Long id, User user) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 
@@ -58,18 +53,14 @@ public class ReservationService {
         return ReservationResponseDTO.create(reservation);
     }
 
-    public List<ReservationResponseDTO> getByUserId(Principal connectedUser){
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public List<ReservationResponseDTO> getByUserId(User user){
         List<Reservation> reservations = reservationRepository.findByUser(user);
 
         return reservations.stream().map(ReservationResponseDTO::create).toList();
     }
 
     @Transactional
-    public ReservationResponseDTO cancelReservation(Long id, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public ReservationResponseDTO cancelReservation(Long id, User user) {
         Reservation reservation = reservationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist."));
 
@@ -88,9 +79,7 @@ public class ReservationService {
         return ReservationResponseDTO.create(reservation);
     }
 
-    public void deleteById(Long id, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public void deleteById(Long id, User user) {
         Reservation reservation = reservationRepository.findById((id))
                 .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist"));
 

@@ -1,9 +1,9 @@
 package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.UserResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,14 +18,18 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<UserResponseDTO> getUserDetails(Principal connectedUser){
-        UserResponseDTO response = userService.getUserDetails(connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        UserResponseDTO response = userService.getUserDetails(user);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteUser(Principal connectedUser){
-        userService.deleteUser(connectedUser);
+    public ResponseEntity<Void> deleteUser(Principal connectedUser){
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        userService.deleteUser(user);
 
         return ResponseEntity.noContent().build();
     }

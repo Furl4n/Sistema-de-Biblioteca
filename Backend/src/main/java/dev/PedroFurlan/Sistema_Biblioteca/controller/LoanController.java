@@ -2,7 +2,9 @@ package dev.PedroFurlan.Sistema_Biblioteca.controller;
 
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
+import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.service.LoanService;
+import dev.PedroFurlan.Sistema_Biblioteca.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +19,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LoanController {
 
-    private final LoanService service;
+    private final LoanService loanService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<LoanResponseDTO> createLoan(@Valid @RequestBody AddLoanRequestDTO data, Principal connectedUser){
-        LoanResponseDTO response = service.addLoan(data, connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        LoanResponseDTO response = loanService.addLoan(data, user);
 
         URI uri = URI.create("/loans/" + response.id());
 
@@ -30,34 +35,44 @@ public class LoanController {
 
     @PostMapping("/reservation/{id}")
     public ResponseEntity<LoanResponseDTO> convertReservationToLoan(@PathVariable Long id, Principal connectedUser){
-        LoanResponseDTO response = service.convertReservationToLoan(id, connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        LoanResponseDTO response = loanService.convertReservationToLoan(id, user);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<LoanResponseDTO> getLoanById(@PathVariable Long id, Principal connectedUser){
-        LoanResponseDTO response = service.GetById(id, connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        LoanResponseDTO response = loanService.getById(id, user);
 
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/user")
     public ResponseEntity<List<LoanResponseDTO>> getLoansByUserId(Principal connectedUser){
-        List<LoanResponseDTO> response = service.getByUserId(connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        List<LoanResponseDTO> response = loanService.getByUserId(user);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping("/{id}/return")
     public ResponseEntity<LoanResponseDTO> returnLoan(@PathVariable Long id, Principal connectedUser){
-        LoanResponseDTO response = service.returnLoan(id, connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        LoanResponseDTO response = loanService.returnLoan(id, user);
 
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLoan(@PathVariable Long id, Principal connectedUser){
-        service.deleteById(id, connectedUser);
+        User user = userService.getAuthenticatedUser(connectedUser);
+
+        loanService.deleteById(id, user);
 
         return ResponseEntity.noContent().build();
     }

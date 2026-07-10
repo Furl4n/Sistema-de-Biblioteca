@@ -33,7 +33,7 @@ public class BookController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("title/{title}")
+    @GetMapping("/title/{title}")
         public ResponseEntity<List<BookResponseDTO>> findBook(@PathVariable String title){
         List<BookResponseDTO> response = service.findByName(title);
         return ResponseEntity.ok(response);

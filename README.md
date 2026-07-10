@@ -26,5 +26,7 @@ Types:
 
 ### Commit Changes
 
-* Removed reservationDate and loanDate from DTOs.
-* reservationDate and loanDate are now automatically set to the current timestamp.
+* Replaced @NotEmpty with @NotBlank for String fields in DTOs
+* Moved Principal handling from services to controllers:
+    * Now service methods receive User, not Principal.
+* Fixed minor typos and formatting issues

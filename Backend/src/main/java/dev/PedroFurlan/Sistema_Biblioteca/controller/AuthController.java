@@ -22,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<Void> register(@Valid @RequestBody AddUserRequestDTO request){
-        authService.singUp(request);
+        authService.signUp(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -32,11 +31,9 @@ public class LoanService {
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
     private final ReservationRepository reservationRepository;
-    private final UserService userService;
 
     @Transactional
-    public LoanResponseDTO addLoan(AddLoanRequestDTO data, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
+    public LoanResponseDTO addLoan(AddLoanRequestDTO data, User user) {
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow( ()-> new ResourceNotFoundException("The requested book does not exist."));
 
@@ -54,8 +51,7 @@ public class LoanService {
         return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 
-    public LoanResponseDTO GetById(Long id, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
+    public LoanResponseDTO getById(Long id, User user) {
         Loan loan = loanRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
@@ -67,8 +63,7 @@ public class LoanService {
     }
 
     @Transactional
-    public LoanResponseDTO convertReservationToLoan(Long idReservation, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
+    public LoanResponseDTO convertReservationToLoan(Long idReservation, User user) {
         Reservation reservation = reservationRepository.findById(idReservation)
                 .orElseThrow(() -> new ResourceNotFoundException("The reservation does not exist."));
 
@@ -88,9 +83,7 @@ public class LoanService {
         return LoanResponseDTO.create(loan, calculateOverdue(loan));
     }
 
-    public void deleteById(Long id, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public void deleteById(Long id, User user) {
         Loan loan = loanRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
@@ -100,9 +93,7 @@ public class LoanService {
         loanRepository.deleteById(id);
     }
 
-    public List<LoanResponseDTO> getByUserId(Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public List<LoanResponseDTO> getByUserId(User user) {
          List<Loan> loans = loanRepository.findByUser(user);
 
         return loans.stream().map(loan -> LoanResponseDTO.create(loan, calculateOverdue(loan))).toList();
@@ -123,9 +114,7 @@ public class LoanService {
     }
 
     @Transactional
-    public LoanResponseDTO returnLoan(Long id, Principal connectedUser) {
-        User user = userService.getAuthenticatedUser(connectedUser);
-
+    public LoanResponseDTO returnLoan(Long id, User user) {
         Loan loan = loanRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("The loan does not exist."));
 
