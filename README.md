@@ -26,7 +26,4 @@ Types:
 
 ### Commit Changes
 
-* Replaced @NotEmpty with @NotBlank for String fields in DTOs
-* Moved Principal handling from services to controllers:
-    * Now service methods receive User, not Principal.
-* Fixed minor typos and formatting issues
+* Added Swagger and OpenAPI into the project.
