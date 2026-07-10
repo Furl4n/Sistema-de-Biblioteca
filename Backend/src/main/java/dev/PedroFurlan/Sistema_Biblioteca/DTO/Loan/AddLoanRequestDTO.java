@@ -8,7 +8,6 @@ import java.time.LocalDate;
 public record AddLoanRequestDTO(@NotNull(message = "Book id is required.")
                                 @Positive(message = "Book id must be greater than zero.")
                                 Long bookId,
-                                LocalDate loanDate,
                                 @NotNull(message = "Expected return date is required.")
                                 @Future(message = "Expected return date must be in the future.")
                                 LocalDate dueDate){

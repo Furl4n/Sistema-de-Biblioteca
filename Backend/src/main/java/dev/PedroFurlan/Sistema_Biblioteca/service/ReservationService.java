@@ -27,13 +27,9 @@ public class ReservationService {
     private final BookRepository bookRepository;
     private final UserService userService;
 
-    //TODO: Tirar datas anteriores na reserva, tirar do DTO reservationDate, status e returnDate
     @Transactional
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);
-
-        if(data.returnDate().isBefore(data.reservationDate()))
-            throw new BusinessRuleException("Invalid return date.");
 
         Book book = bookRepository.findById(data.bookId())
                 .orElseThrow(() -> new ResourceNotFoundException("The book does not exist."));
@@ -42,12 +38,6 @@ public class ReservationService {
             throw new BusinessRuleException("This book is not available for reservation.");
 
         Reservation reservation = new Reservation(book, user, data);
-
-        if(data.status() != null)
-            reservation.setStatus(data.status());
-
-        if(reservation.getReservationDate() != null)
-            reservation.setReservationDate(data.reservationDate());
 
         book.setStatus(StatusBook.RESERVED);
 

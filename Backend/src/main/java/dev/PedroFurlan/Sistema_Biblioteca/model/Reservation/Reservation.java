@@ -33,9 +33,8 @@
         public Reservation(Book book, User user, AddReservationRequestDTO requestDTO){
             this.book = book;
             this.user = user;
-            this.reservationDate = requestDTO.reservationDate();
+            this.reservationDate = LocalDate.now();
             this.expirationDate = requestDTO.expirationDate();
-            this.dueDate = requestDTO.returnDate();
             this.status = StatusReservation.RESERVED;
         }
     }

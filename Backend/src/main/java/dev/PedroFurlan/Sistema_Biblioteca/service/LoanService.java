@@ -46,8 +46,6 @@ public class LoanService {
 
         Loan loan = new Loan(book, user, data.dueDate(), StatusLoan.ACTIVE);
 
-        loan.setLoanDate(data.loanDate() == null ? LocalDate.now() : data.loanDate());
-
         book.setStatus(StatusBook.ON_LOAN);
 
         bookRepository.save(loan.getBook());

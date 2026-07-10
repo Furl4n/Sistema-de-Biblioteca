@@ -26,6 +26,5 @@ Types:
 
 ### Commit Changes
 
-* Added validations to DTOs.
-* Removed role field from AddUserRequestDTO:
-    * New users are now automatically created with the default role READER.
+* Removed reservationDate and loanDate from DTOs.
+* reservationDate and loanDate are now automatically set to the current timestamp.
