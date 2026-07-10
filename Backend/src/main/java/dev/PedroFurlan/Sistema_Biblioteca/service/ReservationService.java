@@ -27,6 +27,7 @@ public class ReservationService {
     private final BookRepository bookRepository;
     private final UserService userService;
 
+    //TODO: Tirar datas anteriores na reserva, tirar do DTO reservationDate, status e returnDate
     @Transactional
     public ReservationResponseDTO addReservation(AddReservationRequestDTO data, Principal connectedUser) {
         User user = userService.getAuthenticatedUser(connectedUser);

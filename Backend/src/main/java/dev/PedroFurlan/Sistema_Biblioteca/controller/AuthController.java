@@ -6,6 +6,7 @@ import dev.PedroFurlan.Sistema_Biblioteca.DTO.User.LoginResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.infra.config.JwtService;
 import dev.PedroFurlan.Sistema_Biblioteca.model.User.User;
 import dev.PedroFurlan.Sistema_Biblioteca.service.AuthService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,14 +21,14 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> register(@RequestBody AddUserRequestDTO request){
+    public ResponseEntity<Void> register(@Valid @RequestBody AddUserRequestDTO request){
         authService.singUp(request);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO request) {
         User user = authService.authenticateUser(request);
 
         String token = jwtService.generateToken(user);

@@ -3,6 +3,7 @@ package dev.PedroFurlan.Sistema_Biblioteca.controller;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.AddLoanRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Loan.LoanResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.LoanService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class LoanController {
     private final LoanService service;
 
     @PostMapping
-    public ResponseEntity<LoanResponseDTO> createLoan(@RequestBody AddLoanRequestDTO data, Principal connectedUser){
+    public ResponseEntity<LoanResponseDTO> createLoan(@Valid @RequestBody AddLoanRequestDTO data, Principal connectedUser){
         LoanResponseDTO response = service.addLoan(data, connectedUser);
 
         URI uri = URI.create("/loans/" + response.id());

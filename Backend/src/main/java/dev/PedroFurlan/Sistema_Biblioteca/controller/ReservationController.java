@@ -3,6 +3,7 @@ package dev.PedroFurlan.Sistema_Biblioteca.controller;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.AddReservationRequestDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation.ReservationResponseDTO;
 import dev.PedroFurlan.Sistema_Biblioteca.service.ReservationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ReservationController {
     private final ReservationService reservationService;
 
     @PostMapping
-    public ResponseEntity<ReservationResponseDTO> createReservation(@RequestBody AddReservationRequestDTO newReservation, Principal connectedUser){
+    public ResponseEntity<ReservationResponseDTO> createReservation(@Valid @RequestBody AddReservationRequestDTO newReservation, Principal connectedUser){
         ReservationResponseDTO response = reservationService.addReservation(newReservation, connectedUser);
 
         URI uri = URI.create("/reservations/" + response.id());

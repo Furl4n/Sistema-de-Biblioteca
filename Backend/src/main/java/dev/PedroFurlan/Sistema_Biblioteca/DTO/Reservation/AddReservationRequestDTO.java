@@ -1,8 +1,20 @@
 package dev.PedroFurlan.Sistema_Biblioteca.DTO.Reservation;
 
 import dev.PedroFurlan.Sistema_Biblioteca.model.Reservation.StatusReservation;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDate;
 
-public record AddReservationRequestDTO(Long bookId, LocalDate reservationDate, LocalDate expirationDate, LocalDate returnDate, StatusReservation status) {
+public record AddReservationRequestDTO( @NotNull(message = "Book id is required.")
+                                        @Positive(message = "Book id must be greater than zero.")
+                                        Long bookId,
+                                        @NotNull(message = "Expiration date is required.")
+                                        @FutureOrPresent(message = "Expiration date must be today or in the future.")
+                                        LocalDate expirationDate,
+
+                                        LocalDate returnDate,
+                                        LocalDate reservationDate,
+                                        StatusReservation status) {
 }

@@ -26,7 +26,6 @@ Types:
 
 ### Commit Changes
 
-* Updated API endpoints and URL structures.
-* Updated controllers creation methods to follow REST standards:
-    * Now returns URI in the response.
-    * updated methods names.
+* Added validations to DTOs.
+* Removed role field from AddUserRequestDTO:
+    * New users are now automatically created with the default role READER.
