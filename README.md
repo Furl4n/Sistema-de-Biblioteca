@@ -26,4 +26,5 @@ Types:
 
 ### Commit Changes
 
-* Added Swagger and OpenAPI into the project.
+* Implemented unit tests for `BookService` using JUnit and Mockito.
+* Configured `SistemaBibliotecaApplicationTests` to use an H2 in-memory database.
